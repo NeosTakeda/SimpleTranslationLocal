@@ -19,7 +19,8 @@ namespace SimpleTranslationLocalUI.Main {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : ResidentWindow {
+
         #region Constructor
         public MainWindow() {
             InitializeComponent();
@@ -205,6 +206,12 @@ I'm (only) human. 私も（ただの）人間だ。
 
 ");
             }
+        }
+        #endregion
+
+        #region Protected Method
+        protected override void SetUp() {
+           
         }
         #endregion
     }

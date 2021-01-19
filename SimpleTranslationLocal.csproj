@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\DataModel\AdditionData.cs" />
+    <Compile Include="Data\DataModel\AppSettingsData.cs" />
     <Compile Include="Data\DataModel\MeaningData.cs" />
     <Compile Include="Data\DataModel\WordData.cs" />
     <Compile Include="Data\Entity\AdditionEntity.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Data\Entity\WordEntity.cs" />
     <Compile Include="Data\Repo\AdditonRepo.cs" />
     <Compile Include="Data\Repo\AppDataRepo.cs" />
+    <Compile Include="Data\Repo\AppSettingsRepo.cs" />
     <Compile Include="Data\Repo\IBasicRepo.cs" />
     <Compile Include="Data\Repo\MeaningRepo.cs" />
     <Compile Include="Data\Repo\SourceRepo.cs" />
@@ -95,6 +97,7 @@
     </Compile>
     <Compile Include="UI\Main\MainWindowViewModel.cs" />
     <Compile Include="UI\Main\SearchResultRenderer.cs" />
+    <Compile Include="Util\Constant.cs" />
     <Page Include="Component\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
