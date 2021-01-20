@@ -15,7 +15,10 @@ using System.Windows.Shapes;
 using OsnCsLib.WPFComponent;
 using OsnCsLib.Common;
 
-namespace SimpleTranslationLocalUI.Main {
+using SimpleTranslationLocal.Data.Repo;
+using SimpleTranslationLocal.AppCommon;
+
+namespace SimpleTranslationLocal.UI.Main {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
@@ -24,6 +27,46 @@ namespace SimpleTranslationLocalUI.Main {
         #region Constructor
         public MainWindow() {
             InitializeComponent();
+        }
+        #endregion
+
+        #region Protected Method
+        /// <summary>
+        /// setup
+        /// </summary>
+        protected override void SetUp() {
+            // setup hotkey and notifiation icon
+            base.SetUpHotKey(ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt, Key.L);
+            base.SetupNofityIcon("SimpleTranslationLocal", new System.Drawing.Icon("app.ico"));
+
+            // restore window
+            var settings = AppSettingsRepo.Init(Constant.SettingsFile);
+            Util.SetWindowXPosition(this, settings.X);
+            Util.SetWindowYPosition(this, settings.Y);
+            this.Width = settings.Width;
+            this.Height = settings.Height;
+            this.Topmost = settings.Topmost;
+
+
+            // create a context menu
+            base.AddContextMenu("Show", (sender, e) => this.OnContextMenuShowClick());
+            base.AddContextMenu("Import", (sender, e) => this.OnContextMenuImportClick());
+            base.AddContextMenuSeparator();
+            base.AddContextMenu("Exit", (sender, e) => this.OnContextMenuExitClick());
+
+            // add event
+            this.Activated += (sender, e) => this.cKeyword.Focus();
+            this.Minimized += this.MainWindowMinimized;
+            this.Normalized += this.MainWindowNormalized;
+
+            //this.SetContextMenuEnabled();
+
+            // set view model
+            var model = new MainWindowViewModel();
+            //model.SaveAction = new Action(this.SaveAction);
+            //model.CancelAction = new Action(this.CancelAction);
+            //model.ShowDataAction = new Action(this.ShowDataAction);
+            this.DataContext = model;
         }
         #endregion
 
@@ -210,8 +253,25 @@ I'm (only) human. 私も（ただの）人間だ。
         #endregion
 
         #region Protected Method
-        protected override void SetUp() {
-           
+
+        #endregion
+
+        #region Private Method
+        private void OnContextMenuShowClick() {
+        }
+
+        private void OnContextMenuImportClick() {
+        }
+
+        private void OnContextMenuExitClick() {
+        }
+
+        private void MainWindowMinimized() {
+
+        }
+
+        private void MainWindowNormalized() {
+
         }
         #endregion
     }

@@ -1,4 +1,4 @@
-﻿<wpfcomponent:ResidentWindow x:Class="SimpleTranslationLocalUI.Main.MainWindow"
+﻿<wpfcomponent:ResidentWindow x:Class="SimpleTranslationLocal.UI.Main.MainWindow"
                 xmlns:wpfcomponent="clr-namespace:OsnCsLib.WPFComponent;assembly=OsnCsLib.WPFComponent"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:SimpleTranslationLocal"
         mc:Ignorable="d"
         xmlns:u="clr-namespace:OsnCsLib.WPFComponent;assembly=OsnCsLib.WPFComponent"
-        Title="簡易辞書ツール" Height="450" Width="500">
+        Title="簡易辞書ツール" Height="450" Width="500" WindowState="Minimized">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

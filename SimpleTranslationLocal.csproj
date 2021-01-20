@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="OsnCsLib.Common">
       <HintPath>Libs\OsnCsLib.Common.dll</HintPath>
@@ -49,6 +52,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -76,7 +81,6 @@
     <Compile Include="Data\Entity\SourceEntity.cs" />
     <Compile Include="Data\Entity\WordEntity.cs" />
     <Compile Include="Data\Repo\AdditonRepo.cs" />
-    <Compile Include="Data\Repo\AppDataRepo.cs" />
     <Compile Include="Data\Repo\AppSettingsRepo.cs" />
     <Compile Include="Data\Repo\IBasicRepo.cs" />
     <Compile Include="Data\Repo\MeaningRepo.cs" />
@@ -91,13 +95,14 @@
     <Compile Include="Func\Import\MockParser.cs" />
     <Compile Include="Func\Search\SearchMockService.cs" />
     <Compile Include="Func\Search\SearchService.cs" />
+    <Compile Include="UI\BindableBase.cs" />
     <Compile Include="UI\Import\ImportViewModel.cs" />
     <Compile Include="UI\Import\ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Main\MainWindowViewModel.cs" />
     <Compile Include="UI\Main\SearchResultRenderer.cs" />
-    <Compile Include="Util\Constant.cs" />
+    <Compile Include="AppCommon\Constant.cs" />
     <Page Include="Component\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -145,6 +150,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
