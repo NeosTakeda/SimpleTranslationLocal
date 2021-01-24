@@ -258,9 +258,12 @@ I'm (only) human. 私も（ただの）人間だ。
 
         #region Private Method
         private void OnContextMenuShowClick() {
+            base.SetWindowsState(false);
         }
 
         private void OnContextMenuImportClick() {
+            base.SetNotifyIconVisible(false);
+            new SimpleTranslationLocal.UI.Import.ImportWindow().ShowDialog();
         }
 
         private void OnContextMenuExitClick() {

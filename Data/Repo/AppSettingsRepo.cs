@@ -37,6 +37,16 @@ namespace SimpleTranslationLocal.Data.Repo {
         /// ウィンドウの最前面表示
         /// </summary>
         public bool Topmost { set; get; }
+
+        /// <summary>
+        /// 取り込んだ英辞郎のファイル
+        /// </summary>
+        public string EijiroFile { set; get; }
+
+        /// <summary>
+        /// 取り込んだDictionaryのファイル
+        /// </summary>
+        public string DictionaryFile { set; get; }
         #endregion
 
         #region Public Method
