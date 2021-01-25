@@ -33,13 +33,13 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="1" Grid.Column="1" Text="英辞郎" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="aaaa" Grid.ColumnSpan="3"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding EijiroFile}" Grid.ColumnSpan="3"/>
         <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource LabelButton}" Content="Select" HorizontalAlignment="Center" />
         <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource LabelButton}" Content="Import" HorizontalAlignment="Center"  />
 
 
         <TextBlock Grid.Row="4" Grid.Column="1" Text="Dictionary" />
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="aaaa" />
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding DictionaryFile}" />
         <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource LabelButton}" Content="Select" HorizontalAlignment="Center" />
         <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource LabelButton}" Content="Import" HorizontalAlignment="Center"  />
 

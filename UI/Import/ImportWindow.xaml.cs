@@ -17,8 +17,17 @@ namespace SimpleTranslationLocal.UI.Import {
     /// ImportWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class ImportWindow : Window {
+        #region Declaration
+        private IImportViewModel _model;
+        #endregion
+
+        #region Constructor
         public ImportWindow() {
             InitializeComponent();
+
+            this._model = new ImportMockViewModel();
+            this.DataContext = this._model;
         }
+        #endregion
     }
 }

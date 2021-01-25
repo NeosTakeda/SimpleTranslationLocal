@@ -17,7 +17,7 @@ namespace SimpleTranslationLocal.UI {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             return true;
         }
-        protected virtual void SetProperty(string propertyName) {
+        protected virtual void SetProperty([CallerMemberName] string propertyName = null) {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
