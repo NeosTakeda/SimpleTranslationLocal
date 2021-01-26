@@ -264,6 +264,7 @@ I'm (only) human. 私も（ただの）人間だ。
         private void OnContextMenuImportClick() {
             base.SetNotifyIconVisible(false);
             new SimpleTranslationLocal.UI.Import.ImportWindow().ShowDialog();
+            base.SetNotifyIconVisible(true);
         }
 
         private void OnContextMenuExitClick() {

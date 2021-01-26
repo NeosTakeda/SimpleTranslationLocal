@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SimpleTranslationLocal.UI {
-    class BaseAction : ICommand {
+    class BaseCommand : ICommand {
         protected Action _action;
 
-        public BaseAction(Action action) {
+        public BaseCommand(Action action) {
             _action = action;
         }
 
@@ -21,7 +17,7 @@ namespace SimpleTranslationLocal.UI {
             return _action != null;
         }
 
-        public void Execute(object parameter) { //今回は引数を使わずActionを実行
+        public void Execute(object parameter) {
             _action?.Invoke();
         }
     }

@@ -25,8 +25,17 @@ namespace SimpleTranslationLocal.UI.Import {
         public ImportWindow() {
             InitializeComponent();
 
-            this._model = new ImportMockViewModel();
+            this._model = new ImportMockViewModel(this, this.OnOKClick);
             this.DataContext = this._model;
+        }
+        #endregion
+
+        #region Event 
+        /// <summary>
+        /// OKボタンクリック時
+        /// </summary>
+        public void OnOKClick() {
+            this.Close();
         }
         #endregion
     }
