@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleTranslationLocal.AppCommon;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,11 @@ namespace SimpleTranslationLocal.UI.Import {
         public ImportWindow() {
             InitializeComponent();
 
-            this._model = new ImportMockViewModel(this, this.OnOKClick);
+            if (Env.Current == Env.EnvType.Stub) {
+                this._model = new ImportMockViewModel(this, this.OnOKClick);
+            } else {
+                this._model = new ImportViewModel(this, this.OnOKClick);
+            }
             this.DataContext = this._model;
         }
         #endregion

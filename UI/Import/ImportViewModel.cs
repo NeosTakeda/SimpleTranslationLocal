@@ -18,16 +18,16 @@ namespace SimpleTranslationLocal.UI.Import {
         public override string EijiroFile {
             get { return _settings.EijiroFile; }
             set { 
-                _settings.EijiroFile = value; _settings.Save();
                 base.SetProperty();
+                base.SetProperty(nameof(ImportEijiroEnabled));
             }
         }
 
         public override string DictionaryFile {
             get { return _settings.DictionaryFile; }
             set { 
-                _settings.DictionaryFile = value; _settings.Save();
                 base.SetProperty();
+                base.SetProperty(nameof(ImportDictionaryEnabled));
             }
         }
         #endregion

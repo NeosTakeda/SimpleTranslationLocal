@@ -55,7 +55,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stub|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Stub\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;STUB</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
@@ -98,6 +98,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppCommon\Env.cs" />
+    <Compile Include="AppCommon\Message.cs" />
     <Compile Include="Data\DataModel\AdditionData.cs" />
     <Compile Include="Data\DataModel\AppSettingsData.cs" />
     <Compile Include="Data\DataModel\MeaningData.cs" />
@@ -137,8 +139,6 @@
     <Compile Include="UI\Main\MainWindowViewModel.cs" />
     <Compile Include="UI\Main\SearchResultRenderer.cs" />
     <Compile Include="AppCommon\Constant.cs" />
-    <Compile Include="UI\Sample\SampleCommand.cs" />
-    <Compile Include="UI\Sample\SampleViewModel.cs" />
     <Page Include="Component\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

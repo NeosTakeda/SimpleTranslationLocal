@@ -33,6 +33,28 @@ namespace SimpleTranslationLocal.UI.Import {
         }
 
         /// <summary>
+        /// 処理中パネルの可視
+        /// </summary>
+        public Visibility ProgressPanelVisibility {
+            set;
+            get;
+        } = Visibility.Collapsed;
+
+        /// <summary>
+        /// 英辞郎ファイルインポートボタンの使用可否
+        /// </summary>
+        public bool ImportEijiroEnabled {
+            get { return 0 < EijiroFile?.Length;  }
+        }
+
+        /// <summary>
+        /// 英辞郎ファイルインポートボタンの使用可否
+        /// </summary>
+        public bool ImportDictionaryEnabled {
+            get { return 0 < DictionaryFile?.Length; }
+        }
+
+        /// <summary>
         /// OKボタンクリック コマンド
         /// </summary>
         public OKCommand OKClick { private set; get; }
@@ -99,16 +121,16 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <param name="OnOkClickCallback"></param>
         private void SetupCommand(Action OnOkClickCallback) {
             this.OKClick = new OKCommand(OnOkClickCallback);
-            this.SelectEijiroClick = new SelectEijiroCommand(SelectEijiroFile);
-            this.ImportEijiroClick = new ImportEijiroCommand(null);
-            this.SelectDictionaryClick = new SelectDictionaryCommand(SelectDictionaryFile);
-            this.ImportDictionaryClick = new ImportDictionaryCommand(null);
+            this.SelectEijiroClick = new SelectEijiroCommand(SelectEijiro);
+            this.ImportEijiroClick = new ImportEijiroCommand(ImportEijiro);
+            this.SelectDictionaryClick = new SelectDictionaryCommand(SelectDictionary);
+            this.ImportDictionaryClick = new ImportDictionaryCommand(ImportDictionary);
         }
 
         /// <summary>
         /// 英辞郎ファイル選択処理
         /// </summary>
-        private void SelectEijiroFile() {
+        private void SelectEijiro() {
             var file = this.SelectFile(this.EijiroFile, "英辞郎(*.txt)|*.txt");
             if (0 < file.Length) {
                 this.EijiroFile = file;
@@ -118,11 +140,24 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <summary>
         /// Dictionaryファイル選択処理
         /// </summary>
-        private void SelectDictionaryFile() {
+        private void SelectDictionary() {
             var file = this.SelectFile(this.DictionaryFile, "Dictionary(*.json)|*.json");
             if (0 < file.Length) {
                 this.EijiroFile = file;
             }
+        }
+        
+        /// <summary>
+        /// 英辞郎のインポート処理
+        /// </summary>
+        private void ImportEijiro() {
+        }
+
+        /// <summary>
+        /// Dictionaryのインポート処理
+        /// </summary>
+        private void ImportDictionary() {
+
         }
 
         /// <summary>
