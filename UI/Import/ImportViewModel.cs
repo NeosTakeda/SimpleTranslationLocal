@@ -10,23 +10,23 @@ namespace SimpleTranslationLocal.UI.Import {
     class ImportViewModel : IImportViewModel {
 
         #region Declaration
-        private AppSettingsRepo _settings = AppSettingsRepo.GetInstance();      // このRepoはライブラリを継承しているので抽象化できず。。
         #endregion
 
         #region Property
-
+        private string _eijiroFile = AppSettingsRepo.GetInstance().EijiroFile;
         public override string EijiroFile {
-            get { return _settings.EijiroFile; }
+            get { return this._eijiroFile; }
             set { 
-                base.SetProperty();
+                base.SetProperty(ref this._eijiroFile, value);
                 base.SetProperty(nameof(ImportEijiroEnabled));
             }
         }
 
+        private string _dictionaryFile = AppSettingsRepo.GetInstance().DictionaryFile;
         public override string DictionaryFile {
-            get { return _settings.DictionaryFile; }
-            set { 
-                base.SetProperty();
+            get { return this._dictionaryFile; }
+            set {
+                base.SetProperty(ref this._dictionaryFile, value);
                 base.SetProperty(nameof(ImportDictionaryEnabled));
             }
         }

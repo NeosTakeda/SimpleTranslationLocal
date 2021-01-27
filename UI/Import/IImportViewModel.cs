@@ -41,6 +41,16 @@ namespace SimpleTranslationLocal.UI.Import {
         } = Visibility.Collapsed;
 
         /// <summary>
+        /// 現在の取込件数
+        /// </summary>
+        public long CurrentCount { set; get;}
+
+        /// <summary>
+        /// トータル件数
+        /// </summary>
+        public long TotalCount { set; get; }
+
+        /// <summary>
         /// 英辞郎ファイルインポートボタンの使用可否
         /// </summary>
         public bool ImportEijiroEnabled {
@@ -85,33 +95,6 @@ namespace SimpleTranslationLocal.UI.Import {
             this._owner = owner;
             this.SetupCommand(OnOkClickCallback);
         }
-        #endregion
-
-        #region Action
-        ///// <summary>
-        ///// 英辞郎ファイル選択ボタンクリック時
-        ///// </summary>
-        //public abstract void SelectEijiroFileClickAction();
-
-        ///// <summary>
-        ///// 英辞郎ファイルインポートボタンクリック時
-        ///// </summary>
-        //public abstract void ImportEijiroFileClickAction();
-
-        ///// <summary>
-        ///// Dictionaryファイル選択ボタンクリック時
-        ///// </summary>
-        //public abstract void SelectDictionaryFileClickAction();
-
-        ///// <summary>
-        ///// Dictionaryファイルインポートボタンクリック時
-        ///// </summary>
-        //public abstract void ImportDictionaryFileClickAction();
-
-        ///// <summary>
-        ///// OKボタンクリック時
-        ///// </summary>
-        //public abstract void OKClickAction();
         #endregion
 
         #region Private Method
@@ -178,6 +161,21 @@ namespace SimpleTranslationLocal.UI.Import {
                 result = dialog.FileName;
             }
             return result;
+        }
+
+        /// <summary>
+        /// 辞書をインポート
+        /// </summary>
+        private void ImportMain() {
+            this.ProgressPanelVisibility = Visibility.Visible;
+            this.ImportSub();
+            this.ProgressPanelVisibility = Visibility.Collapsed;
+        }
+
+        private async void ImportSub() {
+            await Task.Run(() => {
+                System.Threading.Thread.Sleep(4000);
+            });
         }
         #endregion
     }

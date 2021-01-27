@@ -47,11 +47,14 @@
             <Button Style="{StaticResource LabelButton}" Content="OK"  HorizontalAlignment="Center" Command="{Binding OKClick}" />
         </StackPanel>
 
-        <Grid  Background="#99000000"  Grid.Row="0" Grid.RowSpan="9" Grid.Column="0" Grid.ColumnSpan="5" Visibility="{Binding ProgressPanelVisibility}">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="123"/>
-                <TextBlock Text="/" />
-                <TextBlock Text="1000"/>
+        <Grid Background="#99000000"  Grid.Row="0" Grid.RowSpan="9" Grid.Column="0" Grid.ColumnSpan="5" Visibility="{Binding ProgressPanelVisibility}">
+            <StackPanel  Orientation="Vertical" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0">
+                <TextBlock Foreground="White" Text="{Binding CurrentCount}" />
+                <TextBlock Foreground="White" Text=" / " />
+                <TextBlock Foreground="White" Text="{Binding TotalCount}" />
+            </StackPanel>
+            <ProgressBar Minimum="0" Maximum="100" Width="100" Margin="5"/>
             </StackPanel>
         </Grid>
     </Grid>
