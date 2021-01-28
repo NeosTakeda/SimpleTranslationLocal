@@ -104,6 +104,7 @@
     <Compile Include="Data\DataModel\AppSettingsData.cs" />
     <Compile Include="Data\DataModel\MeaningData.cs" />
     <Compile Include="Data\DataModel\WordData.cs" />
+    <Compile Include="Data\DictionaryDatabase.cs" />
     <Compile Include="Data\Entity\AdditionEntity.cs" />
     <Compile Include="Data\Entity\MeaningsEntity.cs" />
     <Compile Include="Data\Entity\SourceEntity.cs" />
@@ -125,10 +126,10 @@
     <Compile Include="Func\Search\SearchService.cs" />
     <Compile Include="UI\BaseCommand.cs" />
     <Compile Include="UI\BindableBase.cs" />
-    <Compile Include="UI\Import\Command\ImportDictionaryCommand.cs" />
+    <Compile Include="UI\Import\Command\ImportWebsterCommand.cs" />
     <Compile Include="UI\Import\Command\ImportEijiroCommand.cs" />
     <Compile Include="UI\Import\Command\OKCommand.cs" />
-    <Compile Include="UI\Import\Command\SelectDictionaryCommand.cs" />
+    <Compile Include="UI\Import\Command\SelectWebsterCommand.cs" />
     <Compile Include="UI\Import\Command\SelectEijiroCommand.cs" />
     <Compile Include="UI\Import\IImportViewModel.cs" />
     <Compile Include="UI\Import\ImportMockViewModel.cs" />

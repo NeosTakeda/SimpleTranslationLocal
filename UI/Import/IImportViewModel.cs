@@ -27,7 +27,7 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <summary>
         /// 取込むDictionaryのファイル
         /// </summary>
-        public virtual string DictionaryFile {
+        public virtual string WebsterFile {
             set;
             get;
         }
@@ -35,20 +35,29 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <summary>
         /// 処理中パネルの可視
         /// </summary>
+        private Visibility _progressPanelVisibility = Visibility.Collapsed;
         public Visibility ProgressPanelVisibility {
-            set;
-            get;
-        } = Visibility.Collapsed;
+            set { base.SetProperty(ref this._progressPanelVisibility, value);  }
+            get { return this._progressPanelVisibility; }
+        }
 
         /// <summary>
         /// 現在の取込件数
         /// </summary>
-        public long CurrentCount { set; get;}
+        private long _currentCount = 0;
+        public long CurrentCount {
+            set { base.SetProperty(ref this._currentCount, value); }
+            get { return this._currentCount; }
+        }
 
         /// <summary>
         /// トータル件数
         /// </summary>
-        public long TotalCount { set; get; }
+        private long _totalCount = 0;
+        public long TotalCount {
+            set { base.SetProperty(ref this._totalCount, value); }
+            get { return this._totalCount; }
+        }
 
         /// <summary>
         /// 英辞郎ファイルインポートボタンの使用可否
@@ -58,10 +67,10 @@ namespace SimpleTranslationLocal.UI.Import {
         }
 
         /// <summary>
-        /// 英辞郎ファイルインポートボタンの使用可否
+        /// Websterファイルインポートボタンの使用可否
         /// </summary>
-        public bool ImportDictionaryEnabled {
-            get { return 0 < DictionaryFile?.Length; }
+        public bool ImportWebsterEnabled {
+            get { return 0 < WebsterFile?.Length; }
         }
 
         /// <summary>
@@ -82,12 +91,12 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <summary>
         /// Dictionaryファイル選択クリック コマンド
         /// </summary>
-        public SelectDictionaryCommand SelectDictionaryClick { private set; get; }
+        public SelectWebsterCommand SelectWebsterClick { private set; get; }
 
         /// <summary>
         /// Dictionaryファイルインポートクリック コマンド
         /// </summary>
-        public ImportDictionaryCommand ImportDictionaryClick { private set; get; }
+        public ImportWebsterCommand ImportWebsterClick { private set; get; }
         #endregion
 
         #region Constructor
@@ -106,8 +115,8 @@ namespace SimpleTranslationLocal.UI.Import {
             this.OKClick = new OKCommand(OnOkClickCallback);
             this.SelectEijiroClick = new SelectEijiroCommand(SelectEijiro);
             this.ImportEijiroClick = new ImportEijiroCommand(ImportEijiro);
-            this.SelectDictionaryClick = new SelectDictionaryCommand(SelectDictionary);
-            this.ImportDictionaryClick = new ImportDictionaryCommand(ImportDictionary);
+            this.SelectWebsterClick = new SelectWebsterCommand(SelectWebster);
+            this.ImportWebsterClick = new ImportWebsterCommand(ImportWebster);
         }
 
         /// <summary>
@@ -121,10 +130,10 @@ namespace SimpleTranslationLocal.UI.Import {
         }
 
         /// <summary>
-        /// Dictionaryファイル選択処理
+        /// Websterファイル選択処理
         /// </summary>
-        private void SelectDictionary() {
-            var file = this.SelectFile(this.DictionaryFile, "Dictionary(*.json)|*.json");
+        private void SelectWebster() {
+            var file = this.SelectFile(this.WebsterFile, "Dictionary(*.json)|*.json");
             if (0 < file.Length) {
                 this.EijiroFile = file;
             }
@@ -134,13 +143,14 @@ namespace SimpleTranslationLocal.UI.Import {
         /// 英辞郎のインポート処理
         /// </summary>
         private void ImportEijiro() {
+            this.ImportData();
         }
 
         /// <summary>
-        /// Dictionaryのインポート処理
+        /// Websterのインポート処理
         /// </summary>
-        private void ImportDictionary() {
-
+        private void ImportWebster() {
+            this.ImportData();
         }
 
         /// <summary>
@@ -166,15 +176,11 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <summary>
         /// 辞書をインポート
         /// </summary>
-        private void ImportMain() {
+        private async void ImportData() {
             this.ProgressPanelVisibility = Visibility.Visible;
-            this.ImportSub();
-            this.ProgressPanelVisibility = Visibility.Collapsed;
-        }
-
-        private async void ImportSub() {
             await Task.Run(() => {
                 System.Threading.Thread.Sleep(4000);
+                this.ProgressPanelVisibility = Visibility.Collapsed;
             });
         }
         #endregion

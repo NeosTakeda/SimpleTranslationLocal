@@ -23,11 +23,11 @@ namespace SimpleTranslationLocal.UI.Import {
         }
 
         private string _dictionaryFile = AppSettingsRepo.GetInstance().DictionaryFile;
-        public override string DictionaryFile {
+        public override string WebsterFile {
             get { return this._dictionaryFile; }
             set {
                 base.SetProperty(ref this._dictionaryFile, value);
-                base.SetProperty(nameof(ImportDictionaryEnabled));
+                base.SetProperty(nameof(ImportWebsterEnabled));
             }
         }
         #endregion

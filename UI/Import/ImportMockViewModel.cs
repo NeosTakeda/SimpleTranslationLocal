@@ -16,7 +16,7 @@ namespace SimpleTranslationLocal.UI.Import {
 
 
         private string _dictionaryFile = @"D:\OneDriveForBusiness\OneDrive - TK\storage\tools\Mouse Dictionary\dictionary.json";
-        public override string DictionaryFile {
+        public override string WebsterFile {
             get { return this._dictionaryFile; }
             set { this.SetProperty(ref this._dictionaryFile, value); }
         }

@@ -38,10 +38,10 @@
         <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource LabelButton}" Content="Import" HorizontalAlignment="Center" Command="{Binding ImportEijiroClick}" IsEnabled="{Binding ImportEijiroEnabled}"/>
 
 
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="Dictionary" FontWeight="Bold" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Webster" FontWeight="Bold" />
         <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding DictionaryFile}" Grid.ColumnSpan="3" TextWrapping="Wrap"  FontSize="12" Foreground="Silver"/>
-        <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource LabelButton}" Content="Select" HorizontalAlignment="Center" Command="{Binding SelectDictionaryClick}" />
-        <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource LabelButton}" Content="Import" HorizontalAlignment="Center" Command="{Binding ImportDictionaryClick}" IsEnabled="{Binding ImportDictionaryEnabled}" />
+        <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource LabelButton}" Content="Select" HorizontalAlignment="Center" Command="{Binding SelectWebsterClick}" />
+        <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource LabelButton}" Content="Import" HorizontalAlignment="Center" Command="{Binding ImportWebsterClick}" IsEnabled="{Binding ImporWebsterEnabled}" />
 
         <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
             <Button Style="{StaticResource LabelButton}" Content="OK"  HorizontalAlignment="Center" Command="{Binding OKClick}" />
