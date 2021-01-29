@@ -1,8 +1,9 @@
 ﻿using OsnLib.Data.Sqlite;
 using System;
 
+
 namespace SimpleTranslationLocal.Data.Entity {
-    class MeaningsEntity : BaseEntity {
+    class SourcesEntity : BaseEntity {
 
         #region Declaration
         /// <summary>
@@ -10,39 +11,39 @@ namespace SimpleTranslationLocal.Data.Entity {
         /// </summary>
         private class Cols {
             public static readonly String Id = "id";
-            public static readonly String WordId = "word_id";
-            public static readonly String Meaning = "meaning";
-            public static readonly String PartOfSpeach = "part_of_speach";
+            public static readonly String Name = "name";
+            public static readonly String Priority = "priority";
+            public static readonly String File = "file";
             public static readonly String CreateAt = "create_at";
             public static readonly String UpdateAt = "update_at";
         }
         #endregion
 
         #region Public Property
-        public override string TableName => "meanings";
+        public override string TableName => "sources";
         /// <summary>
         /// id
         /// </summary>
         public int Id { set; get; }
 
         /// <summary>
-        /// 用語ID
+        /// 名称
         /// </summary>
-        public int WordId { set; get; }
+        public string Name { set; get; }
 
         /// <summary>
-        /// 意味
+        /// 優先順位
         /// </summary>
-        public string Meaning { set; get; }
+        public string Priority { set; get; }
 
         /// <summary>
-        /// 品詞
+        /// ファイル名
         /// </summary>
-        public string PartOfSpeach { set; get; }
+        public string File { set; get; }
         #endregion
 
         #region Constructor
-        public MeaningsEntity(DictionaryDatabase database) : base(database) { }
+        public SourcesEntity(DictionaryDatabase database) : base(database) { }
         #endregion
 
         #region Public Method
@@ -50,9 +51,9 @@ namespace SimpleTranslationLocal.Data.Entity {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")
                 .AppendSql($" {Cols.Id}             INTEGER PRIMARY KEY AUTOINCREMENT")
-                .AppendSql($",{Cols.WordId}         INTEGER NOT NULL")
-                .AppendSql($",{Cols.Meaning}        TEXT    NOT NULL")
-                .AppendSql($",{Cols.PartOfSpeach}   TEXT")
+                .AppendSql($",{Cols.Name}           TEXT     NOT NULL")
+                .AppendSql($",{Cols.Priority}       INTEGER  NOT NULL")
+                .AppendSql($",{Cols.File}           TEXT     NOT NULL")
                 .AppendSql($",{Cols.CreateAt}       INTEGER")
                 .AppendSql($",{Cols.UpdateAt}       INTEGER");
             return 0 < base.Database.ExecuteNonQuery(sql);
@@ -62,26 +63,27 @@ namespace SimpleTranslationLocal.Data.Entity {
             var sql = new SqlBuilder();
             sql.AppendSql($"INSERT INTO {TableName}")
                 .AppendSql("(")
-                .AppendSql($" {Cols.WordId}")
-                .AppendSql($",{Cols.Meaning}")
-                .AppendSql($",{Cols.PartOfSpeach}")
+                .AppendSql($" {Cols.Name}")
+                .AppendSql($",{Cols.Priority}")
+                .AppendSql($",{Cols.File}")
                 .AppendSql($",{Cols.CreateAt}")
                 .AppendSql($",{Cols.UpdateAt}")
                 .AppendSql(")")
                 .AppendSql("VALUES")
                 .AppendSql("(")
-                .AppendSql($" @{Cols.WordId}")
-                .AppendSql($",@{Cols.Meaning}")
-                .AppendSql($",@{Cols.PartOfSpeach}")
+                .AppendSql($" @{Cols.Name}")
+                .AppendSql($",@{Cols.Priority}")
+                .AppendSql($",@{Cols.File}")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(")");
             var paramList = new ParameterList();
-            paramList.Add($"@{Cols.WordId}", this.WordId);
-            paramList.Add($"@{Cols.Meaning}", this.Meaning);
-            paramList.Add($"@{Cols.PartOfSpeach}", this.PartOfSpeach);
+            paramList.Add($"@{Cols.Name}", this.Name);
+            paramList.Add($"@{Cols.Priority}", this.Priority);
+            paramList.Add($"@{Cols.File}", this.File);
             return base.Database.Insert(sql, paramList);
         }
         #endregion
+
     }
 }

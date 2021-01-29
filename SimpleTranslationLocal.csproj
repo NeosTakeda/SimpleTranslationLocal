@@ -76,8 +76,14 @@
     <Reference Include="OsnCsLib.WPFComponent">
       <HintPath>Libs\OsnCsLib.WPFComponent.dll</HintPath>
     </Reference>
+    <Reference Include="OsnLib.Data.Sqlite">
+      <HintPath>Libs\OsnLib.Data.Sqlite.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>Libs\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -99,16 +105,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppCommon\Env.cs" />
-    <Compile Include="AppCommon\Message.cs" />
+    <Compile Include="AppCommon\Messages.cs" />
     <Compile Include="Data\DataModel\AdditionData.cs" />
     <Compile Include="Data\DataModel\AppSettingsData.cs" />
     <Compile Include="Data\DataModel\MeaningData.cs" />
     <Compile Include="Data\DataModel\WordData.cs" />
-    <Compile Include="Data\DictionaryDatabase.cs" />
-    <Compile Include="Data\Entity\AdditionEntity.cs" />
+    <Compile Include="Data\Entity\DictionaryDatabase.cs" />
+    <Compile Include="Data\Entity\AdditionsEntity.cs" />
+    <Compile Include="Data\Entity\BaseEntity.cs" />
     <Compile Include="Data\Entity\MeaningsEntity.cs" />
-    <Compile Include="Data\Entity\SourceEntity.cs" />
-    <Compile Include="Data\Entity\WordEntity.cs" />
+    <Compile Include="Data\Entity\SourcesEntity.cs" />
+    <Compile Include="Data\Entity\WordsEntity.cs" />
     <Compile Include="Data\Repo\AdditonRepo.cs" />
     <Compile Include="Data\Repo\AppSettingsRepo.cs" />
     <Compile Include="Data\Repo\IBasicRepo.cs" />
@@ -139,7 +146,7 @@
     </Compile>
     <Compile Include="UI\Main\MainWindowViewModel.cs" />
     <Compile Include="UI\Main\SearchResultRenderer.cs" />
-    <Compile Include="AppCommon\Constant.cs" />
+    <Compile Include="AppCommon\Constants.cs" />
     <Page Include="Component\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

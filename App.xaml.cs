@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Reflection;
-
+using SimpleTranslationLocal.AppCommon;
+using SimpleTranslationLocal.Data;
+using SimpleTranslationLocal.Data.Entity;
 
 namespace SimpleTranslationLocal {
     /// <summary>
@@ -53,10 +55,54 @@ namespace SimpleTranslationLocal {
 
             //Menuをタスクトレイのアイコンに追加
             icon.ContextMenuStrip = menu;
-
-
-
              */
+
+
+            // create a database file if need
+            if (!System.IO.File.Exists(Constants.DatabaseFile)) {
+                using (var database = new DictionaryDatabase(Constants.DatabaseFile)) {
+                    try {
+                        database.Open();
+                        database.BeginTrans();
+                        var tables = new List<BaseEntity>  { new AdditionsEntity(database)
+                                                             ,new SourcesEntity(database)
+                                                             ,new MeaningsEntity(database)
+                                                             ,new WordsEntity(database)};
+                        foreach(var table in tables) {
+                            if (!table.Create()) {
+                                // Messages.ShowError(Messages.ErrId)
+                            }
+                        }
+
+                        database.CommitTrans();
+                    } catch (Exception ex) {
+                        Messages.ShowError(Messages.ErrId.Err002, ex.Message);
+                        System.IO.File.Delete(Constants.DatabaseFile);
+                    }
+                }
+
+                //using (var database = new ProfileDatabase(profile.FilePath)) {
+                //    try {
+                //        database.SetPassWord(ProfileDatabase.Password);
+                //        database.Open();
+                //        database.BeginTrans();
+                //        if (database.ExecuteNonQuery(CategoriesTable.CreateTable()) < 0) {
+                //            AppCommon.ShowErrorMsg(string.Format(ErrorMsg.FailToCreate, "categories table"));
+                //            return;
+                //        }
+                //        if (database.ExecuteNonQuery(ItemsTable.CreateTable()) < 0) {
+                //            AppCommon.ShowErrorMsg(string.Format(ErrorMsg.FailToCreate, "items table"));
+                //            return;
+                //        }
+                //        database.CommitTrans();
+                //    } catch (Exception ex) {
+                //        AppCommon.ShowErrorMsg(ex.Message);
+                //    } finally {
+                //        database.RollbackTrans();
+                //    }
+                //}
+            }
+
         }
 
         protected override void OnExit(ExitEventArgs e) {

@@ -40,7 +40,7 @@ namespace SimpleTranslationLocal.UI.Main {
             base.SetupNofityIcon("SimpleTranslationLocal", new System.Drawing.Icon("app.ico"));
 
             // restore window
-            var settings = AppSettingsRepo.Init(Constant.SettingsFile);
+            var settings = AppSettingsRepo.Init(Constants.SettingsFile);
             Util.SetWindowXPosition(this, settings.X);
             Util.SetWindowYPosition(this, settings.Y);
             this.Width = settings.Width;

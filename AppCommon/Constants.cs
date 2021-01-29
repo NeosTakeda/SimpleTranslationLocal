@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleTranslationLocal.AppCommon {
-    class Constant {
+﻿namespace SimpleTranslationLocal.AppCommon {
+    class Constants {
         /// <summary>
         /// アプリの設定関連情報
         /// </summary>
