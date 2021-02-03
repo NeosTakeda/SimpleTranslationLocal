@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleTranslationLocal.UI.Import.Command;
 using Microsoft.Win32;
+using SimpleTranslationLocal.Func.Import;
+using SimpleTranslationLocal.AppCommon;
 
 namespace SimpleTranslationLocal.UI.Import {
-    abstract class IImportViewModel : BindableBase {
+    abstract class IImportViewModel : BindableBase, ImportServiceCallback {
         // https://trapemiya.hatenablog.com/entry/20100930/1285826338
 
         #region 
@@ -106,6 +108,25 @@ namespace SimpleTranslationLocal.UI.Import {
         }
         #endregion
 
+        #region ImportServiceCallback
+        void ImportServiceCallback.OnPrepared(long totalCount) {
+            this.TotalCount = totalCount;
+        }
+
+        void ImportServiceCallback.OnProceed(long count) {
+            this.CurrentCount = count;
+        }
+
+        void ImportServiceCallback.OnSuccess() {
+            this.PostImport();
+        }
+
+        void ImportServiceCallback.OnFail(string errorMessage) {
+            this.PostImport();
+            Messages.ShowError(errorMessage);
+        }
+        #endregion
+
         #region Private Method
         /// <summary>
         /// コマンドをセットアップする
@@ -182,6 +203,13 @@ namespace SimpleTranslationLocal.UI.Import {
                 System.Threading.Thread.Sleep(4000);
                 this.ProgressPanelVisibility = Visibility.Collapsed;
             });
+        }
+
+        /// <summary>
+        /// インポート処理完了後の後処理
+        /// </summary>
+        private void PostImport() {
+
         }
         #endregion
     }

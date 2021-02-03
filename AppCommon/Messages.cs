@@ -35,6 +35,14 @@ namespace SimpleTranslationLocal.AppCommon {
             for (int i = 0; i < words.Length; i++) {
                 message = message.Replace("{" + i + "}", words[i]);
             }
+            ShowError(message);
+        }
+
+        /// <summary>
+        /// エラーメッセージを表示
+        /// </summary>
+        /// <param name="message">メッセージ</param>
+        public static void ShowError(string message) {
             MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         #endregion
