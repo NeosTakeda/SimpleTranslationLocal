@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Reflection;
-using SimpleTranslationLocal.AppCommon;
-using SimpleTranslationLocal.Data;
+﻿using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Entity;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace SimpleTranslationLocal {
     /// <summary>
@@ -77,9 +71,9 @@ namespace SimpleTranslationLocal {
                         database.CommitTrans();
                     } catch (Exception ex) {
                         Messages.ShowError(Messages.ErrId.Err002, ex.Message);
-                        System.IO.File.Delete(Constants.DatabaseFile);
                     }
                 }
+
 
                 //using (var database = new ProfileDatabase(profile.FilePath)) {
                 //    try {
@@ -102,7 +96,6 @@ namespace SimpleTranslationLocal {
                 //    }
                 //}
             }
-
         }
 
         protected override void OnExit(ExitEventArgs e) {

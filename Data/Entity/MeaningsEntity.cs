@@ -54,7 +54,8 @@ namespace SimpleTranslationLocal.Data.Entity {
                 .AppendSql($",{Cols.Meaning}        TEXT    NOT NULL")
                 .AppendSql($",{Cols.PartOfSpeach}   TEXT")
                 .AppendSql($",{Cols.CreateAt}       INTEGER")
-                .AppendSql($",{Cols.UpdateAt}       INTEGER");
+                .AppendSql($",{Cols.UpdateAt}       INTEGER")
+                .Append(")");
             return 0 < base.Database.ExecuteNonQuery(sql);
         }
 

@@ -19,7 +19,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         #endregion
 
         #region Public Property
-        public override string TableName => "meanings";
+        public override string TableName => "words";
         /// <summary>
         /// id
         /// </summary>
@@ -60,7 +60,8 @@ namespace SimpleTranslationLocal.Data.Entity {
                 .AppendSql($",{Cols.Pronunciation}  TEXT")
                 .AppendSql($",{Cols.Syllable}       TEXT")
                 .AppendSql($",{Cols.CreateAt}       INTEGER")
-                .AppendSql($",{Cols.UpdateAt}       INTEGER");
+                .AppendSql($",{Cols.UpdateAt}       INTEGER")
+                .Append(")");
             return 0 < base.Database.ExecuteNonQuery(sql);
         }
 

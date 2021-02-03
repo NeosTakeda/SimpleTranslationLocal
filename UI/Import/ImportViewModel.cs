@@ -37,5 +37,9 @@ namespace SimpleTranslationLocal.UI.Import {
             
         }
         #endregion
+
+        #region Protected Method
+
+        #endregion
     }
 }

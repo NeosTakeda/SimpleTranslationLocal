@@ -125,6 +125,7 @@
     <Compile Include="Func\Import\DictionaryParser.cs" />
     <Compile Include="Func\Import\EijiroParser.cs" />
     <Compile Include="Func\Import\IDictionaryParser.cs" />
+    <Compile Include="Func\Import\IImportService.cs" />
     <Compile Include="Func\Import\ImportMockService.cs" />
     <Compile Include="Func\Import\ImportService.cs" />
     <Compile Include="Func\Import\ImportServiceCallback.cs" />
@@ -210,6 +211,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

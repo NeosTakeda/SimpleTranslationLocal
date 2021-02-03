@@ -127,6 +127,9 @@ namespace SimpleTranslationLocal.UI.Import {
         }
         #endregion
 
+        #region Protected Method
+        #endregion
+
         #region Private Method
         /// <summary>
         /// コマンドをセットアップする
@@ -164,14 +167,14 @@ namespace SimpleTranslationLocal.UI.Import {
         /// 英辞郎のインポート処理
         /// </summary>
         private void ImportEijiro() {
-            this.ImportData();
+            this.ImportData(Constants.DicType.Eijiro);
         }
 
         /// <summary>
         /// Websterのインポート処理
         /// </summary>
         private void ImportWebster() {
-            this.ImportData();
+            this.ImportData(Constants.DicType.Webster);
         }
 
         /// <summary>
@@ -197,10 +200,20 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <summary>
         /// 辞書をインポート
         /// </summary>
-        private async void ImportData() {
+        /// <param name="dicType">辞書種別</param>
+        private async void ImportData(Constants.DicType dicType) {
             this.ProgressPanelVisibility = Visibility.Visible;
+
             await Task.Run(() => {
-                System.Threading.Thread.Sleep(4000);
+                IImportService service;
+                if (Env.Current == Env.EnvType.Stub) {
+                    service = new ImportMockService(this);
+                } else {
+                    service = new ImportService(this);
+                }
+                service.Start(new Dictionary<Constants.DicType, string>(){ 
+                    { dicType, dicType == Constants.DicType.Eijiro ? this.EijiroFile : this.WebsterFile } });
+
                 this.ProgressPanelVisibility = Visibility.Collapsed;
             });
         }
