@@ -122,7 +122,7 @@
     <Compile Include="Data\Repo\MeaningRepo.cs" />
     <Compile Include="Data\Repo\SourceRepo.cs" />
     <Compile Include="Data\Repo\WordRepo.cs" />
-    <Compile Include="Func\Import\DictionaryParser.cs" />
+    <Compile Include="Func\Import\WebsterParser.cs" />
     <Compile Include="Func\Import\EijiroParser.cs" />
     <Compile Include="Func\Import\IDictionaryParser.cs" />
     <Compile Include="Func\Import\IImportService.cs" />

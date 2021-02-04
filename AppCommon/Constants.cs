@@ -18,7 +18,7 @@
             /// 英辞郎
             /// </summary>
             /// https://booth.pm/ja/items/777563
-            Eijiro,
+            Eijiro = 1,
             /// <summary>
             /// GitHubに上がっている英英データ
             /// </summary>
