@@ -9,7 +9,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         /// <summary>
         /// Column Names
         /// </summary>
-        private class Cols {
+        static class Cols {
             public static readonly String Id = "id";
             public static readonly String Name = "name";
             public static readonly String Priority = "priority";
@@ -20,7 +20,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         #endregion
 
         #region Public Property
-        public override string TableName => "sources";
+        public static readonly string TableName = "sources";
         /// <summary>
         /// id
         /// </summary>
@@ -47,6 +47,13 @@ namespace SimpleTranslationLocal.Data.Entity {
         #endregion
 
         #region Public Method
+        public override void DeleteBySourceId(long id) {
+            var sql = new SqlBuilder();
+            sql.AppendSql($"DELETE FROM {TableName} ")
+                .AppendSql($"WHERE {Cols.Id} = {id}");
+            base.Database.ExecuteNonQuery(sql);
+        }
+
         public override bool Create() {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")

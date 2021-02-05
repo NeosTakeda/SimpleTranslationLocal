@@ -8,7 +8,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         /// <summary>
         /// Column Names
         /// </summary>
-        private class Cols {
+        static class Cols {
             public static readonly String Id = "id";
             public static readonly String MeaningId = "meaning_id";
             public static readonly String Type = "type";
@@ -19,7 +19,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         #endregion
 
         #region Public Property
-        public override string TableName => "additions";
+        public static readonly string TableName = "additions";
 
         /// <summary>
         /// id
@@ -47,6 +47,21 @@ namespace SimpleTranslationLocal.Data.Entity {
         #endregion
 
         #region Public Method
+        public override void DeleteBySourceId(long id) {
+            var sql = new SqlBuilder();
+            sql.AppendSql($"DELETE FROM {TableName}")
+                .AppendSql($"WHERE {Cols.Id} IN (")
+                .AppendSql($"    SELECT t1.{Cols.Id}")
+                .AppendSql($"      FROM {TableName} t1")
+                .AppendSql($"     INNER JOIN {MeaningsEntity.TableName} t2 ON ")
+                .AppendSql($"           t1.{Cols.MeaningId} = t2.{WordsEntity.Cols.Id}")
+                .AppendSql($"     INNER JOIN {WordsEntity.TableName} t3 ON ")
+                .AppendSql($"           t2.{MeaningsEntity.Cols.WordId} = t3.{WordsEntity.Cols.Id} ")
+                .AppendSql($"     WHERE t3.{WordsEntity.Cols.SourceId} = {id}")
+                .AppendSql($")");
+            base.Database.ExecuteNonQuery(sql);
+        }
+
         public override bool Create() {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")

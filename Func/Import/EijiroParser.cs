@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleTranslationLocal.Data.DataModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,17 @@ namespace SimpleTranslationLocal.Func.Import {
 
         #region Constructor
         public EijiroParser(string file) : base(file) {
+        }
+        #endregion
+
+        #region Public Method
+
+        public override long GetCount() {
+            throw new NotImplementedException();
+        }
+
+        public override WordData Read() {
+            throw new NotImplementedException();
         }
         #endregion
 

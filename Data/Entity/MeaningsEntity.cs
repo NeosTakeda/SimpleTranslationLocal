@@ -8,7 +8,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         /// <summary>
         /// Column Names
         /// </summary>
-        private class Cols {
+        public static class Cols {
             public static readonly String Id = "id";
             public static readonly String WordId = "word_id";
             public static readonly String Meaning = "meaning";
@@ -19,7 +19,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         #endregion
 
         #region Public Property
-        public override string TableName => "meanings";
+        public static readonly string TableName = "meanings";
         /// <summary>
         /// id
         /// </summary>
@@ -46,6 +46,19 @@ namespace SimpleTranslationLocal.Data.Entity {
         #endregion
 
         #region Public Method
+        public override void DeleteBySourceId(long id) {
+            var sql = new SqlBuilder();
+            sql.AppendSql($"DELETE FROM {TableName}")
+                .AppendSql($" WHERE {Cols.Id} IN (")
+                .AppendSql($"    SELECT t1.{Cols.Id}")
+                .AppendSql($"      FROM {TableName} t1")
+                .AppendSql($"     INNER JOIN {WordsEntity.TableName} t2 ON ")
+                .AppendSql($"           t1.{Cols.WordId} = t2.{WordsEntity.Cols.Id}")
+                .AppendSql($"     WHERE t2.{WordsEntity.Cols.SourceId} = {id}")
+                .AppendSql($")");
+            base.Database.ExecuteNonQuery(sql);
+        }
+
         public override bool Create() {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")

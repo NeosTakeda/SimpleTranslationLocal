@@ -27,6 +27,7 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="targetList">インポート対象のリスト</param>
         public void Start(Dictionary<DicType, string> targetList) {
             try {
+                var processName = "";
                 IDictionaryParser parser;
                 foreach (var item in targetList) {
                     // コミットは辞書単位で行う
@@ -35,7 +36,7 @@ namespace SimpleTranslationLocal.Func.Import {
                             database.Open();
                             database.BeginTrans();
 
-                            // 既存データを削除
+                            processName = "Delete Data";
                             DeleteBySourceId((int)item.Key, database);
 
                             switch(item.Key) {
@@ -60,7 +61,7 @@ namespace SimpleTranslationLocal.Func.Import {
 
                             database.CommitTrans();
                         } catch (Exception ex) {
-                            Messages.ShowError(Messages.ErrId.Err002, ex.Message);
+                            Messages.ShowError(Messages.ErrId.Err003, processName, ex.Message);
                         }
                     }
                 }
@@ -78,7 +79,11 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="id">ソースID</param>
         /// <param name="database">データベースのインスタンス</param>
         private void DeleteBySourceId(int id, DictionaryDatabase database) {
-
+            // 削除する順番には注意
+            new AdditionsEntity(database).DeleteBySourceId(id);
+            new MeaningsEntity(database).DeleteBySourceId(id);
+            new WordsEntity(database).DeleteBySourceId(id);
+            new SourcesEntity(database).DeleteBySourceId(id);
         }
         #endregion
     }

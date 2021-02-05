@@ -1,9 +1,5 @@
 ﻿using OsnCsLib.File;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SimpleTranslationLocal.Data.DataModel;
 
 namespace SimpleTranslationLocal.Func.Import {
     abstract class IDictionaryParser {
@@ -21,5 +17,20 @@ namespace SimpleTranslationLocal.Func.Import {
             this._operator = new FileOperator(file);
         }
         #endregion
+
+        #region Public Method
+        /// <summary>
+        /// get total row count
+        /// </summary>
+        /// <returns>row count</returns>
+        public abstract long GetCount();
+
+        /// <summary>
+        /// parse data
+        /// </summary>
+        /// <returns>ワードデータ</returns>
+        public abstract WordData Read();
+        #endregion
+
     }
 }

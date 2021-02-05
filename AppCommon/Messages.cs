@@ -14,12 +14,14 @@ namespace SimpleTranslationLocal.AppCommon {
         public enum ErrId {
             Err001,
             Err002,
+            Err003,
             Err999
 
         }
         private static Dictionary<ErrId, string> _errorMessages = new Dictionary<ErrId, string> {
              { ErrId.Err001, "{0}が見つかりません。" }
             ,{ ErrId.Err002, "データベースの作成に失敗しました。\n{0}" }
+            ,{ ErrId.Err003, "インポートに失敗しました。\n{0}\n{1}" }
             ,{ ErrId.Err999, "不明なエラーです" }
         };
         #endregion

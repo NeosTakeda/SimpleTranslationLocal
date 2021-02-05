@@ -10,10 +10,10 @@
         /// </summary>
         public DictionaryDatabase Database { set; get; }
 
-        /// <summary>
-        /// テーブル名
-        /// </summary>
-        public abstract string TableName { get; }
+        ///// <summary>
+        ///// テーブル名
+        ///// </summary>
+        //public abstract string TableName { get; }
         #endregion
 
         #region Constructor
@@ -23,6 +23,12 @@
         #endregion
 
         #region Public Class
+        /// <summary>
+        /// delete data by source id
+        /// </summary>
+        /// <param name="id"></param>
+        public abstract void DeleteBySourceId(long id);
+
         /// <summary>
         /// create table
         /// </summary>

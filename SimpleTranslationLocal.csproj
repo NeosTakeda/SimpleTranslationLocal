@@ -107,7 +107,6 @@
     <Compile Include="AppCommon\Env.cs" />
     <Compile Include="AppCommon\Messages.cs" />
     <Compile Include="Data\DataModel\AdditionData.cs" />
-    <Compile Include="Data\DataModel\AppSettingsData.cs" />
     <Compile Include="Data\DataModel\MeaningData.cs" />
     <Compile Include="Data\DataModel\WordData.cs" />
     <Compile Include="Data\Entity\DictionaryDatabase.cs" />
