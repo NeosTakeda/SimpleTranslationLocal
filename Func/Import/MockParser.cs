@@ -10,7 +10,7 @@ namespace SimpleTranslationLocal.Func.Import {
 
         #region Public Method
 
-        public override long GetCount() {
+        public override long GetRowCount(GetRowCountCallback callback) {
             return 0;
         }
 

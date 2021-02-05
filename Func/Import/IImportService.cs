@@ -1,10 +1,8 @@
 ﻿using SimpleTranslationLocal.AppCommon;
+using SimpleTranslationLocal.Data.DataModel;
 using SimpleTranslationLocal.Data.Entity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static SimpleTranslationLocal.AppCommon.Constants;
 
 namespace SimpleTranslationLocal.Func.Import {
@@ -26,48 +24,63 @@ namespace SimpleTranslationLocal.Func.Import {
         /// </summary>
         /// <param name="targetList">インポート対象のリスト</param>
         public void Start(Dictionary<DicType, string> targetList) {
+            var processName = "";
             try {
-                var processName = "";
                 IDictionaryParser parser;
+                WordData data = null;
+
                 foreach (var item in targetList) {
+                    var id = (int)item.Key;
+                    var file = item.Value;
+
                     // コミットは辞書単位で行う
                     using (var database = new DictionaryDatabase(Constants.DatabaseFile)) {
-                        try {
-                            database.Open();
-                            database.BeginTrans();
+                        database.Open();
+                        database.BeginTrans();
 
-                            processName = "Delete Data";
-                            DeleteBySourceId((int)item.Key, database);
+                        processName = "Delete Data";
+                        DeleteBySourceId(id, database);
 
-                            switch(item.Key) {
-                                case DicType.Eijiro:
-                                    parser = new EijiroParser(item.Value);
-                                    break;
-                                case DicType.Webster:
-                                    parser = new WebsterParser(item.Value);
-                                    break;
-                                default:
-                                    throw new Exception("unknown key type : " + item.Key);
-                            }
+                        processName = "Select import file";
+                        switch (item.Key) {
+                            case DicType.Eijiro:
+                                parser = new EijiroParser(file);
+                                break;
+                            case DicType.Webster:
+                                parser = new WebsterParser(file);
+                                break;
+                            default:
+                                throw new Exception("unknown key type : " + item.Key);
+                        }
 
-                            // 対象件数の取得・通知
+                        // 対象件数の取得・通知
+                        processName = "Count Rows";
+                        this._callback.OnPrepared(parser.GetRowCount((long rowCount) => {
+                            this._callback.OnPrepared(rowCount);
+                        }));
 
-                            // データの読込
+                        // ソースデータを作成
+                        processName = "Create Source Data";
+                        this.CreateSourceData(id, file, database);
 
+                        // 辞書データを作成
+                        processName = "Create Dic Data";
+                        var count = 0;
+                        while ((data = parser.Read()) != null) {
                             // データ更新
+                            this.CreateDicData(id, data, database);
 
                             // 件数更新
-
-
-                            database.CommitTrans();
-                        } catch (Exception ex) {
-                            Messages.ShowError(Messages.ErrId.Err003, processName, ex.Message);
+                            this._callback.OnProceed(++count);
                         }
+
+                        database.CommitTrans();
+                        this._callback.OnSuccess();
                     }
                 }
-                this._callback.OnSuccess();
             } catch (Exception ex) {
-                this._callback.OnFail(ex.Message);
+//                Messages.ShowError(Messages.ErrId.Err003, processName, ex.Message);
+                this._callback.OnFail(processName + "\n" + ex.Message);
             }
         }
         #endregion
@@ -84,6 +97,31 @@ namespace SimpleTranslationLocal.Func.Import {
             new MeaningsEntity(database).DeleteBySourceId(id);
             new WordsEntity(database).DeleteBySourceId(id);
             new SourcesEntity(database).DeleteBySourceId(id);
+        }
+
+        /// <summary>
+        /// ソースデータを作成する。
+        /// </summary>
+        /// <param name="id">ソースID</param>
+        /// <param name="file">ソースファイル</param>
+        /// <param name="database">データベースのインスタンス</param>
+        private void CreateSourceData(int id, string file ,DictionaryDatabase database) {
+            var table = new SourcesEntity(database);
+            table.Id = id;
+            table.Name = id == (int)Constants.DicType.Eijiro ? "英辞郎" : "Webster";
+            table.Priority = id;
+            table.File = file;
+            table.Insert();
+        }
+
+        /// <summary>
+        /// 辞書データを作成する
+        /// </summary>
+        /// <param name="id">ソースID</param>
+        /// <param name="data">作成するデータ</param>
+        /// <param name="database">データベースのインスタンス</param>
+        private void CreateDicData(int id, WordData data, DictionaryDatabase database) {
+
         }
         #endregion
     }

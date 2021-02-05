@@ -119,6 +119,7 @@ namespace SimpleTranslationLocal.UI.Import {
 
         void ImportServiceCallback.OnSuccess() {
             this.PostImport();
+            Messages.ShowInfo(Messages.InfoId.Info001);
         }
 
         void ImportServiceCallback.OnFail(string errorMessage) {

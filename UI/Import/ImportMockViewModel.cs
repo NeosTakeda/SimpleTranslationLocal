@@ -15,10 +15,10 @@ namespace SimpleTranslationLocal.UI.Import {
         }
 
 
-        private string _dictionaryFile = @"D:\OneDriveForBusiness\OneDrive - TK\storage\tools\Mouse Dictionary\dictionary.json";
+        private string _websterFile = @"D:\OneDriveForBusiness\OneDrive - TK\storage\tools\Mouse Dictionary\dictionary.json";
         public override string WebsterFile {
-            get { return this._dictionaryFile; }
-            set { this.SetProperty(ref this._dictionaryFile, value); }
+            get { return this._websterFile; }
+            set { this.SetProperty(ref this._websterFile, value); }
         }
         #endregion
 

@@ -5,7 +5,13 @@ namespace SimpleTranslationLocal.Func.Import {
     abstract class IDictionaryParser {
 
         #region Declaration
-        private FileOperator _operator;
+        protected string _file;
+
+        /// <summary>
+        /// 件数カウントのコールバック
+        /// </summary>
+        /// <param name="count"></param>
+        public delegate void GetRowCountCallback(long count);
         #endregion
 
         #region Constructor
@@ -14,7 +20,10 @@ namespace SimpleTranslationLocal.Func.Import {
         /// </summary>
         /// <param name="file">対象のファイル</param>
         public IDictionaryParser(string file) {
-            this._operator = new FileOperator(file);
+            if (!System.IO.File.Exists(file)) {
+                throw new System.Exception($"File({file}) not found!");
+            }
+            this._file = file;
         }
         #endregion
 
@@ -23,7 +32,7 @@ namespace SimpleTranslationLocal.Func.Import {
         /// get total row count
         /// </summary>
         /// <returns>row count</returns>
-        public abstract long GetCount();
+        public abstract long GetRowCount(GetRowCountCallback callback);
 
         /// <summary>
         /// parse data

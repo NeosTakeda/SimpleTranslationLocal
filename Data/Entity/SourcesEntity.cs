@@ -1,7 +1,6 @@
 ﻿using OsnLib.Data.Sqlite;
 using System;
 
-
 namespace SimpleTranslationLocal.Data.Entity {
     class SourcesEntity : BaseEntity {
 
@@ -34,7 +33,7 @@ namespace SimpleTranslationLocal.Data.Entity {
         /// <summary>
         /// 優先順位
         /// </summary>
-        public string Priority { set; get; }
+        public int Priority { set; get; }
 
         /// <summary>
         /// ファイル名
