@@ -105,7 +105,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppCommon\Env.cs" />
+    <Compile Include="AppCommon\LogUtil.cs" />
     <Compile Include="AppCommon\Messages.cs" />
+    <Compile Include="AppCommon\RegExUtil.cs" />
     <Compile Include="Data\DataModel\AdditionData.cs" />
     <Compile Include="Data\DataModel\MeaningData.cs" />
     <Compile Include="Data\DataModel\WordData.cs" />

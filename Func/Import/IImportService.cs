@@ -65,13 +65,12 @@ namespace SimpleTranslationLocal.Func.Import {
 
                         // 辞書データを作成
                         processName = "Create Dic Data";
-                        var count = 0;
                         while ((data = parser.Read()) != null) {
                             // データ更新
                             this.CreateDicData(id, data, database);
 
                             // 件数更新
-                            this._callback.OnProceed(++count);
+                            this._callback.OnProceed(parser.CurrentLine);
                         }
 
                         database.CommitTrans();

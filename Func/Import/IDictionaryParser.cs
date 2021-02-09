@@ -14,6 +14,13 @@ namespace SimpleTranslationLocal.Func.Import {
         public delegate void GetRowCountCallback(long count);
         #endregion
 
+        #region Public Property
+        /// <summary>
+        /// 現在の行(パーサーは複数行読み取ってから返却することがある)
+        /// </summary>
+        public virtual long CurrentLine { get; } = 0;
+        #endregion
+
         #region Constructor
         /// <summary>
         /// コンストラクタ
