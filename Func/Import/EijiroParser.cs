@@ -97,9 +97,11 @@ namespace SimpleTranslationLocal.Func.Import {
             }
 
 
-            // 略語・別の言い回しを参照
+            // <→～> 
             if (this._reg2.Match(tmp)) {
-                meaningData.Meaning = this._reg2.Value.Replace("＝", "").Replace("<", "").Replace(">", "");
+                var data = this._reg2.Value.Replace("＝", "").Replace("<", "").Replace(">", "");
+
+                // meaningData.Meaning = 
                 tmp = this._reg2.Remain;
                 if (0 == tmp.Length) {
                     goto EXIT;
