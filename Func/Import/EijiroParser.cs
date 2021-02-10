@@ -3,6 +3,7 @@ using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.DataModel;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System;
 
 namespace SimpleTranslationLocal.Func.Import {
     class EijiroParser : IDictionaryParser {
@@ -15,11 +16,6 @@ namespace SimpleTranslationLocal.Func.Import {
         /// 単語と品詞を取得 →「:」より左側の情報。品詞はない場合あり
         /// </summary>
         private RegExUtil _reg1 = new RegExUtil(@"^■(?<k1>.+) {(?<k2>.+)}\s:\s|^■(?<k1>.+)\s:\s");
-
-        /// <summary>
-        /// <→～> 
-        /// </summary>
-        private RegExUtil _reg2 = new RegExUtil(@"^〈.+〉＝<→.+|^＝<→.+");
         #endregion
 
         #region Public Property
@@ -86,6 +82,10 @@ namespace SimpleTranslationLocal.Func.Import {
             var meaningData = new MeaningData();
             wordData.Meanings.Add(meaningData);
 
+            var other = "";
+            var examples = new List<string>();
+            var supplements = new List<string>();
+
             var tmp = line.Trim();
 
             
@@ -96,13 +96,17 @@ namespace SimpleTranslationLocal.Func.Import {
                 tmp = this._reg1.Remain;
             }
 
+            // 意味・用例・補足でいったん情報を分割する。
+            this.SplitDef(data, ref other, ref examples, ref supplements);
 
-            // <→～> 
+
+            // = から始まるやつ
             if (this._reg2.Match(tmp)) {
                 var data = this._reg2.Value.Replace("＝", "").Replace("<", "").Replace(">", "");
-
-                // meaningData.Meaning = 
                 tmp = this._reg2.Remain;
+
+
+                this.SplitDef(data, ref other, ref examples, ref supplements);
                 if (0 == tmp.Length) {
                     goto EXIT;
                 }
@@ -126,11 +130,40 @@ EXIT:
         /// 用例・補足・それ以外に分割する
         /// </summary>
         /// <param name="val">対象データ</param>
-        /// <returns></returns>
+        /// <param name="other">その他</param>
+        /// <param name="examples">用例</param>
+        /// <param name="supplements">補足</param>
+        private void SplitDef(string val, ref string other, ref List<string>examples, ref List<string>supplements) {
 
-        private string[] SplitDef(string val) {
+            // 用例に対する補足、補足に対する用例といった関係は無視する。。
 
+            string[] SIGN_EX = { "■・" };
+            string[] SIGN_SP = { "◆" };
+
+            other = "";
+            examples.Clear();
+            supplements.Clear();
+
+
+
+            int p1 = val.IndexOf(SIGN_EX);
+            int p2 = val.IndexOf(SIGN_SP);
+
+            if (-1 == p1 && -1 == p2) {
+                other = val;
+                return;
+            }
+            
+            // 用例のみ存在する場合
+            if (p2 == -1) {
+                var tmp = val.Split(SIGN_EX, StringSplitOptions.None);
+            }
+
+            var p = System.Math.Min(p1, p2);
         }
+
+
+        
         #endregion
     }
 }
