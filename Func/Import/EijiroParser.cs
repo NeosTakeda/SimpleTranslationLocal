@@ -1,13 +1,11 @@
 ﻿using OsnCsLib.File;
 using SimpleTranslationLocal.AppCommon;
-using SimpleTranslationLocal.Data.DataModel;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System;
-
+using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 
 namespace SimpleTranslationLocal.Func.Import {
-    class EijiroParser : IDictionaryParser {
+    internal class EijiroParser : IDictionaryParser {
 
         #region Declaration
         private FileOperator _operator;
@@ -32,7 +30,7 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <summary>
         /// 現在の行
         /// </summary>
-        public override long CurrentLine {  get { return this._operator.CurrentLine; } }
+        internal override long CurrentLine {  get { return this._operator.CurrentLine; } }
         #endregion
 
         #region Constructor
@@ -43,7 +41,7 @@ namespace SimpleTranslationLocal.Func.Import {
 
         #region Public Method
 
-        public override long GetRowCount(GetRowCountCallback callback) {
+        internal override long GetRowCount(GetRowCountCallback callback) {
             var rowCount = 0;
             using(var op = new FileOperator(base._file, FileOperator.OpenMode.Read, FileOperator.EncodingType.ShiftJIS)) {
                 while(op.ReadLine() != null) {
@@ -54,7 +52,7 @@ namespace SimpleTranslationLocal.Func.Import {
             return rowCount;
         }
 
-        public override WordData Read() {
+        internal override WordData Read() {
             WordData data = null;
             WordData current = null;
             string line;
@@ -78,7 +76,6 @@ namespace SimpleTranslationLocal.Func.Import {
             return data;
         }
         #endregion
-
 
         #region Private Method
         /// <summary>
@@ -116,11 +113,11 @@ namespace SimpleTranslationLocal.Func.Import {
                 var data = tmp.Split(s, StringSplitOptions.None);
                 foreach(var datum in data) {
                     if (datum.StartsWith(WordInfo.Pronunciation)) {
-                        wordData.Pronumciation = datum.Substring(WordInfo.Pronunciation.Length);
+                        wordData.Pronunciation = datum.Substring(WordInfo.Pronunciation.Length);
                         continue;
                     }
                     if (datum.StartsWith(WordInfo.Pronunciation2)) {
-                        wordData.Pronumciation = datum.Substring(WordInfo.Pronunciation2.Length);
+                        wordData.Pronunciation = datum.Substring(WordInfo.Pronunciation2.Length);
                         continue;
                     }
                     if (datum.StartsWith(WordInfo.Kana)) {
@@ -201,8 +198,8 @@ namespace SimpleTranslationLocal.Func.Import {
             foreach (var meaning in src.Meanings) {
                 dest.Meanings.Add(meaning);
             }
-            if (0 < src.Pronumciation.Length) {
-                dest.Pronumciation = src.Pronumciation;
+            if (0 < src.Pronunciation.Length) {
+                dest.Pronunciation = src.Pronunciation;
             }
             if (0 < src.Syllable.Length) {
                 dest.Syllable = src.Syllable;

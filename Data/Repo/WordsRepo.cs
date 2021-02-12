@@ -2,19 +2,15 @@
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 
 namespace SimpleTranslationLocal.Data.Repo {
-
-    /// <summary>
-    /// Source Repo
-    /// </summary>
-    internal class SourcesRepo : IBasicRepo<SourceData> {
+    internal class WordsRepo : IBasicRepo<WordData> {
 
         #region Declaration
-        private SourcesEntity _entity;
+        private WordsEntity _entity;
         #endregion
 
         #region Constructor
-        internal SourcesRepo(DictionaryDatabase database) : base(database) {
-            this._entity = new SourcesEntity(database);
+        internal WordsRepo(DictionaryDatabase database) : base(database) {
+            this._entity = new WordsEntity(database);
         }
         #endregion
 
@@ -31,11 +27,16 @@ namespace SimpleTranslationLocal.Data.Repo {
             this._entity.DeleteBySourceId(id);
         }
 
-        internal override void SetDataModel(SourceData model) {
+        internal override void SetDataModel(WordData model) {
             this._entity.Id = model.Id;
-            this._entity.Name = model.Name;
-            this._entity.Priority = model.Priority;
-            this._entity.File = model.File;
+            this._entity.SourceId = model.SourceId;
+            this._entity.Word = model.Word;
+            this._entity.Pronunciation = model.Pronunciation;
+            this._entity.Syllable = model.Syllable;
+            this._entity.Kana = model.Kana;
+            this._entity.Level = model.Level;
+            this._entity.Word = model.Word;
+            this._entity.Change = model.Change;
         }
         #endregion
     }

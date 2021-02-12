@@ -1,19 +1,12 @@
 ﻿namespace SimpleTranslationLocal.Data.Repo.Entity {
+
     /// <summary>
-    /// base entity
+    /// ベースエンティティ
     /// </summary>
     internal abstract class BaseEntity {
 
         #region Public Property
-        /// <summary>
-        /// データベース
-        /// </summary>
         public DictionaryDatabase Database { set; get; }
-
-        ///// <summary>
-        ///// テーブル名
-        ///// </summary>
-        //public abstract string TableName { get; }
         #endregion
 
         #region Constructor

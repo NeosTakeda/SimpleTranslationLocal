@@ -1,8 +1,8 @@
 ﻿using OsnCsLib.File;
-using SimpleTranslationLocal.Data.DataModel;
+using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 
 namespace SimpleTranslationLocal.Func.Import {
-    abstract class IDictionaryParser {
+    internal abstract class IDictionaryParser {
 
         #region Declaration
         protected string _file;
@@ -18,7 +18,7 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <summary>
         /// 現在の行(パーサーは複数行読み取ってから返却することがある)
         /// </summary>
-        public virtual long CurrentLine { get; } = 0;
+        internal virtual long CurrentLine { get; } = 0;
         #endregion
 
         #region Constructor
@@ -26,7 +26,7 @@ namespace SimpleTranslationLocal.Func.Import {
         /// コンストラクタ
         /// </summary>
         /// <param name="file">対象のファイル</param>
-        public IDictionaryParser(string file) {
+        internal IDictionaryParser(string file) {
             if (!System.IO.File.Exists(file)) {
                 throw new System.Exception($"File({file}) not found!");
             }
@@ -39,13 +39,13 @@ namespace SimpleTranslationLocal.Func.Import {
         /// get total row count
         /// </summary>
         /// <returns>row count</returns>
-        public abstract long GetRowCount(GetRowCountCallback callback);
+        internal abstract long GetRowCount(GetRowCountCallback callback);
 
         /// <summary>
         /// parse data
         /// </summary>
         /// <returns>ワードデータ</returns>
-        public abstract WordData Read();
+        internal abstract WordData Read();
         #endregion
 
     }

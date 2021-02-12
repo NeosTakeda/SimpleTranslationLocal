@@ -1,9 +1,13 @@
 ﻿using OsnLib.Data.Sqlite;
-using SimpleTranslationLocal.Data.DataModel;
 using System;
 
 namespace SimpleTranslationLocal.Data.Repo.Entity {
-    class WordsEntity : BaseEntity{
+
+    /// <summary>
+    /// words entity
+    /// </summary>
+    class WordsEntity : BaseEntity {
+
         #region Declaration
         /// <summary>
         /// Column Names
@@ -30,37 +34,37 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         public int Id { set; get; }
 
         /// <summary>
-        /// ソースID
+        /// source id
         /// </summary>
         public int SourceId { set; get; }
 
         /// <summary>
-        /// 用語
+        /// word
         /// </summary>
         public string Word { set; get; }
 
         /// <summary>
-        /// 発音
+        /// pronunciation
         /// </summary>
         public string Pronunciation { set; get; }
 
         /// <summary>
-        /// 音節
+        /// syllable
         /// </summary>
         public string Syllable { set; get; }
 
         /// <summary>
-        /// よみがな
+        /// kana of syllable
         /// </summary>
         public string Kana { set; get; }
 
         /// <summary>
-        /// レベル
+        /// level
         /// </summary>
         public int Level { set; get; }
 
         /// <summary>
-        /// 変化
+        /// change
         /// </summary>
         public string Change { set; get; }
         #endregion
@@ -129,19 +133,6 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
             paramList.Add($"@{Cols.Level}", this.Level);
             paramList.Add($"@{Cols.Change}", this.Change);
             return base.Database.Insert(sql, paramList);
-        }
-
-        /// <summary>
-        /// データモデルの値をメンバに設定
-        /// </summary>
-        /// <param name="data">設定するデータ</param>
-        public void SetDataModel(WordData data) {
-            this.Word = data.Word;
-            this.Pronunciation = data.Pronumciation;
-            this.Syllable = data.Syllable;
-            this.Kana = data.Kana;
-            this.Level = data.Level;
-            this.Change = data.Change;
         }
         #endregion
     }

@@ -2,7 +2,11 @@
 using System;
 
 namespace SimpleTranslationLocal.Data.Repo.Entity {
-    class SourcesEntity : BaseEntity {
+        
+    /// <summary>
+    /// sources entity
+    /// </summary>
+    internal class SourcesEntity : BaseEntity {
 
         #region Declaration
         /// <summary>
@@ -23,20 +27,20 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         /// <summary>
         /// id
         /// </summary>
-        public int Id { set; get; }
+        public long Id { set; get; }
 
         /// <summary>
-        /// 名称
+        /// source name
         /// </summary>
         public string Name { set; get; }
 
         /// <summary>
-        /// 優先順位
+        /// source priority
         /// </summary>
         public int Priority { set; get; }
 
         /// <summary>
-        /// ファイル名
+        /// source file
         /// </summary>
         public string File { set; get; }
         #endregion

@@ -1,18 +1,29 @@
 ﻿using SimpleTranslationLocal.AppCommon;
 
-namespace SimpleTranslationLocal.Data.Repo.Eneity.DataModel {
+namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
     /// <summary>
-    /// 付加情報
+    /// addition data model
     /// </summary>
     class AdditionData {
+
         #region Public Property
         /// <summary>
-        /// 種別
+        /// id
+        /// </summary>
+        public int Id { set; get; }
+
+        /// <summary>
+        /// meaning id
+        /// </summary>
+        public int MeaningId { set; get; }
+
+        /// <summary>
+        /// addition type. see also Constants.AdditionType
         /// </summary>
         public int Type { set; get; } = Constants.AdditionType.Unknown;
 
         /// <summary>
-        /// データ
+        /// addition data
         /// </summary>
         public string Data { set; get; } = "";
         #endregion
@@ -23,5 +34,6 @@ namespace SimpleTranslationLocal.Data.Repo.Eneity.DataModel {
             this.Data = Data;
         }
         #endregion
+
     }
 }

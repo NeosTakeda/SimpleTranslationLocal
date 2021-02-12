@@ -1,7 +1,7 @@
-﻿namespace SimpleTranslationLocal.Data.Repo.Eneity.DataModel {
+﻿namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
 
     /// <summary>
-    /// 辞書情報取得元 データモデル
+    /// source data model
     /// </summary>
     internal class SourceData {
 
@@ -13,17 +13,17 @@
         internal long Id { set; get; }
 
         /// <summary>
-        /// 名称
+        /// source name
         /// </summary>
         internal string Name { set; get; }
 
         /// <summary>
-        /// 優先順位
+        /// source priority
         /// </summary>
         internal int Priority { set; get; }
 
         /// <summary>
-        /// ファイル名
+        /// source file
         /// </summary>
         internal string File { set; get; }
         #endregion

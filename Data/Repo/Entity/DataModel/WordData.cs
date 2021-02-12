@@ -1,45 +1,55 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleTranslationLocal.Data.Repo.Eneity.DataModel {
+namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
 
     /// <summary>
-    /// 用語 データモデル
+    /// word data model
     /// </summary>
     internal class WordData {
 
         #region Public Property
         /// <summary>
-        /// 用語
+        /// id
+        /// </summary>
+        public int Id { set; get; }
+
+        /// <summary>
+        /// source id
+        /// </summary>
+        public int SourceId { set; get; }
+
+        /// <summary>
+        /// word
         /// </summary>
         internal string Word { set; get; } = "";
 
         /// <summary>
-        /// 発音
+        /// pronunciation
         /// </summary>
-        internal string Pronumciation { set; get; } = "";
+        internal string Pronunciation { set; get; } = "";
 
         /// <summary>
-        /// 音節
+        /// syllable
         /// </summary>
         internal string Syllable { set; get; } = "";
 
         /// <summary>
-        /// よみがな
+        /// kana of syllable
         /// </summary>
         internal string Kana { set; get; } = "";
 
         /// <summary>
-        /// レベル
+        /// level
         /// </summary>
         internal int Level { set; get; } = 0;
 
         /// <summary>
-        /// 変化
+        /// change
         /// </summary>
         internal string Change { set; get; } = "";
 
         /// <summary>
-        /// 意味
+        /// meaning list
         /// </summary>
         internal List<MeaningData> Meanings { set; get; } = new List<MeaningData>();
         #endregion

@@ -1,20 +1,21 @@
-﻿using SimpleTranslationLocal.Data.DataModel;
+﻿
+using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 
 namespace SimpleTranslationLocal.Func.Import {
-    class MockParser : IDictionaryParser {
+    internal class MockParser : IDictionaryParser {
 
         #region Constructor
-        public MockParser(string file) : base(file) {
+        internal MockParser(string file) : base(file) {
         }
         #endregion
 
         #region Public Method
 
-        public override long GetRowCount(GetRowCountCallback callback) {
+        internal override long GetRowCount(GetRowCountCallback callback) {
             return 0;
         }
 
-        public override WordData Read() {
+        internal override WordData Read() {
             return null;
         }
         #endregion

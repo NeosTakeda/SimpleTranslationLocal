@@ -2,7 +2,10 @@
 using System;
 
 namespace SimpleTranslationLocal.Data.Repo.Entity {
-    class AdditionsEntity : BaseEntity {
+    /// <summary>
+    /// 付加情報エンティティ
+    /// </summary>
+    class AdditionsRepo : BaseEntity {
 
         #region Declaration
         /// <summary>
@@ -27,23 +30,23 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         public int Id { set; get; }
 
         /// <summary>
-        /// 意味ID
+        /// meaning id
         /// </summary>
         public int MeaningId { set; get; }
 
         /// <summary>
-        /// 種別
+        /// addition type. see also Constants.AdditionType
         /// </summary>
         public int Type { set; get; }
 
         /// <summary>
-        /// データ
+        /// addition data
         /// </summary>
         public string Data { set; get; }
         #endregion
 
         #region Constructor
-        public AdditionsEntity(DictionaryDatabase database) : base(database) { }
+        public AdditionsRepo(DictionaryDatabase database) : base(database) { }
         #endregion
 
         #region Public Method
@@ -100,6 +103,5 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
             return base.Database.Insert(sql, paramList);
         }
         #endregion
-
     }
 }

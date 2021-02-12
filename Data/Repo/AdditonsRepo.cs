@@ -4,17 +4,17 @@ using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 namespace SimpleTranslationLocal.Data.Repo {
 
     /// <summary>
-    /// Source Repo
+    /// additions repo
     /// </summary>
-    internal class SourcesRepo : IBasicRepo<SourceData> {
+    internal class AdditonsRepo : IBasicRepo<AdditionData> {
 
         #region Declaration
-        private SourcesEntity _entity;
+        private AdditionsRepo _entity;
         #endregion
 
         #region Constructor
-        internal SourcesRepo(DictionaryDatabase database) : base(database) {
-            this._entity = new SourcesEntity(database);
+        internal AdditonsRepo(DictionaryDatabase database) : base(database) {
+            this._entity = new AdditionsRepo(database);
         }
         #endregion
 
@@ -31,11 +31,11 @@ namespace SimpleTranslationLocal.Data.Repo {
             this._entity.DeleteBySourceId(id);
         }
 
-        internal override void SetDataModel(SourceData model) {
+        internal override void SetDataModel(AdditionData model) {
             this._entity.Id = model.Id;
-            this._entity.Name = model.Name;
-            this._entity.Priority = model.Priority;
-            this._entity.File = model.File;
+            this._entity.MeaningId = model.MeaningId;
+            this._entity.Type = model.Type;
+            this._entity.Data = model.Data;
         }
         #endregion
     }

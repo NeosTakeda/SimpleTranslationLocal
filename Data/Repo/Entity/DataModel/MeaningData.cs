@@ -1,25 +1,35 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleTranslationLocal.Data.Repo.Eneity.DataModel {
+namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
 
     /// <summary>
-    /// 意味 データモデル
+    /// meaning data model
     /// </summary>
     internal class MeaningData {
 
         #region Public Property
         /// <summary>
-        /// 意味
+        /// id
+        /// </summary>
+        internal long Id { set; get; }
+
+        /// <summary>
+        /// word id
+        /// </summary>
+        internal long WordId { set; get; }
+
+        /// <summary>
+        /// word meaning
         /// </summary>
         internal string Meaning { set; get; } = "";
 
         /// <summary>
-        /// 品詞
+        /// part of speach
         /// </summary>
         internal string PartOfSpeach { set; get; } = "";
 
         /// <summary>
-        /// 付加情報
+        /// addition data list
         /// </summary>
         internal List<AdditionData> Additions { set; get; } = new List<AdditionData>();
         #endregion

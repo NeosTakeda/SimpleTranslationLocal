@@ -1,6 +1,7 @@
 ﻿using SimpleTranslationLocal.AppCommon;
-using SimpleTranslationLocal.Data.DataModel;
-using SimpleTranslationLocal.Data.Entity;
+using SimpleTranslationLocal.Data.Repo;
+using SimpleTranslationLocal.Data.Repo.Entity;
+using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using System;
 using System.Collections.Generic;
 using static SimpleTranslationLocal.AppCommon.Constants;
@@ -86,31 +87,34 @@ namespace SimpleTranslationLocal.Func.Import {
 
         #region Private Method
         /// <summary>
-        /// ソースIDをキーとして全テーブルを削除する
+        /// delete data by source id
         /// </summary>
-        /// <param name="id">ソースID</param>
-        /// <param name="database">データベースのインスタンス</param>
+        /// <param name="id">source id</param>
+        /// <param name="database">database </param>
         private void DeleteBySourceId(int id, DictionaryDatabase database) {
-            // 削除する順番には注意
-            new AdditionsEntity(database).DeleteBySourceId(id);
-            new MeaningsEntity(database).DeleteBySourceId(id);
-            new WordsEntity(database).DeleteBySourceId(id);
-            new SourcesEntity(database).DeleteBySourceId(id);
+            // the order of delete tables is important
+            new AdditionsRepo(database).DeleteBySourceId(id);
+            new MeaningsRepo(database).DeleteBySourceId(id);
+            new WordsRepo(database).DeleteBySourceId(id);
+            new SourcesRepo(database).DeleteBySourceId(id);
         }
 
         /// <summary>
-        /// ソースデータを作成する。
+        /// create source table data
         /// </summary>
-        /// <param name="id">ソースID</param>
-        /// <param name="file">ソースファイル</param>
-        /// <param name="database">データベースのインスタンス</param>
-        private void CreateSourceData(int id, string file ,DictionaryDatabase database) {
-            var table = new SourcesEntity(database);
-            table.Id = id;
-            table.Name = Constants.DicTypeName[(DicType)id];
-            table.Priority = id;
-            table.File = file;
-            table.Insert();
+        /// <param name="id">source id</param>
+        /// <param name="file">source file</param>
+        /// <param name="database">database</param>
+        private void CreateSourceData(long id, string file ,DictionaryDatabase database) {
+            var sourceData = new SourceData();
+            sourceData.Id = id;
+            sourceData.Name = Constants.DicTypeName[(DicType)id];
+            sourceData.Priority = (int)id;
+            sourceData.File = file;
+
+            var sourceRepo = new SourcesRepo(database);
+            sourceRepo.SetDataModel(sourceData);
+            sourceRepo.Insert();
         }
 
         /// <summary>
@@ -121,16 +125,16 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="database">データベースのインスタンス</param>
         private void CreateDicData(int id, WordData data, DictionaryDatabase database) {
             // words
-            var wordsEntity = new WordsEntity(database);
-            wordsEntity.SetDataModel(data);
-            wordsEntity.SourceId = id;
-            var wordId = wordsEntity.Insert();
+            //var wordsEntity = new WordsEntity(database);
+            //wordsEntity.SetDataModel(data);
+            //wordsEntity.SourceId = id;
+            //var wordId = wordsEntity.Insert();
 
-            // meadnigs・additions
-            foreach(var meadning in data.Meanings) {
-                var meaningsEntity = new MeaningsEntity(database);
+            //// meadnigs・additions
+            //foreach(var meadning in data.Meanings) {
+            //    var meaningsEntity = new MeaningsEntity(database);
 
-            }
+            //}
 
 
         }

@@ -1,8 +1,8 @@
-﻿using SimpleTranslationLocal.Data.DataModel;
+﻿using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using System;
 
 namespace SimpleTranslationLocal.Func.Import {
-    class WebsterParser: IDictionaryParser {
+    internal class WebsterParser: IDictionaryParser {
 
         #region Constructor
         public WebsterParser(string file) : base(file) {
@@ -10,11 +10,11 @@ namespace SimpleTranslationLocal.Func.Import {
         #endregion
 
         #region Public Method
-        public override long GetRowCount(GetRowCountCallback callback) {
+        internal override long GetRowCount(GetRowCountCallback callback) {
             throw new NotImplementedException();
         }
 
-        public override WordData Read() {
+        internal override WordData Read() {
             throw new NotImplementedException();
         }
         #endregion
