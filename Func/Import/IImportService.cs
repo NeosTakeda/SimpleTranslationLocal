@@ -107,7 +107,7 @@ namespace SimpleTranslationLocal.Func.Import {
         private void CreateSourceData(int id, string file ,DictionaryDatabase database) {
             var table = new SourcesEntity(database);
             table.Id = id;
-            table.Name = id == (int)Constants.DicType.Eijiro ? "英辞郎" : "Webster";
+            table.Name = Constants.DicTypeName[(DicType)id];
             table.Priority = id;
             table.File = file;
             table.Insert();
@@ -120,6 +120,18 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="data">作成するデータ</param>
         /// <param name="database">データベースのインスタンス</param>
         private void CreateDicData(int id, WordData data, DictionaryDatabase database) {
+            // words
+            var wordsEntity = new WordsEntity(database);
+            wordsEntity.SetDataModel(data);
+            wordsEntity.SourceId = id;
+            var wordId = wordsEntity.Insert();
+
+            // meadnigs・additions
+            foreach(var meadning in data.Meanings) {
+                var meaningsEntity = new MeaningsEntity(database);
+
+            }
+
 
         }
         #endregion

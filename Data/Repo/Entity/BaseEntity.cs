@@ -1,4 +1,4 @@
-﻿namespace SimpleTranslationLocal.Data.Entity {
+﻿namespace SimpleTranslationLocal.Data.Repo.Entity {
     /// <summary>
     /// base entity
     /// </summary>
@@ -22,7 +22,7 @@
         }
         #endregion
 
-        #region Public Class
+        #region Public Method
         /// <summary>
         /// delete data by source id
         /// </summary>

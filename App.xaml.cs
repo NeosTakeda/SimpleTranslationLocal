@@ -1,5 +1,7 @@
 ﻿using SimpleTranslationLocal.AppCommon;
+using SimpleTranslationLocal.Data.DataModel;
 using SimpleTranslationLocal.Data.Entity;
+using SimpleTranslationLocal.Data.Repo;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -58,15 +60,17 @@ namespace SimpleTranslationLocal {
                     try {
                         database.Open();
                         database.BeginTrans();
-                        var tables = new List<BaseEntity>  { new AdditionsEntity(database)
-                                                             ,new SourcesEntity(database)
-                                                             ,new MeaningsEntity(database)
-                                                             ,new WordsEntity(database)};
-                        foreach(var table in tables) {
-                            if (!table.Create()) {
-                                // Messages.ShowError(Messages.ErrId)
-                            }
-                        }
+
+                        new SourcesRepo(database).CreateTable();
+                        //var tables = new List<BaseEntity>  { new AdditionsEntity(database)
+                        //                                     ,new SourcesRepo<SourceData>(database)
+                        //                                     ,new MeaningsEntity(database)
+                        //                                     ,new WordsEntity(database)};
+                        //foreach (var table in tables) {
+                        //    if (!table.Create()) {
+                        //        // Messages.ShowError(Messages.ErrId)
+                        //    }
+                        //}
 
                         database.CommitTrans();
                     } catch (Exception ex) {

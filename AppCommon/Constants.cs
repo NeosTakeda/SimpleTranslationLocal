@@ -1,4 +1,6 @@
-﻿namespace SimpleTranslationLocal.AppCommon {
+﻿using System.Collections.Generic;
+
+namespace SimpleTranslationLocal.AppCommon {
     class Constants {
         /// <summary>
         /// アプリの設定関連情報
@@ -29,6 +31,31 @@
             /// </summary>
             /// https://www.vector.co.jp/soft/data/writing/se323658.html
             WordNet,
+        }
+        public static Dictionary<DicType, string> DicTypeName = new Dictionary<DicType, string> {
+            { DicType.Eijiro, "英辞郎" },
+            { DicType.Webster, "Webster" },
+            { DicType.WordNet, "WordNet" }
+        };
+
+        /// <summary>
+        /// 追加情報の種別
+        /// </summary>
+        public static class AdditionType {
+            /// <summary>
+            /// 不明
+            /// </summary>
+            public const int Unknown = 0;
+
+            /// <summary>
+            /// 用例
+            /// </summary>
+            public const int Example = 1;
+
+            /// <summary>
+            /// 補足情報
+            /// </summary>
+            public const int Supplement = 2;
         }
     }
 }

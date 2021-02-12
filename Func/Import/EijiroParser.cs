@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System;
 
+
 namespace SimpleTranslationLocal.Func.Import {
     class EijiroParser : IDictionaryParser {
 
@@ -16,6 +17,15 @@ namespace SimpleTranslationLocal.Func.Import {
         /// 単語と品詞を取得 →「:」より左側の情報。品詞はない場合あり
         /// </summary>
         private RegExUtil _reg1 = new RegExUtil(@"^■(?<k1>.+) {(?<k2>.+)}\s:\s|^■(?<k1>.+)\s:\s");
+
+        private class WordInfo {
+            public const string Pronunciation = "【発音】";
+            public const string Pronunciation2 = "【発音！】";
+            public const string Kana = "【＠】";
+            public const string Level = "【レベル】";
+            public const string Syllable = "【分節】";
+            public const string Change = "【変化】";
+        }
         #endregion
 
         #region Public Property
@@ -58,7 +68,7 @@ namespace SimpleTranslationLocal.Func.Import {
                     continue;
                 }
                 if (data.Word == current.Word) {
-                    AppenData(current, data);
+                    AppenData(data, current);
                     continue;
                 }
                 // 一行戻しておく
@@ -82,38 +92,103 @@ namespace SimpleTranslationLocal.Func.Import {
             var meaningData = new MeaningData();
             wordData.Meanings.Add(meaningData);
 
-            var other = "";
-            var examples = new List<string>();
-            var supplements = new List<string>();
-
             var tmp = line.Trim();
-
             
             // 単語・品詞を取得
             if (this._reg1.Match(tmp)) {
                 wordData.Word = this._reg1.GroupValue("k1");
-                meaningData.PartOfSpeach = this._reg1.GroupValue("k2");
+                meaningData.PartOfSpeach = this._reg1.GroupValue("k2").Replace("-1","").Replace("-2","");
                 tmp = this._reg1.Remain;
             }
 
-            // 意味・用例・補足でいったん情報を分割する。
-            this.SplitDef(data, ref other, ref examples, ref supplements);
+            const string SignEx = "■・";
+            const string SignSp = "◆";
 
+            int GetMinPos() {
+                var p1 = tmp.IndexOf(SignEx);
+                var p2 = tmp.IndexOf(SignSp);
+                return Math.Max(p1, p2);
+            }
 
-            // = から始まるやつ
-            if (this._reg2.Match(tmp)) {
-                var data = this._reg2.Value.Replace("＝", "").Replace("<", "").Replace(">", "");
-                tmp = this._reg2.Remain;
-
-
-                this.SplitDef(data, ref other, ref examples, ref supplements);
-                if (0 == tmp.Length) {
-                    goto EXIT;
+            // 単語情報を設定
+            void SplitIds() {
+                string[] s = { "、" };
+                var data = tmp.Split(s, StringSplitOptions.None);
+                foreach(var datum in data) {
+                    if (datum.StartsWith(WordInfo.Pronunciation)) {
+                        wordData.Pronumciation = datum.Substring(WordInfo.Pronunciation.Length);
+                        continue;
+                    }
+                    if (datum.StartsWith(WordInfo.Pronunciation2)) {
+                        wordData.Pronumciation = datum.Substring(WordInfo.Pronunciation2.Length);
+                        continue;
+                    }
+                    if (datum.StartsWith(WordInfo.Kana)) {
+                        wordData.Kana = datum.Substring(WordInfo.Kana.Length);
+                        continue;
+                    }
+                    if (datum.StartsWith(WordInfo.Level)) {
+                        wordData.Level = int.Parse(datum.Substring(WordInfo.Level.Length));
+                        continue;
+                    }
+                    if (datum.StartsWith(WordInfo.Syllable)) {
+                        wordData.Syllable = datum.Substring(WordInfo.Syllable.Length);
+                        continue;
+                    }
+                    if (datum.StartsWith(WordInfo.Change)) {
+                        wordData.Change = datum.Substring(WordInfo.Change.Length);
+                        continue;
+                    }
+                    LogUtil.DebugLog("unknown id : " + datum);
                 }
             }
 
+            // 定義・意味・用例・補足
+            void SplitData() {
+                var pos = GetMinPos();
 
-EXIT:
+                // 用例・補足が存在しない
+                if (pos < 0) {
+                    // 【 から始まるのは発音・レベルなどのみ定義している行、のはず
+                    if (!tmp.StartsWith("【")) {
+                        meaningData.Meaning = tmp;
+                    } else {
+                        SplitIds();
+                    }
+                    return;
+                }
+
+                // 意味・用例・補足を設定
+                var data = "";
+                while (0 <= pos) {
+                    if (0 == pos) {
+                        data = tmp;
+                        tmp = "";
+                    } else {
+                        data = tmp.Substring(0, pos);
+                        tmp = tmp.Substring(pos);
+                    }
+
+                    if (data.StartsWith(SignEx)) {
+                        meaningData.Additions.Add(
+                            new AdditionData(Constants.AdditionType.Example,
+                            data.Substring(SignEx.Length)));
+                    } else if (data.StartsWith(SignSp)) {
+                        meaningData.Additions.Add(
+                            new AdditionData(Constants.AdditionType.Supplement,
+                            data.Substring(SignSp.Length)));
+                    } else {
+                        meaningData.Meaning = data;
+                    }
+                    pos = GetMinPos();
+                }
+
+            }
+
+            SplitData();
+            if (0 == meaningData.Meaning.Length) {
+                wordData.Meanings.Clear();
+            }
             return wordData;
         }
 
@@ -123,47 +198,22 @@ EXIT:
         /// <param name="dest">追加先</param>
         /// <param name="src">追加元</param>
         private void AppenData(WordData dest, WordData src) {
-
-        }
-
-        /// <summary>
-        /// 用例・補足・それ以外に分割する
-        /// </summary>
-        /// <param name="val">対象データ</param>
-        /// <param name="other">その他</param>
-        /// <param name="examples">用例</param>
-        /// <param name="supplements">補足</param>
-        private void SplitDef(string val, ref string other, ref List<string>examples, ref List<string>supplements) {
-
-            // 用例に対する補足、補足に対する用例といった関係は無視する。。
-
-            string[] SIGN_EX = { "■・" };
-            string[] SIGN_SP = { "◆" };
-
-            other = "";
-            examples.Clear();
-            supplements.Clear();
-
-
-
-            int p1 = val.IndexOf(SIGN_EX);
-            int p2 = val.IndexOf(SIGN_SP);
-
-            if (-1 == p1 && -1 == p2) {
-                other = val;
-                return;
+            foreach (var meaning in src.Meanings) {
+                dest.Meanings.Add(meaning);
             }
-            
-            // 用例のみ存在する場合
-            if (p2 == -1) {
-                var tmp = val.Split(SIGN_EX, StringSplitOptions.None);
+            if (0 < src.Pronumciation.Length) {
+                dest.Pronumciation = src.Pronumciation;
             }
-
-            var p = System.Math.Min(p1, p2);
+            if (0 < src.Syllable.Length) {
+                dest.Syllable = src.Syllable;
+            }
+            if (0 < src.Kana.Length) {
+                dest.Kana = src.Kana;
+            }
+            if (0 < src.Level) {
+                dest.Level = src.Level;
+            }
         }
-
-
-        
         #endregion
     }
 }

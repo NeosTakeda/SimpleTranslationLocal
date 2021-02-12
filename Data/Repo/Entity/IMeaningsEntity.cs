@@ -1,60 +1,61 @@
 ﻿using OsnLib.Data.Sqlite;
 using System;
 
-namespace SimpleTranslationLocal.Data.Entity {
-    class WordsEntity : BaseEntity{
+namespace SimpleTranslationLocal.Data.Repo.Entity {
+    class MeaningsEntity : BaseEntity {
+
         #region Declaration
         /// <summary>
         /// Column Names
         /// </summary>
-        public static class Cols {
+        private static class Cols {
             public static readonly String Id = "id";
-            public static readonly String SourceId = "source_id";
-            public static readonly String Word = "word";
-            public static readonly String Pronunciation = "pronunciation";
-            public static readonly String Syllable = "syllable";
+            public static readonly String WordId = "word_id";
+            public static readonly String Meaning = "meaning";
+            public static readonly String PartOfSpeach = "part_of_speach";
             public static readonly String CreateAt = "create_at";
             public static readonly String UpdateAt = "update_at";
         }
         #endregion
 
         #region Public Property
-        public static readonly string TableName = "words";
+        public static readonly string TableName = "meanings";
         /// <summary>
         /// id
         /// </summary>
         public int Id { set; get; }
 
         /// <summary>
-        /// ソースID
+        /// 用語ID
         /// </summary>
-        public int SourceId { set; get; }
+        public int WordId { set; get; }
 
         /// <summary>
-        /// 用語
+        /// 意味
         /// </summary>
-        public string Word { set; get; }
+        public string Meaning { set; get; }
 
         /// <summary>
-        /// 発音
+        /// 品詞
         /// </summary>
-        public string Pronunciation { set; get; }
-
-        /// <summary>
-        /// 音節
-        /// </summary>
-        public string Syllable { set; get; }
+        public string PartOfSpeach { set; get; }
         #endregion
 
         #region Constructor
-        public WordsEntity(DictionaryDatabase database) : base(database) { }
+        public MeaningsEntity(DictionaryDatabase database) : base(database) { }
         #endregion
 
         #region Public Method
         public override void DeleteBySourceId(long id) {
             var sql = new SqlBuilder();
             sql.AppendSql($"DELETE FROM {TableName}")
-                .AppendSql($"WHERE {Cols.SourceId} = {id}");
+                .AppendSql($" WHERE {Cols.Id} IN (")
+                .AppendSql($"    SELECT t1.{Cols.Id}")
+                .AppendSql($"      FROM {TableName} t1")
+                .AppendSql($"     INNER JOIN {WordsEntity.TableName} t2 ON ")
+                .AppendSql($"           t1.{Cols.WordId} = t2.{WordsEntity.Cols.Id}")
+                .AppendSql($"     WHERE t2.{WordsEntity.Cols.SourceId} = {id}")
+                .AppendSql($")");
             base.Database.ExecuteNonQuery(sql);
         }
 
@@ -62,10 +63,9 @@ namespace SimpleTranslationLocal.Data.Entity {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")
                 .AppendSql($" {Cols.Id}             INTEGER PRIMARY KEY AUTOINCREMENT")
-                .AppendSql($",{Cols.SourceId}       INTEGER NOT NULL")
-                .AppendSql($",{Cols.Word}           TEXT    NOT NULL")
-                .AppendSql($",{Cols.Pronunciation}  TEXT")
-                .AppendSql($",{Cols.Syllable}       TEXT")
+                .AppendSql($",{Cols.WordId}         INTEGER NOT NULL")
+                .AppendSql($",{Cols.Meaning}        TEXT    NOT NULL")
+                .AppendSql($",{Cols.PartOfSpeach}   TEXT")
                 .AppendSql($",{Cols.CreateAt}       INTEGER")
                 .AppendSql($",{Cols.UpdateAt}       INTEGER")
                 .Append(")");
@@ -74,29 +74,26 @@ namespace SimpleTranslationLocal.Data.Entity {
 
         public override long Insert() {
             var sql = new SqlBuilder();
-            sql.AppendSql("INSERT INTO {TableName}")
+            sql.AppendSql($"INSERT INTO {TableName}")
                 .AppendSql("(")
-                .AppendSql($" {Cols.SourceId}")
-                .AppendSql($",{Cols.Word}")
-                .AppendSql($",{Cols.Pronunciation}")
-                .AppendSql($",{Cols.Syllable}")
+                .AppendSql($" {Cols.WordId}")
+                .AppendSql($",{Cols.Meaning}")
+                .AppendSql($",{Cols.PartOfSpeach}")
                 .AppendSql($",{Cols.CreateAt}")
                 .AppendSql($",{Cols.UpdateAt}")
                 .AppendSql(")")
                 .AppendSql("VALUES")
                 .AppendSql("(")
-                .AppendSql($" @{Cols.SourceId}")
-                .AppendSql($",@{Cols.Word}")
-                .AppendSql($",@{Cols.Pronunciation}")
-                .AppendSql($",@{Cols.Syllable}")
+                .AppendSql($" @{Cols.WordId}")
+                .AppendSql($",@{Cols.Meaning}")
+                .AppendSql($",@{Cols.PartOfSpeach}")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(")");
             var paramList = new ParameterList();
-            paramList.Add($"@{Cols.SourceId}", this.SourceId);
-            paramList.Add($"@{Cols.Word}", this.Word);
-            paramList.Add($"@{Cols.Pronunciation}", this.Pronunciation);
-            paramList.Add($"@{Cols.Syllable}", this.Syllable);
+            paramList.Add($"@{Cols.WordId}", this.WordId);
+            paramList.Add($"@{Cols.Meaning}", this.Meaning);
+            paramList.Add($"@{Cols.PartOfSpeach}", this.PartOfSpeach);
             return base.Database.Insert(sql, paramList);
         }
         #endregion

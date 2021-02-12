@@ -1,7 +1,7 @@
 ﻿using OsnLib.Data.Sqlite;
 using System.Collections.Generic;
 
-namespace SimpleTranslationLocal.Data.Entity {
+namespace SimpleTranslationLocal.Data.Repo.Entity {
     class DictionaryDatabase : Database {
 
         #region Declaration

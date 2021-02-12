@@ -1,8 +1,8 @@
 ﻿using OsnLib.Data.Sqlite;
 using System;
 
-namespace SimpleTranslationLocal.Data.Entity {
-    class AdditionsEntity : BaseEntity {
+namespace SimpleTranslationLocal.Data.Repo.Entity {
+    class SourcesEntity : BaseEntity {
 
         #region Declaration
         /// <summary>
@@ -10,55 +10,46 @@ namespace SimpleTranslationLocal.Data.Entity {
         /// </summary>
         static class Cols {
             public static readonly String Id = "id";
-            public static readonly String MeaningId = "meaning_id";
-            public static readonly String Type = "type";
-            public static readonly String Data = "data";
+            public static readonly String Name = "name";
+            public static readonly String Priority = "priority";
+            public static readonly String File = "file";
             public static readonly String CreateAt = "create_at";
             public static readonly String UpdateAt = "update_at";
         }
         #endregion
 
         #region Public Property
-        public static readonly string TableName = "additions";
-
+        public static readonly string TableName = "sources";
         /// <summary>
         /// id
         /// </summary>
         public int Id { set; get; }
 
         /// <summary>
-        /// 意味ID
+        /// 名称
         /// </summary>
-        public int MeaningId { set; get; }
+        public string Name { set; get; }
 
         /// <summary>
-        /// 種別
+        /// 優先順位
         /// </summary>
-        public string Type { set; get; }
+        public int Priority { set; get; }
 
         /// <summary>
-        /// データ
+        /// ファイル名
         /// </summary>
-        public string Data { set; get; }
+        public string File { set; get; }
         #endregion
 
         #region Constructor
-        public AdditionsEntity(DictionaryDatabase database) : base(database) { }
+        public SourcesEntity(DictionaryDatabase database) : base(database) { }
         #endregion
 
         #region Public Method
         public override void DeleteBySourceId(long id) {
             var sql = new SqlBuilder();
-            sql.AppendSql($"DELETE FROM {TableName}")
-                .AppendSql($"WHERE {Cols.Id} IN (")
-                .AppendSql($"    SELECT t1.{Cols.Id}")
-                .AppendSql($"      FROM {TableName} t1")
-                .AppendSql($"     INNER JOIN {MeaningsEntity.TableName} t2 ON ")
-                .AppendSql($"           t1.{Cols.MeaningId} = t2.{WordsEntity.Cols.Id}")
-                .AppendSql($"     INNER JOIN {WordsEntity.TableName} t3 ON ")
-                .AppendSql($"           t2.{MeaningsEntity.Cols.WordId} = t3.{WordsEntity.Cols.Id} ")
-                .AppendSql($"     WHERE t3.{WordsEntity.Cols.SourceId} = {id}")
-                .AppendSql($")");
+            sql.AppendSql($"DELETE FROM {TableName} ")
+                .AppendSql($"WHERE {Cols.Id} = {id}");
             base.Database.ExecuteNonQuery(sql);
         }
 
@@ -66,9 +57,9 @@ namespace SimpleTranslationLocal.Data.Entity {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")
                 .AppendSql($" {Cols.Id}             INTEGER PRIMARY KEY AUTOINCREMENT")
-                .AppendSql($",{Cols.MeaningId}      INTEGER NOT NULL")
-                .AppendSql($",{Cols.Type}           TEXT    NOT NULL")
-                .AppendSql($",{Cols.Data}           TEXT")
+                .AppendSql($",{Cols.Name}           TEXT     NOT NULL")
+                .AppendSql($",{Cols.Priority}       INTEGER  NOT NULL")
+                .AppendSql($",{Cols.File}           TEXT     NOT NULL")
                 .AppendSql($",{Cols.CreateAt}       INTEGER")
                 .AppendSql($",{Cols.UpdateAt}       INTEGER")
                 .Append(")");
@@ -79,24 +70,24 @@ namespace SimpleTranslationLocal.Data.Entity {
             var sql = new SqlBuilder();
             sql.AppendSql($"INSERT INTO {TableName}")
                 .AppendSql("(")
-                .AppendSql($" {Cols.MeaningId}")
-                .AppendSql($",{Cols.Type}")
-                .AppendSql($",{Cols.Data}")
+                .AppendSql($" {Cols.Name}")
+                .AppendSql($",{Cols.Priority}")
+                .AppendSql($",{Cols.File}")
                 .AppendSql($",{Cols.CreateAt}")
                 .AppendSql($",{Cols.UpdateAt}")
                 .AppendSql(")")
                 .AppendSql("VALUES")
                 .AppendSql("(")
-                .AppendSql($" @{Cols.MeaningId}")
-                .AppendSql($",@{Cols.Type}")
-                .AppendSql($",@{Cols.Data}")
+                .AppendSql($" @{Cols.Name}")
+                .AppendSql($",@{Cols.Priority}")
+                .AppendSql($",@{Cols.File}")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(")");
             var paramList = new ParameterList();
-            paramList.Add($"@{Cols.MeaningId}", this.MeaningId);
-            paramList.Add($"@{Cols.Type}", this.Type);
-            paramList.Add($"@{Cols.Data}", this.Data);
+            paramList.Add($"@{Cols.Name}", this.Name);
+            paramList.Add($"@{Cols.Priority}", this.Priority);
+            paramList.Add($"@{Cols.File}", this.File);
             return base.Database.Insert(sql, paramList);
         }
         #endregion
