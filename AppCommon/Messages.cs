@@ -36,20 +36,20 @@ namespace SimpleTranslationLocal.AppCommon {
         /// </summary>
         /// <param name="id">メッセージID</param>
         /// <param name="words">代替文字列</param>
-        public static void ShowInfo(InfoId id, params string[] words) {
+        public static void ShowInfo(Window owner, InfoId id, params string[] words) {
             string message = _infoMessages[id];
             for (int i = 0; i < words.Length; i++) {
                 message = message.Replace("{" + i + "}", words[i]);
             }
-            ShowInfo(message);
+            ShowInfo(owner, message);
         }
 
         /// <summary>
         /// 情報メッセージを表示
         /// </summary>
         /// <param name="message">メッセージ</param>
-        public static void ShowInfo(string message) {
-            MessageBox.Show(message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        public static void ShowInfo(Window owner, string message) {
+            MessageBox.Show(owner, message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         /// <summary>
@@ -57,20 +57,20 @@ namespace SimpleTranslationLocal.AppCommon {
         /// </summary>
         /// <param name="id">メッセージID</param>
         /// <param name="text">代替文字列</param>
-        public static void ShowError(ErrId id, params string[] words) {
+        public static void ShowError(Window owner, ErrId id, params string[] words) {
             string message = _errorMessages[id];
             for (int i = 0; i < words.Length; i++) {
                 message = message.Replace("{" + i + "}", words[i]);
             }
-            ShowError(message);
+            ShowError(owner, message);
         }
 
         /// <summary>
         /// エラーメッセージを表示
         /// </summary>
         /// <param name="message">メッセージ</param>
-        public static void ShowError(string message) {
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        public static void ShowError(Window owner, string message) {
+            MessageBox.Show(owner, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         #endregion
     }

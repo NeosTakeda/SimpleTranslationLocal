@@ -27,7 +27,7 @@ namespace SimpleTranslationLocal {
 
                         database.CommitTrans();
                     } catch (Exception ex) {
-                        Messages.ShowError(Messages.ErrId.Err002, ex.Message);
+                        Messages.ShowError(null, Messages.ErrId.Err002, ex.Message);
                     }
                 }
             }

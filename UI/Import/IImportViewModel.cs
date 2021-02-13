@@ -132,13 +132,16 @@ namespace SimpleTranslationLocal.UI.Import {
                     break;
             }
             settings.Save();
-            
-            Messages.ShowInfo(Messages.InfoId.Info001);
+            this._owner.Dispatcher.Invoke((Action)(() => {
+                Messages.ShowInfo(this._owner, Messages.InfoId.Info001);
+            }));
         }
 
         void ImportServiceCallback.OnFail(string errorMessage) {
             this.PostImport();
-            Messages.ShowError(errorMessage);
+            this._owner.Dispatcher.Invoke((Action)(() => {
+                Messages.ShowError(this._owner, errorMessage);
+            }));
         }
         #endregion
 
@@ -174,7 +177,7 @@ namespace SimpleTranslationLocal.UI.Import {
         private void SelectWebster() {
             var file = this.SelectFile(this.WebsterFile, "Dictionary(*.json)|*.json");
             if (0 < file.Length) {
-                this.EijiroFile = file;
+                this.WebsterFile = file;
             }
         }
         

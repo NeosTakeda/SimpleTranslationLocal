@@ -39,7 +39,7 @@
 
 
         <TextBlock Grid.Row="4" Grid.Column="1" Text="Webster" FontWeight="Bold" />
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding DictionaryFile}" Grid.ColumnSpan="3" TextWrapping="Wrap"  FontSize="12" Foreground="Silver"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding WebsterFile}" Grid.ColumnSpan="3" TextWrapping="Wrap"  FontSize="12" Foreground="Silver"/>
         <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource LabelButton}" Content="Select" HorizontalAlignment="Center" Command="{Binding SelectWebsterClick}" />
         <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource LabelButton}" Content="Import" HorizontalAlignment="Center" Command="{Binding ImportWebsterClick}" IsEnabled="{Binding ImportWebsterEnabled}" />
 

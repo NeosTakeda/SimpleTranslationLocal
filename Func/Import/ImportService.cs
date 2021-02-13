@@ -78,6 +78,7 @@ namespace SimpleTranslationLocal.Func.Import {
                                 database.BeginTrans();
                             }
                         }
+                        this._callback.OnProceed(parser.CurrentLine);   // if last line is invalid data, curren line is not update. so update here.
                         if (database.IsIntrans()) {
                             database.CommitTrans();
                         }

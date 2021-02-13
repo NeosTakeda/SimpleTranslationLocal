@@ -5,6 +5,9 @@ using System;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 
 namespace SimpleTranslationLocal.Func.Import {
+    /// <summary>
+    /// Eijiro Parser
+    /// </summary>
     internal class EijiroParser : IDictionaryParser {
 
         #region Declaration
@@ -40,7 +43,6 @@ namespace SimpleTranslationLocal.Func.Import {
         #endregion
 
         #region Public Method
-
         internal override long GetRowCount(GetRowCountCallback callback) {
             var rowCount = 0;
             using(var op = new FileOperator(base._file, FileOperator.OpenMode.Read, FileOperator.EncodingType.ShiftJIS)) {
@@ -55,7 +57,7 @@ namespace SimpleTranslationLocal.Func.Import {
 
         internal override WordData Read() {
             WordData data = null;
-            WordData current = null;
+            WordData current;
             string line;
             while(!this._operator.Eof) {
                 line = this._operator.ReadLine();
