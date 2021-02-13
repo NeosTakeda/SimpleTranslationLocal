@@ -3,9 +3,9 @@ using System;
 
 namespace SimpleTranslationLocal.Data.Repo.Entity {
     /// <summary>
-    /// 付加情報エンティティ
+    /// aditions entity
     /// </summary>
-    class AdditionsRepo : BaseEntity {
+    internal class AdditionsEntity : BaseEntity {
 
         #region Declaration
         /// <summary>
@@ -22,35 +22,35 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         #endregion
 
         #region Public Property
-        public static readonly string TableName = "additions";
+        internal static readonly string TableName = "additions";
 
         /// <summary>
         /// id
         /// </summary>
-        public int Id { set; get; }
+        internal long Id { set; get; }
 
         /// <summary>
         /// meaning id
         /// </summary>
-        public int MeaningId { set; get; }
+        internal long MeaningId { set; get; }
 
         /// <summary>
         /// addition type. see also Constants.AdditionType
         /// </summary>
-        public int Type { set; get; }
+        internal int Type { set; get; }
 
         /// <summary>
         /// addition data
         /// </summary>
-        public string Data { set; get; }
+        internal string Data { set; get; }
         #endregion
 
         #region Constructor
-        public AdditionsRepo(DictionaryDatabase database) : base(database) { }
+        internal AdditionsEntity(DictionaryDatabase database) : base(database) { }
         #endregion
 
         #region Public Method
-        public override void DeleteBySourceId(long id) {
+        internal override void DeleteBySourceId(long id) {
             var sql = new SqlBuilder();
             sql.AppendSql($"DELETE FROM {TableName}")
                 .AppendSql($"WHERE {Cols.Id} IN (")
@@ -65,7 +65,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
             base.Database.ExecuteNonQuery(sql);
         }
 
-        public override bool Create() {
+        internal override bool Create() {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")
                 .AppendSql($" {Cols.Id}             INTEGER PRIMARY KEY AUTOINCREMENT")
@@ -78,7 +78,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
             return 0 < base.Database.ExecuteNonQuery(sql);
         }
 
-        public override long Insert() {
+        internal override long Insert() {
             var sql = new SqlBuilder();
             sql.AppendSql($"INSERT INTO {TableName}")
                 .AppendSql("(")

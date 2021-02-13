@@ -1,9 +1,5 @@
-﻿using SimpleTranslationLocal.AppCommon;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using static SimpleTranslationLocal.AppCommon.Constants;
 
 namespace SimpleTranslationLocal.Func.Import {
     class ImportMockService: IImportService {
@@ -13,8 +9,10 @@ namespace SimpleTranslationLocal.Func.Import {
         }
         #endregion
 
-        #region Protected Method
+        #region public Method
+        internal override void Start(Dictionary<DicType, string> targetList) {
 
+        }
         #endregion
     }
 }

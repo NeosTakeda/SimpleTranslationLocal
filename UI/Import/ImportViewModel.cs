@@ -22,7 +22,7 @@ namespace SimpleTranslationLocal.UI.Import {
             }
         }
 
-        private string _dictionaryFile = AppSettingsRepo.GetInstance().DictionaryFile;
+        private string _dictionaryFile = AppSettingsRepo.GetInstance().WebsterFile;
         public override string WebsterFile {
             get { return this._dictionaryFile; }
             set {

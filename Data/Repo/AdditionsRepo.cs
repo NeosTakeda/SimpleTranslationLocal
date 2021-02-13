@@ -6,15 +6,15 @@ namespace SimpleTranslationLocal.Data.Repo {
     /// <summary>
     /// additions repo
     /// </summary>
-    internal class AdditonsRepo : IBasicRepo<AdditionData> {
+    internal class AdditionsRepo : IBasicRepo<AdditionData> {
 
         #region Declaration
-        private AdditionsRepo _entity;
+        private AdditionsEntity _entity;
         #endregion
 
         #region Constructor
-        internal AdditonsRepo(DictionaryDatabase database) : base(database) {
-            this._entity = new AdditionsRepo(database);
+        internal AdditionsRepo(DictionaryDatabase database) : base(database) {
+            this._entity = new AdditionsEntity(database);
         }
         #endregion
 

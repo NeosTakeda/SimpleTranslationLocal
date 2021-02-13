@@ -119,7 +119,7 @@
     <Compile Include="Data\Repo\Entity\MeaningsEntity.cs" />
     <Compile Include="Data\Repo\Entity\SourcesEntity.cs" />
     <Compile Include="Data\Repo\Entity\WordsEntity.cs" />
-    <Compile Include="Data\Repo\AdditonsRepo.cs" />
+    <Compile Include="Data\Repo\AdditionsRepo.cs" />
     <Compile Include="Data\Repo\AppSettingsRepo.cs" />
     <Compile Include="Data\Repo\IBasicRepo.cs" />
     <Compile Include="Data\Repo\MeaningMockRepo.cs" />

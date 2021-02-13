@@ -44,7 +44,8 @@ namespace SimpleTranslationLocal.Func.Import {
         internal override long GetRowCount(GetRowCountCallback callback) {
             var rowCount = 0;
             using(var op = new FileOperator(base._file, FileOperator.OpenMode.Read, FileOperator.EncodingType.ShiftJIS)) {
-                while(op.ReadLine() != null) {
+                while(!op.Eof) {
+                    op.ReadLine();
                     callback(++rowCount);
                 }
             }
@@ -56,7 +57,11 @@ namespace SimpleTranslationLocal.Func.Import {
             WordData data = null;
             WordData current = null;
             string line;
-            while((line = this._operator.ReadLine()) != null) {
+            while(!this._operator.Eof) {
+                line = this._operator.ReadLine();
+                if (0 == line.Length) {
+                    continue;
+                }
                 current = this.Parse(line);
                 if (null == current) {
                     LogUtil.DebugLog("パース失敗");
@@ -101,10 +106,17 @@ namespace SimpleTranslationLocal.Func.Import {
             const string SignEx = "■・";
             const string SignSp = "◆";
 
-            int GetMinPos() {
-                var p1 = tmp.IndexOf(SignEx);
-                var p2 = tmp.IndexOf(SignSp);
-                return Math.Max(p1, p2);
+            int GetMinPos(int start = 0) {
+                var p1 = tmp.IndexOf(SignEx, start);
+                var p2 = tmp.IndexOf(SignSp, start);
+
+                if (0 <= p1 && 0 <= p2) {
+                    return Math.Min(p1, p2);
+                } else if (0 <= p1) {
+                    return p1;
+                } else {
+                    return p2;
+                }
             }
 
             // 単語情報を設定
@@ -156,11 +168,17 @@ namespace SimpleTranslationLocal.Func.Import {
                 }
 
                 // 意味・用例・補足を設定
-                var data = "";
+                string data;
                 while (0 <= pos) {
                     if (0 == pos) {
-                        data = tmp;
-                        tmp = "";
+                        var nextPos = GetMinPos(1);
+                        if (nextPos < 0) {
+                            data = tmp;
+                            tmp = "";
+                        } else {
+                            data = tmp.Substring(0, nextPos);
+                            tmp = tmp.Substring(nextPos);
+                        }
                     } else {
                         data = tmp.Substring(0, pos);
                         tmp = tmp.Substring(pos);

@@ -6,13 +6,13 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
     /// <summary>
     /// words entity
     /// </summary>
-    class WordsEntity : BaseEntity {
+    internal class WordsEntity : BaseEntity {
 
         #region Declaration
         /// <summary>
         /// Column Names
         /// </summary>
-        public static class Cols {
+        internal static class Cols {
             public static readonly String Id = "id";
             public static readonly String SourceId = "source_id";
             public static readonly String Word = "word";
@@ -27,61 +27,61 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         #endregion
 
         #region Public Property
-        public static readonly string TableName = "words";
+        internal static readonly string TableName = "words";
         /// <summary>
         /// id
         /// </summary>
-        public int Id { set; get; }
+        internal int Id { set; get; }
 
         /// <summary>
         /// source id
         /// </summary>
-        public int SourceId { set; get; }
+        internal int SourceId { set; get; }
 
         /// <summary>
         /// word
         /// </summary>
-        public string Word { set; get; }
+        internal string Word { set; get; }
 
         /// <summary>
         /// pronunciation
         /// </summary>
-        public string Pronunciation { set; get; }
+        internal string Pronunciation { set; get; }
 
         /// <summary>
         /// syllable
         /// </summary>
-        public string Syllable { set; get; }
+        internal string Syllable { set; get; }
 
         /// <summary>
         /// kana of syllable
         /// </summary>
-        public string Kana { set; get; }
+        internal string Kana { set; get; }
 
         /// <summary>
         /// level
         /// </summary>
-        public int Level { set; get; }
+        internal int Level { set; get; }
 
         /// <summary>
         /// change
         /// </summary>
-        public string Change { set; get; }
+        internal string Change { set; get; }
         #endregion
 
         #region Constructor
-        public WordsEntity(DictionaryDatabase database) : base(database) { }
+        internal WordsEntity(DictionaryDatabase database) : base(database) { }
         #endregion
 
         #region Public Method
-        public override void DeleteBySourceId(long id) {
+        internal override void DeleteBySourceId(long id) {
             var sql = new SqlBuilder();
             sql.AppendSql($"DELETE FROM {TableName}")
                 .AppendSql($"WHERE {Cols.SourceId} = {id}");
             base.Database.ExecuteNonQuery(sql);
         }
 
-        public override bool Create() {
+        internal override bool Create() {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")
                 .AppendSql($" {Cols.Id}             INTEGER PRIMARY KEY AUTOINCREMENT")
@@ -98,9 +98,9 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
             return 0 < base.Database.ExecuteNonQuery(sql);
         }
 
-        public override long Insert() {
+        internal override long Insert() {
             var sql = new SqlBuilder();
-            sql.AppendSql("INSERT INTO {TableName}")
+            sql.AppendSql($"INSERT INTO {TableName}")
                 .AppendSql("(")
                 .AppendSql($" {Cols.SourceId}")
                 .AppendSql($",{Cols.Word}")

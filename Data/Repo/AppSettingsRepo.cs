@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OsnCsLib.Data;
+﻿using OsnCsLib.Data;
 
 namespace SimpleTranslationLocal.Data.Repo {
+
+    /// <summary>
+    /// app setting data
+    /// </summary>
     public class AppSettingsRepo : AppDataBase<AppSettingsRepo> {
 
         #region Declaration
@@ -44,9 +43,9 @@ namespace SimpleTranslationLocal.Data.Repo {
         public string EijiroFile { set; get; }
 
         /// <summary>
-        /// 取り込んだDictionaryのファイル
+        /// 取り込んだWebsterのファイル
         /// </summary>
-        public string DictionaryFile { set; get; }
+        public string WebsterFile { set; get; }
         #endregion
 
         #region Public Method

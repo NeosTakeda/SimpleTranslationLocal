@@ -23,7 +23,7 @@ namespace SimpleTranslationLocal {
                         new SourcesRepo(database).Create();
                         new WordsRepo(database).Create();
                         new MeaningsRepo(database).Create();
-
+                        new AdditionsRepo(database).Create();
 
                         database.CommitTrans();
                     } catch (Exception ex) {

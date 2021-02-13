@@ -10,12 +10,12 @@ namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
         /// <summary>
         /// id
         /// </summary>
-        public int Id { set; get; }
+        public long Id { set; get; }
 
         /// <summary>
         /// meaning id
         /// </summary>
-        public int MeaningId { set; get; }
+        public long MeaningId { set; get; }
 
         /// <summary>
         /// addition type. see also Constants.AdditionType

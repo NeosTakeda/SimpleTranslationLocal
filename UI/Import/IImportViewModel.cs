@@ -8,6 +8,7 @@ using SimpleTranslationLocal.UI.Import.Command;
 using Microsoft.Win32;
 using SimpleTranslationLocal.Func.Import;
 using SimpleTranslationLocal.AppCommon;
+using SimpleTranslationLocal.Data.Repo;
 
 namespace SimpleTranslationLocal.UI.Import {
     abstract class IImportViewModel : BindableBase, ImportServiceCallback {
@@ -15,6 +16,7 @@ namespace SimpleTranslationLocal.UI.Import {
 
         #region 
         private Window _owner;
+        Constants.DicType _dicType;
         #endregion
 
         #region Property
@@ -119,6 +121,18 @@ namespace SimpleTranslationLocal.UI.Import {
 
         void ImportServiceCallback.OnSuccess() {
             this.PostImport();
+
+            var settings = AppSettingsRepo.GetInstance();
+            switch(this._dicType) {
+                case Constants.DicType.Eijiro:
+                    settings.EijiroFile = EijiroFile;
+                    break;
+                case Constants.DicType.Webster:
+                    settings.WebsterFile = WebsterFile;
+                    break;
+            }
+            settings.Save();
+            
             Messages.ShowInfo(Messages.InfoId.Info001);
         }
 
@@ -203,6 +217,9 @@ namespace SimpleTranslationLocal.UI.Import {
         /// </summary>
         /// <param name="dicType">辞書種別</param>
         private async void ImportData(Constants.DicType dicType) {
+            this._dicType = dicType;
+            this.CurrentCount = 0;
+            this.TotalCount = 0;
             this.ProgressPanelVisibility = Visibility.Visible;
 
             await Task.Run(() => {

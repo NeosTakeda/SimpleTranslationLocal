@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace SimpleTranslationLocal.Data.Repo.Entity {
-    class DictionaryDatabase : Database {
+    internal class DictionaryDatabase : Database {
 
         #region Declaration
         private enum Ver : int {
@@ -13,11 +13,11 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         #endregion
 
         #region Publi Property
-        public static string Password { private set; get; } = "";
+        internal static string Password { private set; get; } = "";
         #endregion
 
         #region Constructor
-        public DictionaryDatabase(string database) : base(database, (int)Ver.Current) {
+        internal DictionaryDatabase(string database) : base(database, (int)Ver.Current) {
         }
         #endregion
 

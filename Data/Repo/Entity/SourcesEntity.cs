@@ -23,41 +23,41 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         #endregion
 
         #region Public Property
-        public static readonly string TableName = "sources";
+        internal static readonly string TableName = "sources";
         /// <summary>
         /// id
         /// </summary>
-        public long Id { set; get; }
+        internal long Id { set; get; }
 
         /// <summary>
         /// source name
         /// </summary>
-        public string Name { set; get; }
+        internal string Name { set; get; }
 
         /// <summary>
         /// source priority
         /// </summary>
-        public int Priority { set; get; }
+        internal int Priority { set; get; }
 
         /// <summary>
         /// source file
         /// </summary>
-        public string File { set; get; }
+        internal string File { set; get; }
         #endregion
 
         #region Constructor
-        public SourcesEntity(DictionaryDatabase database) : base(database) { }
+        internal SourcesEntity(DictionaryDatabase database) : base(database) { }
         #endregion
 
         #region Public Method
-        public override void DeleteBySourceId(long id) {
+        internal override void DeleteBySourceId(long id) {
             var sql = new SqlBuilder();
             sql.AppendSql($"DELETE FROM {TableName} ")
                 .AppendSql($"WHERE {Cols.Id} = {id}");
             base.Database.ExecuteNonQuery(sql);
         }
 
-        public override bool Create() {
+        internal override bool Create() {
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")
                 .AppendSql($" {Cols.Id}             INTEGER PRIMARY KEY AUTOINCREMENT")
@@ -70,11 +70,12 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
             return 0 < base.Database.ExecuteNonQuery(sql);
         }
 
-        public override long Insert() {
+        internal override long Insert() {
             var sql = new SqlBuilder();
             sql.AppendSql($"INSERT INTO {TableName}")
                 .AppendSql("(")
-                .AppendSql($" {Cols.Name}")
+                .AppendSql($" {Cols.Id}")
+                .AppendSql($",{Cols.Name}")
                 .AppendSql($",{Cols.Priority}")
                 .AppendSql($",{Cols.File}")
                 .AppendSql($",{Cols.CreateAt}")
@@ -82,13 +83,15 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
                 .AppendSql(")")
                 .AppendSql("VALUES")
                 .AppendSql("(")
-                .AppendSql($" @{Cols.Name}")
+                .AppendSql($" @{Cols.Id}")
+                .AppendSql($",@{Cols.Name}")
                 .AppendSql($",@{Cols.Priority}")
                 .AppendSql($",@{Cols.File}")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(",datetime('now', 'localtime')")
                 .AppendSql(")");
             var paramList = new ParameterList();
+            paramList.Add($"@{Cols.Id}", this.Id);
             paramList.Add($"@{Cols.Name}", this.Name);
             paramList.Add($"@{Cols.Priority}", this.Priority);
             paramList.Add($"@{Cols.File}", this.File);

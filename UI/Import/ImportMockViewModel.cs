@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SimpleTranslationLocal.UI.Import {
     class ImportMockViewModel : IImportViewModel {
+
         #region Property
         private string _eijiroFile = @"D:\OneDriveForBusiness\OneDrive - TK\storage\tools\Mouse Dictionary\EIJIRO-1448_ForTest.TXT";
         public override string EijiroFile {

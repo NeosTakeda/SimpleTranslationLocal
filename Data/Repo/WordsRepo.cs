@@ -2,6 +2,10 @@
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 
 namespace SimpleTranslationLocal.Data.Repo {
+
+    /// <summary>
+    /// words repo
+    /// </summary>
     internal class WordsRepo : IBasicRepo<WordData> {
 
         #region Declaration
