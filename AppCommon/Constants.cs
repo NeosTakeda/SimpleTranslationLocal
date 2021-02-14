@@ -13,6 +13,11 @@ namespace SimpleTranslationLocal.AppCommon {
         public static readonly string DatabaseFile = OsnCsLib.Common.Util.GetAppPath() + @"app.dic";
 
         /// <summary>
+        /// アプリデータベース
+        /// </summary>
+        public static readonly string HtmlTemplateFile = OsnCsLib.Common.Util.GetAppPath() + @"Res\Html.txt";
+
+        /// <summary>
         /// 辞書種別
         /// </summary>
         public enum DicType : short {
