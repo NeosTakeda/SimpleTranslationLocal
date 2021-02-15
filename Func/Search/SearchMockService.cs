@@ -1,10 +1,13 @@
-﻿using System;
+﻿using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleTranslationLocal.Func.Search {
-    class SearchMockService {
+    internal class SearchMockService: ISearchService {
+
+        #region Public Method
+        internal override List<WordData> Search(string keyword) {
+            return new List<WordData>();
+        }
+        #endregion
     }
 }

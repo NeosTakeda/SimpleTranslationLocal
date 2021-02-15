@@ -1,5 +1,6 @@
 ﻿using OsnLib.Data.Sqlite;
 using System;
+using static SimpleTranslationLocal.AppCommon.Constants;
 
 namespace SimpleTranslationLocal.Data.Repo.Entity {
 
@@ -133,6 +134,61 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
             paramList.Add($"@{Cols.Level}", this.Level);
             paramList.Add($"@{Cols.Change}", this.Change);
             return base.Database.Insert(sql, paramList);
+        }
+
+        /// <summary>
+        /// search dictionary
+        /// </summary>
+        /// <param name="word">word</param>
+        /// <param name="matchType">search matching type</param>
+        /// <returns>record set</returns>
+        internal Recordset Search(string word, MatchType matchType) {
+            var sql = new SqlBuilder();
+            sql.AppendSql($"SELECT")
+                .AppendSql($" {Cols.Word}")
+                .AppendSql($",{Cols.Pronunciation}")
+                .AppendSql($",{Cols.Syllable}")
+                .AppendSql($",{Cols.Kana}")
+                .AppendSql($",{Cols.Level}")
+                .AppendSql($",{Cols.Change}")
+                .AppendSql($",{MeaningsEntity.Cols.Meaning}")
+                .AppendSql($",{MeaningsEntity.Cols.PartOfSpeach}")
+                .AppendSql($",{AdditionsEntity.Cols.Type}")
+                .AppendSql($",{AdditionsEntity.Cols.Data}")
+                .AppendSql("FROM")
+                .AppendSql($" {TableName} ")
+                .AppendSql($" INNER JOIN {MeaningsEntity.TableName} ON")
+                .AppendSql($"     {TableName}.{Cols.Id} = {MeaningsEntity.Cols.WordId}")
+                .AppendSql($" LEFT OUTER JOIN {AdditionsEntity.TableName} ON")
+                .AppendSql($"     {MeaningsEntity.TableName}.{MeaningsEntity.Cols.Id} = {AdditionsEntity.Cols.MeaningId}")
+                .AppendSql($"WHERE ");
+            switch (matchType) {
+                case MatchType.Prefix:
+                case MatchType.Broad:
+                    sql.AppendSql($"{Cols.Word} LIKE @{Cols.Word}");
+                    break;
+                default:
+                    sql.AppendSql($"{Cols.Word} = @{Cols.Word}");
+                    break;
+            }
+            sql.AppendSql($"ORDER BY ")
+                .AppendSql($" {Cols.Word}")
+                .AppendSql($",{TableName}.{Cols.Id}");
+            var paramList = new ParameterList();
+
+            switch (matchType) {
+                case MatchType.Prefix:
+                    paramList.Add($"@{Cols.Word}", $"{word}%");
+                    break;
+                case MatchType.Broad:
+                    paramList.Add($"@{Cols.Word}", $"%{word}%");
+                    break;
+                default:
+                    paramList.Add($"@{Cols.Word}", word);
+                    break;
+            }
+                    
+            return base.Database.OpenRecordset(sql, paramList);
         }
         #endregion
     }

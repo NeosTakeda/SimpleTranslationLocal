@@ -1,5 +1,4 @@
 ﻿using OsnCsLib.Common;
-using OsnCsLib.File;
 using OsnCsLib.WPFComponent;
 using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo;
@@ -13,14 +12,14 @@ namespace SimpleTranslationLocal.UI.Main {
 
         #region Declaration
         private bool _isActivated = false;
-        private string _templateHtml = "";
+        private SearchResultRenderer _renderer;
         #endregion
 
         #region Constructor
         public MainWindow() {
             InitializeComponent();
 
-            // restore window(load event is not working)
+            // restore window(set in SetUp() is not working...)
             var settings = AppSettingsRepo.Init(Constants.SettingsFile);
             Util.SetWindowXPosition(this, settings.X);
             Util.SetWindowYPosition(this, settings.Y);
@@ -46,6 +45,9 @@ namespace SimpleTranslationLocal.UI.Main {
             base.AddContextMenu("Exit", (sender, e) => this.OnContextMenuExitClick());
 
             // add event
+            this.Loaded += (sender, e) => {
+                this._renderer = new SearchResultRenderer(this.cBrowser);
+            };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
                 base.SetWindowsState(true);
@@ -56,14 +58,12 @@ namespace SimpleTranslationLocal.UI.Main {
             };
             this.Minimized += this.MainWindowMinimized;
 
-            // load html template
-            using(var file = new FileOperator(Constants.HtmlTemplateFile)) {
-                this._templateHtml = file.ReadAll();
-            }
-
             // set view model
             var model = new MainWindowViewModel();
             this.DataContext = model;
+
+            // prepare render
+            this._renderer = new SearchResultRenderer(this.cBrowser);
         }
 
         #endregion
@@ -84,7 +84,7 @@ namespace SimpleTranslationLocal.UI.Main {
 
                 case Key.Enter:
                     e.Handled = true;
-                    this.cBrowser.NavigateToString(this._templateHtml);
+                    this.Search();
                     break;
             }
         }
@@ -130,6 +130,14 @@ namespace SimpleTranslationLocal.UI.Main {
                 setting.Width = this.Width;
                 setting.Save();
             }
+        }
+
+        /// <summary>
+        /// search word
+        /// </summary>
+        /// <remarks>not mvmo...</remarks>
+        private void Search() {
+            this._renderer.Search(this.cKeyword.Text);
         }
         #endregion
     }

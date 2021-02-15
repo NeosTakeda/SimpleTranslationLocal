@@ -136,6 +136,7 @@
     <Compile Include="Func\Import\ImportService.cs" />
     <Compile Include="Func\Import\ImportServiceCallback.cs" />
     <Compile Include="Func\Import\MockParser.cs" />
+    <Compile Include="Func\Search\ISearchService.cs" />
     <Compile Include="Func\Search\SearchMockService.cs" />
     <Compile Include="Func\Search\SearchService.cs" />
     <Compile Include="UI\BaseCommand.cs" />
@@ -227,7 +228,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Res\Html.txt">
+    <EmbeddedResource Include="Res\ResultHtml.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\NoDataHtml.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

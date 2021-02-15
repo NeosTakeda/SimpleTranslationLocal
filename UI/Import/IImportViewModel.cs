@@ -1,14 +1,12 @@
-﻿using System;
-using System.Windows;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleTranslationLocal.UI.Import.Command;
-using Microsoft.Win32;
-using SimpleTranslationLocal.Func.Import;
+﻿using Microsoft.Win32;
 using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo;
+using SimpleTranslationLocal.Func.Import;
+using SimpleTranslationLocal.UI.Import.Command;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace SimpleTranslationLocal.UI.Import {
     abstract class IImportViewModel : BindableBase, ImportServiceCallback {
@@ -120,8 +118,6 @@ namespace SimpleTranslationLocal.UI.Import {
         }
 
         void ImportServiceCallback.OnSuccess() {
-            this.PostImport();
-
             var settings = AppSettingsRepo.GetInstance();
             switch(this._dicType) {
                 case Constants.DicType.Eijiro:
@@ -138,7 +134,6 @@ namespace SimpleTranslationLocal.UI.Import {
         }
 
         void ImportServiceCallback.OnFail(string errorMessage) {
-            this.PostImport();
             this._owner.Dispatcher.Invoke((Action)(() => {
                 Messages.ShowError(this._owner, errorMessage);
             }));
@@ -237,13 +232,6 @@ namespace SimpleTranslationLocal.UI.Import {
 
                 this.ProgressPanelVisibility = Visibility.Collapsed;
             });
-        }
-
-        /// <summary>
-        /// インポート処理完了後の後処理
-        /// </summary>
-        private void PostImport() {
-
         }
         #endregion
     }

@@ -13,9 +13,19 @@ namespace SimpleTranslationLocal.AppCommon {
         public static readonly string DatabaseFile = OsnCsLib.Common.Util.GetAppPath() + @"app.dic";
 
         /// <summary>
-        /// アプリデータベース
+        /// テンプレートHTML
         /// </summary>
-        public static readonly string HtmlTemplateFile = OsnCsLib.Common.Util.GetAppPath() + @"Res\Html.txt";
+        public static readonly string TemplateHtmlFile = OsnCsLib.Common.Util.GetAppPath() + @"Res\ResultHtml.txt";
+
+        /// <summary>
+        /// 該当データなしHTML
+        /// </summary>
+        public static readonly string NoDataHtmlFile = OsnCsLib.Common.Util.GetAppPath() + @"Res\NoDataHtml.txt";
+
+        /// <summary>
+        /// リストに表示する最大単語数
+        /// </summary>
+        public static readonly int MaxNumberOfListWord = 5;
 
         /// <summary>
         /// 辞書種別
@@ -61,6 +71,27 @@ namespace SimpleTranslationLocal.AppCommon {
             /// 補足情報
             /// </summary>
             public const int Supplement = 2;
+        }
+
+        /// <summary>
+        /// Search match type
+        /// </summary>
+        public enum MatchType {
+            /// <summary>
+            /// 完全一致
+            /// </summary>
+            Exact = 1,
+
+            /// <summary>
+            /// 前方一致
+            /// </summary>
+            Prefix,
+
+            /// <summary>
+            /// 部分一致
+            /// </summary>
+            Broad
+
         }
     }
 }

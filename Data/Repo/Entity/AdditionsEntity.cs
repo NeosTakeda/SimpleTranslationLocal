@@ -11,7 +11,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         /// <summary>
         /// Column Names
         /// </summary>
-        static class Cols {
+        internal static class Cols {
             public static readonly String Id = "id";
             public static readonly String MeaningId = "meaning_id";
             public static readonly String Type = "type";

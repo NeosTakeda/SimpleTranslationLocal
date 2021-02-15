@@ -29,6 +29,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
         #endregion
 
         #region  Constructor
+        public AdditionData() { }
         public AdditionData(int Type, string Data) {
             this.Type = Type;
             this.Data = Data;
