@@ -72,12 +72,13 @@ namespace SimpleTranslationLocal.Func.Import {
                         database.BeginTrans();
                         while ((data = parser.Read()) != null) {
                             this.CreateDicData(id, data, database);
-                            this._callback.OnProceed(parser.CurrentLine);
                             if (0 < parser.CurrentLine && parser.CurrentLine % 100 == 0) {
+                                this._callback.OnProceed(parser.CurrentLine); // reduce refresh screen
                                 database.CommitTrans();
                                 database.BeginTrans();
                             }
                         }
+
                         this._callback.OnProceed(parser.CurrentLine);   // if last line is invalid data, curren line is not update. so update here.
                         if (database.IsIntrans()) {
                             database.CommitTrans();

@@ -56,6 +56,7 @@ namespace SimpleTranslationLocal.UI.Main {
 
             if (null == result) {
                 this._browser.NavigateToString(this._nodataHtml);
+                return;
             }
 
             var body = new StringBuilder();

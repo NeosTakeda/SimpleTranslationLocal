@@ -20,10 +20,7 @@ namespace SimpleTranslationLocal.Func.Import {
         /// </summary>
         private RegExUtil _reg1 = new RegExUtil(@"^■(?<k1>.+) {(?<k2>.+)}\s:\s|^■(?<k1>.+)\s:\s");
 
-        /// <summary>
-        /// 品詞の後ろの数値を削除
-        /// </summary>
-        private RegExUtil _reg2 = new RegExUtil(@"-\d");
+
 
         private class WordInfo {
             public const string Pronunciation = "【発音】";
@@ -108,7 +105,22 @@ namespace SimpleTranslationLocal.Func.Import {
             if (this._reg1.Match(tmp)) {
                 wordData.Word = this._reg1.GroupValue("k1");
 //                meaningData.PartOfSpeach = this._reg1.GroupValue("k2").Replace("-1", "").Replace("-2", "");
-                meaningData.PartOfSpeach = Regex.Replace(this._reg1.GroupValue("k2"), @"-\d", "");
+                meaningData.PartOfSpeach = Regex.Replace(this._reg1.GroupValue("k2"), @"-\d\d?", "")
+                                            .Replace("自動", "自動詞")
+                                            .Replace("他動", "他動詞")
+                                            .Replace("句動", "句動詞")
+                                            .Replace("句自動", "句自動詞")
+                                            .Replace("句他動", "句他動詞")
+                                            .Replace("名", "名詞")
+                                            .Replace("代名", "代名詞")
+                                            .Replace("形", "形容詞")
+                                            .Replace("副", "副詞")
+                                            .Replace("助動", "助動詞")
+                                            .Replace("前","前置詞")
+                                            .Replace("接続", "接続詞")
+                                            .Replace("間投", "間投詞")
+                                            .Replace("接頭", "接頭辞")
+                                            .Replace("接尾", "接尾辞");
                 tmp = this._reg1.Remain;
             }
 

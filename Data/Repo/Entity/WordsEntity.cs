@@ -172,7 +172,9 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
                     break;
             }
             sql.AppendSql($"ORDER BY ")
-                .AppendSql($" {Cols.Word}")
+                .AppendSql($" {Cols.SourceId}")
+                .AppendSql($",{Cols.Word}")
+                .AppendSql($",{MeaningsEntity.Cols.PartOfSpeach}")
                 .AppendSql($",{TableName}.{Cols.Id}");
             var paramList = new ParameterList();
 
