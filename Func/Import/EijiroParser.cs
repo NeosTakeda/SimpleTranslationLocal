@@ -3,6 +3,7 @@ using SimpleTranslationLocal.AppCommon;
 using System.Collections.Generic;
 using System;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
+using System.Text.RegularExpressions;
 
 namespace SimpleTranslationLocal.Func.Import {
     /// <summary>
@@ -18,6 +19,11 @@ namespace SimpleTranslationLocal.Func.Import {
         /// 単語と品詞を取得 →「:」より左側の情報。品詞はない場合あり
         /// </summary>
         private RegExUtil _reg1 = new RegExUtil(@"^■(?<k1>.+) {(?<k2>.+)}\s:\s|^■(?<k1>.+)\s:\s");
+
+        /// <summary>
+        /// 品詞の後ろの数値を削除
+        /// </summary>
+        private RegExUtil _reg2 = new RegExUtil(@"-\d");
 
         private class WordInfo {
             public const string Pronunciation = "【発音】";
@@ -101,7 +107,8 @@ namespace SimpleTranslationLocal.Func.Import {
             // 単語・品詞を取得
             if (this._reg1.Match(tmp)) {
                 wordData.Word = this._reg1.GroupValue("k1");
-                meaningData.PartOfSpeach = this._reg1.GroupValue("k2").Replace("-1","").Replace("-2","");
+//                meaningData.PartOfSpeach = this._reg1.GroupValue("k2").Replace("-1", "").Replace("-2", "");
+                meaningData.PartOfSpeach = Regex.Replace(this._reg1.GroupValue("k2"), @"-\d", "");
                 tmp = this._reg1.Remain;
             }
 
