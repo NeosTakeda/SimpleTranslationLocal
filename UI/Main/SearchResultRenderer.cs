@@ -83,29 +83,29 @@ namespace SimpleTranslationLocal.UI.Main {
                         body.AppendLine("<section>");
                         body.AppendLine($"<h4>{meaning.PartOfSpeach}</h4>");
                         body.AppendLine("<ul>");
-                        body.AppendLine($"<li>{meaning.Meaning}");
-
-                        if (0 < meaning.Additions.Count) {
-                            body.AppendLine("<div class='note'>");
-                            for (var j = 0; j < meaning.Additions.Count; j++) {
-                                var addition = meaning.Additions[j];
-                                switch(addition.Type) {
-                                    case Constants.AdditionType.Supplement:
-                                        body.AppendLine($"<span class='supplement'>{addition.Data}</span>");
-                                        break;
-                                    case Constants.AdditionType.Example:
-                                        body.AppendLine($"<span class='example'>{addition.Data}</span>");
-                                        break;
-                                }
-                                if (j < meaning.Additions.Count - 1) {
-                                    body.AppendLine("<br/>");
-                                }
-                            }
-                            body.AppendLine("</div>");
-                        }
-                        body.AppendLine("</li>");
-                        partOfSpeech = meaning.PartOfSpeach;
                     }
+                    body.AppendLine($"<li>{meaning.Meaning}");
+
+                    if (0 < meaning.Additions.Count) {
+                        body.AppendLine("<div class='note'>");
+                        for (var j = 0; j < meaning.Additions.Count; j++) {
+                            var addition = meaning.Additions[j];
+                            switch(addition.Type) {
+                                case Constants.AdditionType.Supplement:
+                                    body.AppendLine($"<span class='supplement'>{addition.Data}</span>");
+                                    break;
+                                case Constants.AdditionType.Example:
+                                    body.AppendLine($"<span class='example'>{addition.Data}</span>");
+                                    break;
+                            }
+                            if (j < meaning.Additions.Count - 1) {
+                                body.AppendLine("<br/>");
+                            }
+                        }
+                        body.AppendLine("</div>");
+                    }
+                    body.AppendLine("</li>");
+                    partOfSpeech = meaning.PartOfSpeach;
                 }
                 if (startUl) {
                     body.AppendLine("</ul>");
