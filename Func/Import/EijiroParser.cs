@@ -143,31 +143,35 @@ namespace SimpleTranslationLocal.Func.Import {
 
             // 単語情報を設定
             void SplitIds() {
-                string[] s = { "、" };
+                string[] s = { "、【" };
                 var data = tmp.Split(s, StringSplitOptions.None);
                 foreach(var datum in data) {
-                    if (datum.StartsWith(WordInfo.Pronunciation)) {
-                        wordData.Pronunciation = datum.Substring(WordInfo.Pronunciation.Length);
+                    var info = datum;
+                    if (!info.StartsWith("【")) {
+                        info = "【" + datum;
+                    }
+                    if (info.StartsWith(WordInfo.Pronunciation)) {
+                        wordData.Pronunciation = info.Substring(WordInfo.Pronunciation.Length);
                         continue;
                     }
-                    if (datum.StartsWith(WordInfo.Pronunciation2)) {
-                        wordData.Pronunciation = datum.Substring(WordInfo.Pronunciation2.Length);
+                    if (info.StartsWith(WordInfo.Pronunciation2)) {
+                        wordData.Pronunciation = info.Substring(WordInfo.Pronunciation2.Length);
                         continue;
                     }
-                    if (datum.StartsWith(WordInfo.Kana)) {
-                        wordData.Kana = datum.Substring(WordInfo.Kana.Length);
+                    if (info.StartsWith(WordInfo.Kana)) {
+                        wordData.Kana = info.Substring(WordInfo.Kana.Length);
                         continue;
                     }
-                    if (datum.StartsWith(WordInfo.Level)) {
-                        wordData.Level = int.Parse(datum.Substring(WordInfo.Level.Length));
+                    if (info.StartsWith(WordInfo.Level)) {
+                        wordData.Level = int.Parse(info.Substring(WordInfo.Level.Length));
                         continue;
                     }
-                    if (datum.StartsWith(WordInfo.Syllable)) {
-                        wordData.Syllable = datum.Substring(WordInfo.Syllable.Length);
+                    if (info.StartsWith(WordInfo.Syllable)) {
+                        wordData.Syllable = info.Substring(WordInfo.Syllable.Length);
                         continue;
                     }
-                    if (datum.StartsWith(WordInfo.Change)) {
-                        wordData.Change = datum.Substring(WordInfo.Change.Length);
+                    if (info.StartsWith(WordInfo.Change)) {
+                        wordData.Change = info.Substring(WordInfo.Change.Length);
                         continue;
                     }
                     LogUtil.DebugLog("unknown id : " + datum);
