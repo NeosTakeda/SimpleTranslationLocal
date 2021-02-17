@@ -46,7 +46,7 @@ namespace SimpleTranslationLocal.UI.Main {
 
             // add event
             this.Loaded += (sender, e) => {
-                this._renderer = new SearchResultRenderer(this.cBrowser);
+                this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch);
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
@@ -66,6 +66,9 @@ namespace SimpleTranslationLocal.UI.Main {
             this._renderer = new SearchResultRenderer(this.cBrowser);
         }
 
+        protected override void OnHotkeyPressed() {
+            base.OnHotkeyPressed();
+        }
         #endregion
 
         #region Event
@@ -106,9 +109,11 @@ namespace SimpleTranslationLocal.UI.Main {
         /// context menu import click
         /// </summary>
         private void OnContextMenuImportClick() {
-            base.SetNotifyIconVisible(false);
-            new SimpleTranslationLocal.UI.Import.ImportWindow().ShowDialog();
-            base.SetNotifyIconVisible(true);
+            base.NotifyIconVisible = false;
+            base.IgnoreHotKey = true;
+            new Import.ImportWindow().ShowDialog();
+            base.NotifyIconVisible = true;
+            base.IgnoreHotKey = false;
         }
 
         /// <summary>
@@ -137,7 +142,15 @@ namespace SimpleTranslationLocal.UI.Main {
         /// </summary>
         /// <remarks>not mvmo...</remarks>
         private void Search() {
+            this.IsEnabled = false;
             this._renderer.Search(this.cKeyword.Text);
+        }
+
+        /// <summary>
+        /// search complete
+        /// </summary>
+        private void CompleteSearch() {
+            this.IsEnabled = true;
         }
         #endregion
     }
