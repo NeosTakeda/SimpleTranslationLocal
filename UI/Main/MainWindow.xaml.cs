@@ -68,6 +68,8 @@ namespace SimpleTranslationLocal.UI.Main {
 
         protected override void OnHotkeyPressed() {
             base.OnHotkeyPressed();
+            this.cKeyword.Focus();
+            this.cKeyword.SelectAll();
         }
         #endregion
 
