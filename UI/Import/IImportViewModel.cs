@@ -219,6 +219,7 @@ namespace SimpleTranslationLocal.UI.Import {
             this.CurrentCount = 0;
             this.TotalCount = 0;
             this.ProgressPanelVisibility = Visibility.Visible;
+            this._owner.IsEnabled = false;
 
             await Task.Run(() => {
                 IImportService service;
@@ -231,6 +232,9 @@ namespace SimpleTranslationLocal.UI.Import {
                     { dicType, dicType == Constants.DicType.Eijiro ? this.EijiroFile : this.WebsterFile } });
 
                 this.ProgressPanelVisibility = Visibility.Collapsed;
+                this._owner.Dispatcher.Invoke((Action)(() => {
+                    this._owner.IsEnabled = true;
+                }));
             });
         }
         #endregion
