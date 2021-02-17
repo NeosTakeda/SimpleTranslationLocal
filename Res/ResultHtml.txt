@@ -85,7 +85,7 @@ hr {
     margin-top: 1em;
     margin-left: 1em;
 }
-.syllable, .pronumciation, multiples {
+.syllable, .pronumciation, .change {
     background-color: #f1f1f2;
     color: #003b46;
     font-size: 10pt;
@@ -98,22 +98,23 @@ hr {
 }
 
 
-
-section + Section.webster {
+div + div.webster {
     border-top: solid 1px #999999;
     margin-top: 2em;
 }
-
-Section.webster br {
+br {
     display: block;
     content: "";
-    margin: 0.5em 0;
+    margin: 5em 0;
 }
-Section.webster ul {
+
+ul.webster {
+    font-family: 'Segoe UI';
+    font-size: 10.5pt;
     margin-left: 0;
 }
-Section.webster ul li {
-    margin-top: 2em;
+ul.webster li {
+    margin-top: 1em;
 }
 </style>
 </head>

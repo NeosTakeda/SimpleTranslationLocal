@@ -79,29 +79,27 @@ namespace SimpleTranslationLocal.UI.Main {
                 var startUl = false;
                 var partOfSpeech = "";
                 foreach(var meaning in data.Meanings) {
+                    var className = "";
+                    switch ((Constants.DicType)meaning.SourceId) {
+                        case Constants.DicType.Eijiro:
+                            className = " class='eijiro'";
+                            break;
+                        case Constants.DicType.Webster:
+                            className = " class='webster'";
+                            break;
+                    }
+
                     if (meaning.PartOfSpeach == "" || partOfSpeech != meaning.PartOfSpeach) {
                         if (startUl) {
                             body.AppendLine("</ul>");
-                            body.AppendLine("</section>");
+                            body.AppendLine("</div>");
                         }
                         startUl = true;
-                        switch ((Constants.DicType)meaning.SourceId) {
-                            case Constants.DicType.Eijiro:
-                                body.AppendLine("<section class='eijiro'>");
-                                break;
-                            case Constants.DicType.Webster:
-                                body.AppendLine("<section class='webster'>");
-                                break;
-                            default:
-                                body.AppendLine("<section>");
-                                break;
-                        }
-
-
+                        body.AppendLine($"<div{className}>");
                         if (0 < meaning.PartOfSpeach.Length) {
                             body.AppendLine($"<h4>{meaning.PartOfSpeach}</h4>");
                         }
-                        body.AppendLine("<ul>");
+                        body.AppendLine($"<ul{className}>");
                     }
                     body.AppendLine($"<li>{meaning.Meaning}");
 
@@ -128,9 +126,9 @@ namespace SimpleTranslationLocal.UI.Main {
                 }
                 if (startUl) {
                     body.AppendLine("</ul>");
-                    body.AppendLine("</section>");
+                    body.AppendLine("</div>");
                 }
-                body.AppendLine("</section>");
+                body.AppendLine("</div>");
                 body.AppendLine("</main>");
             }
             this._browser.NavigateToString(this._templateHtml.Replace("@body@", body.ToString()));
@@ -152,7 +150,7 @@ namespace SimpleTranslationLocal.UI.Main {
                 info.AppendLine("&nbsp;&nbsp;");
             }
             if (0 < data.Change.Length) {
-                info.AppendLine($"<span class='syllable'>変化</span> {data.Change}&nbsp;&nbsp;");
+                info.AppendLine($"<span class='change'>変化</span> {data.Change}&nbsp;&nbsp;");
             }
             return info.ToString();
         }
