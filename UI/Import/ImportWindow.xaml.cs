@@ -36,6 +36,20 @@ namespace SimpleTranslationLocal.UI.Import {
         }
         #endregion
 
+        #region Event
+        private void Window_KeyDown(object sender, KeyEventArgs e) {
+            if (cProgressPanel.Visibility == Visibility.Visible) {
+                e.Handled = true;
+                return;
+            }
+            if (e.Key == Key.Enter || e.Key == Key.Escape) {
+                e.Handled = true;
+                this.Close();
+            }
+            
+        }
+        #endregion
+
         #region Event 
         /// <summary>
         /// OKボタンクリック時
@@ -44,5 +58,6 @@ namespace SimpleTranslationLocal.UI.Import {
             this.Close();
         }
         #endregion
+
     }
 }

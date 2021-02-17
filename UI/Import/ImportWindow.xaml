@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleTranslationLocal.UI.Import"
         mc:Ignorable="d"
-        Title="辞書ファイルインポート" Height="450" Width="500" SizeToContent="Height" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
+        Title="辞書ファイルインポート" Height="450" Width="500" SizeToContent="Height" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -47,7 +47,7 @@
             <Button Style="{StaticResource LabelButton}" Content="OK"  HorizontalAlignment="Center" Command="{Binding OKClick}" />
         </StackPanel>
 
-        <Grid Background="#CC000000"  Grid.Row="0" Grid.RowSpan="9" Grid.Column="0" Grid.ColumnSpan="5" Visibility="{Binding ProgressPanelVisibility}">
+        <Grid Name="cProgressPanel" Background="#CC000000"  Grid.Row="0" Grid.RowSpan="9" Grid.Column="0" Grid.ColumnSpan="5" Visibility="{Binding ProgressPanelVisibility}">
             <StackPanel  Orientation="Vertical" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0">
                     <TextBlock Foreground="White" Text="{Binding CurrentCount, StringFormat={}{0:N0}}" />
