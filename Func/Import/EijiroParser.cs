@@ -104,8 +104,9 @@ namespace SimpleTranslationLocal.Func.Import {
             // 単語・品詞を取得
             if (this._reg1.Match(tmp)) {
                 wordData.Word = this._reg1.GroupValue("k1");
-//                meaningData.PartOfSpeach = this._reg1.GroupValue("k2").Replace("-1", "").Replace("-2", "");
-                meaningData.PartOfSpeach = Regex.Replace(this._reg1.GroupValue("k2"), @"-\d\d?", "")
+                //                meaningData.PartOfSpeach = this._reg1.GroupValue("k2").Replace("-1", "").Replace("-2", "");
+                meaningData.PartOfSpeach = Regex.Replace(this._reg1.GroupValue("k2"), @"-\d\d?", "");
+                meaningData.PartOfSpeach = Regex.Replace(meaningData.PartOfSpeach, @"^\d\d?-", "")
                                             .Replace("自動", "自動詞")
                                             .Replace("他動", "他動詞")
                                             .Replace("句動", "句動詞")
