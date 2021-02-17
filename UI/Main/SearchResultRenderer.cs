@@ -3,14 +3,12 @@ using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using SimpleTranslationLocal.Func.Search;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace SimpleTranslationLocal.UI.Main {
 
+    #region Extension
     public static class StringBuiderEx {
         public static void AppendLine(this StringBuilder sb, string val) {
             if (Env.Current == Env.EnvType.Release) {
@@ -20,6 +18,7 @@ namespace SimpleTranslationLocal.UI.Main {
             }
         }
     }
+    #endregion
 
     /// <summary>
     /// render seach result
@@ -31,11 +30,16 @@ namespace SimpleTranslationLocal.UI.Main {
         private string _nodataHtml = "";
         private WebBrowser _browser;
         private SearchService _service;
+
+        private Action _completeSearch = null;
         #endregion
 
+
+
         #region Constructor
-        internal SearchResultRenderer(WebBrowser browser) {
+        internal SearchResultRenderer(WebBrowser browser, Action completeSearch = null) {
             this._browser = browser;
+            this._completeSearch = completeSearch;
             this._service = new SearchService();
             using (var file = new FileOperator(Constants.TemplateHtmlFile)) {
                 this._templateHtml = file.ReadAll();
@@ -56,6 +60,7 @@ namespace SimpleTranslationLocal.UI.Main {
 
             if (null == result) {
                 this._browser.NavigateToString(this._nodataHtml);
+                this._completeSearch?.Invoke();
                 return;
             }
 
@@ -115,6 +120,7 @@ namespace SimpleTranslationLocal.UI.Main {
                 body.AppendLine("</main>");
             }
             this._browser.NavigateToString(this._templateHtml.Replace("@body@", body.ToString()));
+            this._completeSearch?.Invoke();
         }
         #endregion
 
@@ -134,7 +140,7 @@ namespace SimpleTranslationLocal.UI.Main {
             if (0 < data.Change.Length) {
                 info.AppendLine($"<span class='syllable'>変化</span> {data.Change}&nbsp;&nbsp;");
             }
-            return "";
+            return info.ToString();
         }
         #endregion
 
