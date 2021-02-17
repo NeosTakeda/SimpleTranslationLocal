@@ -33,6 +33,8 @@ namespace SimpleTranslationLocal.Func.Import {
 
                 // commit by dictionary
                 using (var database = new DictionaryDatabase(Constants.DatabaseFile)) {
+                    database.SyncMode = OsnLib.Data.Sqlite.Database.SynchModeEnum.Off;
+                    database.JournalMode = OsnLib.Data.Sqlite.Database.JournalModeEnum.Truncate;
                     database.Open();
 
                     this._wordRepo = new WordsRepo(database);
@@ -72,8 +74,9 @@ namespace SimpleTranslationLocal.Func.Import {
                         database.BeginTrans();
                         while ((data = parser.Read()) != null) {
                             this.CreateDicData(id, data, database);
+                            this._callback.OnProceed(parser.CurrentLine);
                             if (0 < parser.CurrentLine && parser.CurrentLine % 100 == 0) {
-                                this._callback.OnProceed(parser.CurrentLine); // reduce refresh screen
+                                // this._callback.OnProceed(parser.CurrentLine); // reduce refresh screen
                                 database.CommitTrans();
                                 database.BeginTrans();
                             }
