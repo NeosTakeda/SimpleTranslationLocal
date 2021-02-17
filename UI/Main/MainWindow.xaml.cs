@@ -142,8 +142,12 @@ namespace SimpleTranslationLocal.UI.Main {
         /// </summary>
         /// <remarks>not mvmo...</remarks>
         private void Search() {
-            this.IsEnabled = false;
-            this._renderer.Search(this.cKeyword.Text);
+            if (0 == this.cKeyword.Text.Length) {
+                this.cBrowser.NavigateToString("<html><body></body></html>");
+            } else {
+                this.IsEnabled = false;
+                this._renderer.Search(this.cKeyword.Text);
+            }
         }
 
         /// <summary>
