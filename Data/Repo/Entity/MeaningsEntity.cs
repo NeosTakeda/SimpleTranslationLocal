@@ -64,6 +64,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         }
 
         internal override bool Create() {
+            var result = false;
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")
                 .AppendSql($" {Cols.Id}             INTEGER PRIMARY KEY AUTOINCREMENT")
@@ -73,7 +74,16 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
                 .AppendSql($",{Cols.CreateAt}       INTEGER")
                 .AppendSql($",{Cols.UpdateAt}       INTEGER")
                 .Append(")");
-            return 0 < base.Database.ExecuteNonQuery(sql);
+            result =  0 <= base.Database.ExecuteNonQuery(sql);
+
+            if (result) {
+                sql.Clear();
+                sql.AppendSql("CREATE INDEX meanings_idx1 ON meanings (");
+                sql.AppendSql("    word_id");
+                sql.AppendSql(")");
+                result = 0 <= base.Database.ExecuteNonQuery(sql);
+            }
+            return result;
         }
 
         internal override long Insert() {
