@@ -29,6 +29,11 @@ namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
         internal string PartOfSpeach { set; get; } = "";
 
         /// <summary>
+        /// source id
+        /// </summary>
+        public int SourceId { set; get; }
+
+        /// <summary>
         /// addition data list
         /// </summary>
         internal List<AdditionData> Additions { set; get; } = new List<AdditionData>();

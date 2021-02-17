@@ -89,6 +89,7 @@ namespace SimpleTranslationLocal.Data.Repo {
                         wordData.Meanings.Add(meaningData);
                     }
                     if (0 == meaningData.Meaning.Length) {
+                        meaningData.SourceId = recset.GetInt(WordsEntity.Cols.SourceId);
                         meaningData.Meaning = recset.GetString(MeaningsEntity.Cols.Meaning);
                         meaningData.PartOfSpeach = recset.GetString(MeaningsEntity.Cols.PartOfSpeach);
                     }

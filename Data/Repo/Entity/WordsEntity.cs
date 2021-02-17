@@ -151,6 +151,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
                 .AppendSql($",{Cols.Kana}")
                 .AppendSql($",{Cols.Level}")
                 .AppendSql($",{Cols.Change}")
+                .AppendSql($",{Cols.SourceId}")
                 .AppendSql($",{MeaningsEntity.Cols.Meaning}")
                 .AppendSql($",{MeaningsEntity.Cols.PartOfSpeach}")
                 .AppendSql($",{AdditionsEntity.Cols.Type}")

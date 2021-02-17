@@ -96,6 +96,25 @@ hr {
     margin-left: 1em;
     font-size: 10.5pt;
 }
+
+
+
+section + Section.webster {
+    border-top: solid 1px #999999;
+    margin-top: 2em;
+}
+
+Section.webster br {
+    display: block;
+    content: "";
+    margin: 0.5em 0;
+}
+Section.webster ul {
+    margin-left: 0;
+}
+Section.webster ul li {
+    margin-top: 2em;
+}
 </style>
 </head>
 <body>

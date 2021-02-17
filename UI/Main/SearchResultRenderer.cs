@@ -85,8 +85,22 @@ namespace SimpleTranslationLocal.UI.Main {
                             body.AppendLine("</section>");
                         }
                         startUl = true;
-                        body.AppendLine("<section>");
-                        body.AppendLine($"<h4>{meaning.PartOfSpeach}</h4>");
+                        switch ((Constants.DicType)meaning.SourceId) {
+                            case Constants.DicType.Eijiro:
+                                body.AppendLine("<section class='eijiro'>");
+                                break;
+                            case Constants.DicType.Webster:
+                                body.AppendLine("<section class='webster'>");
+                                break;
+                            default:
+                                body.AppendLine("<section>");
+                                break;
+                        }
+
+
+                        if (0 < meaning.PartOfSpeach.Length) {
+                            body.AppendLine($"<h4>{meaning.PartOfSpeach}</h4>");
+                        }
                         body.AppendLine("<ul>");
                     }
                     body.AppendLine($"<li>{meaning.Meaning}");

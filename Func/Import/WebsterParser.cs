@@ -2,7 +2,9 @@
 using SimpleTranslationLocal.AppCommon;
 using System.Collections.Generic;
 using System;
+using System.Text;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
+using System.Text.RegularExpressions;
 
 namespace SimpleTranslationLocal.Func.Import {
     /// <summary>
@@ -91,6 +93,7 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="val"></param>
         /// <returns></returns>
         private string TrimJsonData(string val) {
+            const string yen = "\\";
             const string quote = "\"";
             var result = val.Trim();
             if (result.StartsWith(quote)) {
@@ -102,6 +105,9 @@ namespace SimpleTranslationLocal.Func.Import {
             if (result.EndsWith(quote)) {
                 result = result.Substring(0, result.Length - 1);
             }
+            result = result.Replace(@"\n\n", "<li></li>");
+            result = result.Replace(yen + quote, quote);
+            result = Regex.Replace(result, @"\s(?<num>\d\d?\.)", "<br/>$1");
             return result;
         }
         #endregion
