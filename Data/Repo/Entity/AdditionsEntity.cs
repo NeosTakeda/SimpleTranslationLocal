@@ -66,7 +66,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
         }
 
         internal override bool Create() {
-            var result = false;
+            bool result;
 
             var sql = new SqlBuilder();
             sql.AppendSql($"CREATE TABLE {TableName} (")

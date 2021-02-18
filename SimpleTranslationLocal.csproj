@@ -112,6 +112,7 @@
     <Compile Include="Data\Repo\DictionaryRepo.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\AdditionData.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\DictionaryData.cs" />
+    <Compile Include="Data\Repo\Entity\MemoryDictionaryEntity.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\MeaningData.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\SourceData.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\WordData.cs" />

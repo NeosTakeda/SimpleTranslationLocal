@@ -12,13 +12,13 @@ namespace SimpleTranslationLocal.Func.Import {
     internal class EijiroParser : IDictionaryParser {
 
         #region Declaration
-        private FileOperator _operator;
+        private readonly FileOperator _operator;
 
         // 名前つけるの面倒すぎるので reg1、reg2～とする。。
         /// <summary>
         /// 単語と品詞を取得 →「:」より左側の情報。品詞はない場合あり
         /// </summary>
-        private RegExUtil _reg1 = new RegExUtil(@"^■(?<k1>.+) {(?<k2>.+)}\s:\s|^■(?<k1>.+)\s:\s");
+        private readonly RegExUtil _reg1 = new RegExUtil(@"^■(?<k1>.+) {(?<k2>.+)}\s:\s|^■(?<k1>.+)\s:\s");
 
 
 
@@ -94,8 +94,9 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="line">パース対象</param>
         /// <returns>パース結果を格納したWordDataオブジェクト</returns>
         private WordData Parse(string line) {
-            var wordData = new WordData();
-            wordData.Meanings = new List<MeaningData>();
+            var wordData = new WordData {
+                Meanings = new List<MeaningData>()
+            };
             var meaningData = new MeaningData();
             wordData.Meanings.Add(meaningData);
 

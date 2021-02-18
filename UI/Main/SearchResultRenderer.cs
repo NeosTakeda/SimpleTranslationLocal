@@ -26,19 +26,19 @@ namespace SimpleTranslationLocal.UI.Main {
     internal class SearchResultRenderer {
 
         #region Declaration
-        private string _templateHtml = "";
-        private string _nodataHtml = "";
-        private WebBrowser _browser;
-        private SearchService _service;
+        private readonly string _templateHtml = "";
+        private readonly string _nodataHtml = "";
+        private readonly WebBrowser _browser;
+        private readonly SearchService _service;
 
-        private Action _completeSearch = null;
+        private readonly Action _completeSearch = null;
         #endregion
 
         #region Constructor
-        internal SearchResultRenderer(WebBrowser browser, Action completeSearch = null) {
+        internal SearchResultRenderer(WebBrowser browser, Action completeSearch, bool useMemoryDic) {
             this._browser = browser;
             this._completeSearch = completeSearch;
-            this._service = new SearchService();
+            this._service = new SearchService(useMemoryDic);
             using (var file = new FileOperator(Constants.TemplateHtmlFile)) {
                 this._templateHtml = file.ReadAll();
             }

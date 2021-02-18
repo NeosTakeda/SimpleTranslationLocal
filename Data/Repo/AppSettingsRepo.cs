@@ -46,6 +46,11 @@ namespace SimpleTranslationLocal.Data.Repo {
         /// 取り込んだWebsterのファイル
         /// </summary>
         public string WebsterFile { set; get; }
+
+        /// <summary>
+        /// trueを設定した場合は辞書データをすべて展開する
+        /// </summary>
+        public bool UseMemoryDicitonary { set; get; } = false;
         #endregion
 
         #region Public Method

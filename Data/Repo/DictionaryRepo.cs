@@ -10,11 +10,24 @@ namespace SimpleTranslationLocal.Data.Repo {
     /// dictionary repo
     /// </summary>
     internal class DictionaryRepo : IBasicRepo<DictionaryData> {
+
         #region Declaration
-        private DictionaryEntity _entity;
+        private readonly DictionaryEntity _entity;
+        private readonly DictionaryMemoryEntity _memoryEntity;
+        private delegate List<DictionaryData> SearchDelegate(string word, MatchType matchType);
+        private readonly SearchDelegate searchMethod = null;
         #endregion
 
         #region Constructor
+        internal DictionaryRepo(bool userMemoryDic) : base(null) {
+            if (userMemoryDic) {
+                searchMethod = SearchMemory;
+                this._memoryEntity = new DictionaryMemoryEntity(); 
+            } else {
+                searchMethod = SearchDatabase;
+            }
+        }
+
         internal DictionaryRepo(DictionaryDatabase database) : base(database) {
             this._entity = new DictionaryEntity(database);
         }
@@ -47,29 +60,67 @@ namespace SimpleTranslationLocal.Data.Repo {
         /// <param name="matchType">search matching type</param>
         /// <returns>result. if data does not find, return null</returns>
         internal List<DictionaryData> Search(string word, MatchType matchType) {
-            using (var recset = this._entity.Search(word, matchType)) {
-                if (!recset.HasRows) {
-                    return null;
-                }
+            return this.searchMethod(word, matchType);
+        }
 
-                var result = new List<DictionaryData>();
-                DictionaryData dictionaryData = null;
-                int wordCount = 1;
-
-                while (recset.Read()) {
-                    if (Constants.MaxNumberOfListWord < wordCount) {
-                        return result;
+        /// <summary>
+        /// search dictionary
+        /// </summary>
+        /// <param name="word">word</param>
+        /// <param name="matchType">search matching type</param>
+        /// <returns>result. if data does not find, return null</returns>
+        internal List<DictionaryData> SearchDatabase(string word, MatchType matchType) {
+            using (var database = new DictionaryDatabase(Constants.DatabaseFile)) {
+                database.Open();
+                var entity = new DictionaryEntity(database);
+                using (var recset = entity.Search(word, matchType)) {
+                    if (!recset.HasRows) {
+                        return null;
                     }
-                    wordCount++;
-                    dictionaryData = new DictionaryData();
-                    dictionaryData.SourceId = recset.GetInt(DictionaryEntity.Cols.SourceId);
-                    dictionaryData.Word = recset.GetString(DictionaryEntity.Cols.Word);
-                    dictionaryData.Data = recset.GetString(DictionaryEntity.Cols.Data);
-                    result.Add(dictionaryData);
-                }
 
-                return result;
+                    var result = new List<DictionaryData>();
+                    DictionaryData dictionaryData = null;
+                    int wordCount = 1;
+
+                    while (recset.Read()) {
+                        if (Constants.MaxNumberOfListWord < wordCount) {
+                            return result;
+                        }
+                        wordCount++;
+                        dictionaryData = new DictionaryData {
+                            SourceId = recset.GetInt(DictionaryEntity.Cols.SourceId),
+                            Word = recset.GetString(DictionaryEntity.Cols.Word),
+                            Data = recset.GetString(DictionaryEntity.Cols.Data)
+                        };
+                        result.Add(dictionaryData);
+                    }
+
+                    return result;
+                }
             }
+        }
+
+        internal List<DictionaryData> SearchMemory(string word, MatchType matchType) {
+            return this._memoryEntity.Search(word, matchType);
+            //result = this._entity.Search(word, matchType);
+
+            //DictionaryData dictionaryData = null;
+            //    int wordCount = 1;
+
+            //    while (recset.Read()) {
+            //        if (Constants.MaxNumberOfListWord < wordCount) {
+            //            return result;
+            //        }
+            //        wordCount++;
+            //        dictionaryData = new DictionaryData();
+            //        dictionaryData.SourceId = recset.GetInt(DictionaryEntity.Cols.SourceId);
+            //        dictionaryData.Word = recset.GetString(DictionaryEntity.Cols.Word);
+            //        dictionaryData.Data = recset.GetString(DictionaryEntity.Cols.Data);
+            //        result.Add(dictionaryData);
+            //    }
+
+            //    return result;
+            //}
         }
         #endregion
     }

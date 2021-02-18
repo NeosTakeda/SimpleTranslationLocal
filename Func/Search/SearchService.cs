@@ -7,22 +7,27 @@ using System.Collections.Generic;
 namespace SimpleTranslationLocal.Func.Search {
     class SearchService : ISearchService {
 
+        #region Declaration
+        private readonly DictionaryRepo _repo;
+        #endregion
+
+        #region Constructor 
+        public SearchService(bool useMemoryDic) {
+            this._repo = new DictionaryRepo(useMemoryDic);
+        }
+        #endregion
+
         #region Public Method
         internal override List<DictionaryData> Search(string keyword) {
 
             List<DictionaryData> result = null;
 
-            using (var database = new DictionaryDatabase(Constants.DatabaseFile)) {
-                database.Open();
-                var repo = new DictionaryRepo(database);
-
-                var matchTypes = new List<Constants.MatchType>
-                        { Constants.MatchType.Exact, Constants.MatchType.Prefix, Constants.MatchType.Broad};
-                foreach (var matchType in matchTypes) {
-                    result = repo.Search(keyword, matchType);
-                    if (null != result && 0 < result.Count) {
-                        break;
-                    }
+            var matchTypes = new List<Constants.MatchType>
+                    { Constants.MatchType.Exact, Constants.MatchType.Prefix, Constants.MatchType.Broad};
+            foreach (var matchType in matchTypes) {
+                result = this._repo.Search(keyword, matchType);
+                if (null != result && 0 < result.Count) {
+                    break;
                 }
             }
             return result;

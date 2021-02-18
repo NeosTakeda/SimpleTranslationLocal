@@ -13,7 +13,7 @@ namespace SimpleTranslationLocal.UI.Import {
         // https://trapemiya.hatenablog.com/entry/20100930/1285826338
 
         #region 
-        private Window _owner;
+        private readonly Window _owner;
         Constants.DicType _dicType;
         #endregion
 
@@ -198,12 +198,13 @@ namespace SimpleTranslationLocal.UI.Import {
         /// <returns></returns>
         private string SelectFile(string initialFile, string filter) {
             var result = "";
-            var dialog = new OpenFileDialog();
-            dialog.Filter = filter;
-            dialog.FilterIndex = 0;
-            dialog.FileName = initialFile;
-            dialog.Title = "辞書ファイルを選択";
-            dialog.CheckFileExists = true;
+            var dialog = new OpenFileDialog {
+                Filter = filter,
+                FilterIndex = 0,
+                FileName = initialFile,
+                Title = "辞書ファイルを選択",
+                CheckFileExists = true
+            };
             if (true == dialog.ShowDialog(this._owner)) {
                 result = dialog.FileName;
             }

@@ -43,18 +43,6 @@ namespace SimpleTranslationLocal.UI.Main {
         /// <summary>
         /// command
         /// </summary>
-        private SaveCommand _saveCommand;
-        public SaveCommand Save {
-            get {
-                return _saveCommand ?? (_saveCommand = new SaveCommand(() => {
-                    // this._api.Save(this.SearchWord, this.TranslatedText);
-                }));
-            }
-        }
-
-        /// <summary>
-        /// command
-        /// </summary>
         private GeneralCommand _cancelCommand;
         public GeneralCommand Cancel {
             get {
@@ -89,7 +77,7 @@ namespace SimpleTranslationLocal.UI.Main {
 
 
     public class SaveCommand : ICommand {
-        private Action _action;
+        private readonly Action _action;
 
         public SaveCommand(Action action) {
             _action = action;
@@ -109,7 +97,7 @@ namespace SimpleTranslationLocal.UI.Main {
 
 
     public class GeneralCommand : ICommand {
-        private Action _action;
+        private readonly Action _action;
 
         public GeneralCommand(Action action) {
             _action = action;

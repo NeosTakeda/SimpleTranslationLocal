@@ -12,7 +12,7 @@ namespace SimpleTranslationLocal.Data.Repo {
     internal class WordsRepo : IBasicRepo<WordData> {
 
         #region Declaration
-        private WordsEntity _entity;
+        private readonly WordsEntity _entity;
         #endregion
 
         #region Constructor
@@ -95,9 +95,10 @@ namespace SimpleTranslationLocal.Data.Repo {
                     }
 
                     if (0 < recset.GetInt(AdditionsEntity.Cols.Type)) {
-                        var additionData = new AdditionData();
-                        additionData.Type = recset.GetInt(AdditionsEntity.Cols.Type);
-                        additionData.Data = recset.GetString(AdditionsEntity.Cols.Data);
+                        var additionData = new AdditionData {
+                            Type = recset.GetInt(AdditionsEntity.Cols.Type),
+                            Data = recset.GetString(AdditionsEntity.Cols.Data)
+                        };
                         meaningData.Additions.Add(additionData);
                     }
                 }

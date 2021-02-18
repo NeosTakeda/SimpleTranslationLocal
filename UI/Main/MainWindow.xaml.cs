@@ -47,7 +47,8 @@ namespace SimpleTranslationLocal.UI.Main {
 
             // add event
             this.Loaded += (sender, e) => {
-                this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch);
+                // create SearchResultRenderer after BrowserControl is loaded
+                this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch, AppSettingsRepo.GetInstance().UseMemoryDicitonary);
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
@@ -62,9 +63,6 @@ namespace SimpleTranslationLocal.UI.Main {
             // set view model
             var model = new MainWindowViewModel();
             this.DataContext = model;
-
-            // prepare render
-            this._renderer = new SearchResultRenderer(this.cBrowser);
         }
 
         protected override void OnHotkeyPressed() {

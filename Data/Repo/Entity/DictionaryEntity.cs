@@ -163,6 +163,26 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
 
             return base.Database.OpenRecordset(sql, paramList);
         }
+
+        /// <summary>
+        /// select all records
+        /// </summary>
+        /// <returns>record set</returns>
+        internal Recordset SelectAll() {
+            var sql = new SqlBuilder();
+            sql.AppendSql($"SELECT")
+                .AppendSql($" {Cols.Word}")
+                .AppendSql($" {Cols.WordSort}")
+                .AppendSql($",{Cols.SourceId}")
+                .AppendSql($",{Cols.Data}")
+                .AppendSql("FROM")
+                .AppendSql($" {TableName} ")
+                .AppendSql($"ORDER BY ")
+                .AppendSql($" {Cols.WordSort} ")
+                .AppendSql($",{Cols.SourceId}")
+                .AppendSql($",{Cols.Id}");
+            return base.Database.OpenRecordset(sql);
+        }
         #endregion
     }
 }

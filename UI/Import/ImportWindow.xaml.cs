@@ -20,7 +20,7 @@ namespace SimpleTranslationLocal.UI.Import {
     public partial class ImportWindow : Window {
 
         #region Declaration
-        private IImportViewModel _model;
+        private readonly IImportViewModel _model;
         #endregion
 
         #region Constructor
