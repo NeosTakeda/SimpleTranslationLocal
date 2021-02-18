@@ -4,6 +4,7 @@ using SimpleTranslationLocal.Data.Repo.Entity;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using static SimpleTranslationLocal.AppCommon.Constants;
 
 namespace SimpleTranslationLocal.Func.Import {
@@ -14,9 +15,7 @@ namespace SimpleTranslationLocal.Func.Import {
     internal class ImportService : IImportService {
 
         #region Declaration
-        private WordsRepo _wordRepo;
-        private MeaningsRepo _meaningRepo;
-        private AdditionsRepo _additionsRepo;
+        private DictionaryRepo _dictionaryRepo;
         #endregion
 
         #region Constructor
@@ -37,12 +36,9 @@ namespace SimpleTranslationLocal.Func.Import {
                     database.JournalMode = OsnLib.Data.Sqlite.Database.JournalModeEnum.Truncate;
                     database.Open();
 
-                    this._wordRepo = new WordsRepo(database);
-                    this._meaningRepo = new MeaningsRepo(database);
-                    this._additionsRepo = new AdditionsRepo(database);
+                    this._dictionaryRepo = new DictionaryRepo(database);
 
                     foreach (var item in targetList) {
-
                         var id = (int)item.Key;
                         var file = item.Value;
 
@@ -104,10 +100,8 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="database">database </param>
         private void DeleteBySourceId(int id, DictionaryDatabase database) {
             // the order of delete tables is important
-            new AdditionsRepo(database).DeleteBySourceId(id);
-            new MeaningsRepo(database).DeleteBySourceId(id);
-            new WordsRepo(database).DeleteBySourceId(id);
             new SourcesRepo(database).DeleteBySourceId(id);
+            new DictionaryRepo(database).DeleteBySourceId(id);
         }
 
         /// <summary>
@@ -135,23 +129,101 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="data">作成するデータ</param>
         /// <param name="database">データベースのインスタンス</param>
         private void CreateDicData(int id, WordData data, DictionaryDatabase database) {
-            // words
-            data.SourceId = id;
-            this._wordRepo.SetDataModel(data);
-            var wordId = this._wordRepo.Insert();
-
-            // meanings/additions
-            foreach (var meaning in data.Meanings) {
-                meaning.WordId = wordId;
-                this._meaningRepo.SetDataModel(meaning);
-                var meaningId = this._meaningRepo.Insert();
-                foreach (var addition in meaning.Additions) {
-                    addition.MeaningId = meaningId;
-                    this._additionsRepo.SetDataModel(addition);
-                    this._additionsRepo.Insert();
-                }
-            }
+            var dictionaryData = new DictionaryData();
+            dictionaryData.SourceId = id;
+            dictionaryData.Word = data.Word;
+            dictionaryData.Data = this.GetDisplayData(data);
+            this._dictionaryRepo.SetDataModel(dictionaryData);
+            this._dictionaryRepo.Insert();
         }
+
+
+        private string GetDisplayData(WordData data) {
+
+            var body = new StringBuilder();
+
+            body.AppendLine("<main>");
+            body.AppendLine($"<h1>{data.Word}</h1>");
+            var info = this.GetInfo(data);
+            if (0 < info.Length) {
+                body.AppendLine($"<div class='info'>{info}</div>");
+            }
+            var startUl = false;
+            var partOfSpeech = "";
+            foreach (var meaning in data.Meanings) {
+                var className = "";
+                switch ((Constants.DicType)meaning.SourceId) {
+                    case Constants.DicType.Eijiro:
+                        className = " class='eijiro'";
+                        break;
+                    case Constants.DicType.Webster:
+                        className = " class='webster'";
+                        break;
+                }
+
+                if (meaning.PartOfSpeach == "" || partOfSpeech != meaning.PartOfSpeach) {
+                    if (startUl) {
+                        body.AppendLine("</ul>");
+                        body.AppendLine("</div>");
+                    }
+                    startUl = true;
+                    body.AppendLine($"<div{className}>");
+                    if (0 < meaning.PartOfSpeach.Length) {
+                        body.AppendLine($"<h4>{meaning.PartOfSpeach}</h4>");
+                    }
+                    body.AppendLine($"<ul{className}>");
+                }
+                body.AppendLine($"<li>{meaning.Meaning}");
+
+                if (0 < meaning.Additions.Count) {
+                    body.AppendLine("<div class='note'>");
+                    for (var j = 0; j < meaning.Additions.Count; j++) {
+                        var addition = meaning.Additions[j];
+                        switch (addition.Type) {
+                            case Constants.AdditionType.Supplement:
+                                body.AppendLine($"<span class='supplement'>{addition.Data}</span>");
+                                break;
+                            case Constants.AdditionType.Example:
+                                body.AppendLine($"<span class='example'>{addition.Data}</span>");
+                                break;
+                        }
+                        if (j < meaning.Additions.Count - 1) {
+                            body.AppendLine("<br/>");
+                        }
+                    }
+                    body.AppendLine("</div>");
+                }
+                body.AppendLine("</li>");
+                partOfSpeech = meaning.PartOfSpeach;
+            }
+            if (startUl) {
+                body.AppendLine("</ul>");
+                body.AppendLine("</div>");
+            }
+            body.AppendLine("</div>");
+            body.AppendLine("</main>");
+            return body.ToString();
+        }
+
+
+        private string GetInfo(WordData data) {
+            var info = new StringBuilder();
+            if (0 < data.Syllable.Length) {
+                info.AppendLine($"<span class='syllable'>音節</span> {data.Syllable}&nbsp;&nbsp;");
+            }
+            if (0 < data.Pronunciation.Length) {
+                info.AppendLine($"<span class='pronumciation'>発音</span> {data.Pronunciation}");
+                if (0 < data.Kana.Length) {
+                    info.AppendLine($"({data.Kana})");
+                }
+                info.AppendLine("&nbsp;&nbsp;");
+            }
+            if (0 < data.Change.Length) {
+                info.AppendLine($"<span class='change'>変化</span> {data.Change}&nbsp;&nbsp;");
+            }
+            return info.ToString();
+        }
+
         #endregion
     }
 }

@@ -70,7 +70,11 @@ namespace SimpleTranslationLocal.AppCommon {
         /// </summary>
         /// <param name="message">メッセージ</param>
         public static void ShowError(Window owner, string message) {
-            MessageBox.Show(owner, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (null == owner) {
+                MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } else {
+                MessageBox.Show(owner, message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
     }

@@ -17,7 +17,7 @@ namespace SimpleTranslationLocal.Func.Search {
         /// Search word
         /// </summary>
         /// <returns>search result. if not found, return null</returns>
-        internal abstract List<WordData> Search(string keyword);
+        internal abstract List<DictionaryData> Search(string keyword);
         #endregion
     }
 }

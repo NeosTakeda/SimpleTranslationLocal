@@ -5,8 +5,8 @@ namespace SimpleTranslationLocal.Func.Search {
     internal class SearchMockService: ISearchService {
 
         #region Public Method
-        internal override List<WordData> Search(string keyword) {
-            return new List<WordData>();
+        internal override List<DictionaryData> Search(string keyword) {
+            return new List<DictionaryData>();
         }
         #endregion
     }

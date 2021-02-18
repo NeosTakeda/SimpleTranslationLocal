@@ -8,13 +8,13 @@ namespace SimpleTranslationLocal.Func.Search {
     class SearchService : ISearchService {
 
         #region Public Method
-        internal override List<WordData> Search(string keyword) {
+        internal override List<DictionaryData> Search(string keyword) {
 
-            List<WordData> result = null;
+            List<DictionaryData> result = null;
 
             using (var database = new DictionaryDatabase(Constants.DatabaseFile)) {
                 database.Open();
-                var repo = new WordsRepo(database);
+                var repo = new DictionaryRepo(database);
 
                 var matchTypes = new List<Constants.MatchType>
                         { Constants.MatchType.Exact, Constants.MatchType.Prefix, Constants.MatchType.Broad};

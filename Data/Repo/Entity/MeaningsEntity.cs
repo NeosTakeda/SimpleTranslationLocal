@@ -78,8 +78,8 @@ namespace SimpleTranslationLocal.Data.Repo.Entity {
 
             if (result) {
                 sql.Clear();
-                sql.AppendSql("CREATE INDEX meanings_idx1 ON meanings (");
-                sql.AppendSql("    word_id");
+                sql.AppendSql($"CREATE INDEX meanings_idx1 ON {TableName} (");
+                sql.AppendSql($"    {Cols.WordId}");
                 sql.AppendSql(")");
                 result = 0 <= base.Database.ExecuteNonQuery(sql);
             }

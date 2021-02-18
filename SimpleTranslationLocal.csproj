@@ -109,13 +109,16 @@
     <Compile Include="AppCommon\Messages.cs" />
     <Compile Include="AppCommon\RegExUtil.cs" />
     <Compile Include="Data\Repo\AdditonsMockRepo.cs" />
+    <Compile Include="Data\Repo\DictionaryRepo.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\AdditionData.cs" />
+    <Compile Include="Data\Repo\Entity\DataModel\DictionaryData.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\MeaningData.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\SourceData.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\WordData.cs" />
     <Compile Include="Data\Repo\Entity\DictionaryDatabase.cs" />
     <Compile Include="Data\Repo\Entity\AdditionsEntity.cs" />
     <Compile Include="Data\Repo\Entity\BaseEntity.cs" />
+    <Compile Include="Data\Repo\Entity\DictionaryEntity.cs" />
     <Compile Include="Data\Repo\Entity\MeaningsEntity.cs" />
     <Compile Include="Data\Repo\Entity\SourcesEntity.cs" />
     <Compile Include="Data\Repo\Entity\WordsEntity.cs" />

@@ -108,6 +108,7 @@ namespace SimpleTranslationLocal.Func.Import {
             result = result.Replace(@"\n\n", "<li></li>");
             result = result.Replace(yen + quote, quote);
             result = Regex.Replace(result, @"\s(?<num>\d\d?\.)", "<br/>$1");
+            result = Regex.Replace(result, @"<br/>(?<num>\d\d?\.)<br/>", " $1<br/>");
             return result;
         }
         #endregion

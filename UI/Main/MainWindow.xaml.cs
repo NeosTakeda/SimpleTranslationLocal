@@ -2,6 +2,7 @@
 using OsnCsLib.WPFComponent;
 using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo;
+using System;
 using System.Windows.Input;
 
 namespace SimpleTranslationLocal.UI.Main {
@@ -144,6 +145,7 @@ namespace SimpleTranslationLocal.UI.Main {
         /// </summary>
         /// <remarks>not mvmo...</remarks>
         private void Search() {
+            System.Diagnostics.Debug.WriteLine("◆◆◆ STR" + DateTime.Now.ToString("hh:mm:ss fff"));
             if (0 == this.cKeyword.Text.Length) {
                 this.cBrowser.NavigateToString("<html><body></body></html>");
             } else {
@@ -156,6 +158,7 @@ namespace SimpleTranslationLocal.UI.Main {
         /// search complete
         /// </summary>
         private void CompleteSearch() {
+            System.Diagnostics.Debug.WriteLine("◆◆◆ END" + DateTime.Now.ToString("hh:mm:ss fff"));
             this.IsEnabled = true;
         }
         #endregion

@@ -24,6 +24,7 @@ namespace SimpleTranslationLocal {
                         new WordsRepo(database).Create();
                         new MeaningsRepo(database).Create();
                         new AdditionsRepo(database).Create();
+                        new DictionaryRepo(database).Create();
 
                         database.CommitTrans();
                     } catch (Exception ex) {
