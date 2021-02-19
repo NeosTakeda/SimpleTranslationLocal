@@ -2,6 +2,7 @@
 using SimpleTranslationLocal.Data.Repo;
 using SimpleTranslationLocal.Data.Repo.Entity;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
+using System;
 using System.Collections.Generic;
 
 namespace SimpleTranslationLocal.Func.Search {
@@ -12,8 +13,8 @@ namespace SimpleTranslationLocal.Func.Search {
         #endregion
 
         #region Constructor 
-        public SearchService(bool useMemoryDic) {
-            this._repo = new DictionaryRepo(useMemoryDic);
+        public SearchService(bool useMemoryDic, Action completeLoad) {
+            this._repo = new DictionaryRepo(useMemoryDic, completeLoad);
         }
         #endregion
 

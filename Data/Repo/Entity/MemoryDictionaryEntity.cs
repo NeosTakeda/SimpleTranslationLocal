@@ -10,10 +10,12 @@ namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
         #region Declaration
         private bool _isBusy = false;
         private readonly List<DictionaryData> _memoryData = new List<DictionaryData>();
+        private Action _completeLoad;
         #endregion
 
         #region Constructor
-        internal DictionaryMemoryEntity() : base(null) {
+        internal DictionaryMemoryEntity(Action completeLoad) : base(null) {
+            this._completeLoad = completeLoad;
             this.Load();
         }
         #endregion
@@ -88,6 +90,7 @@ namespace SimpleTranslationLocal.Data.Repo.Entity.DataModel {
                     }
                     this._isBusy = false;
                     System.Diagnostics.Debug.WriteLine("◆◆◆ READ END" + DateTime.Now.ToString("hh:mm:ss fff"));
+                    this._completeLoad?.Invoke();
                 }
             });
         }

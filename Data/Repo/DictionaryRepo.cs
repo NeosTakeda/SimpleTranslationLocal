@@ -1,6 +1,7 @@
 ﻿using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo.Entity;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
+using System;
 using System.Collections.Generic;
 using static SimpleTranslationLocal.AppCommon.Constants;
 
@@ -19,10 +20,10 @@ namespace SimpleTranslationLocal.Data.Repo {
         #endregion
 
         #region Constructor
-        internal DictionaryRepo(bool userMemoryDic) : base(null) {
+        internal DictionaryRepo(bool userMemoryDic, Action completeLoad) : base(null) {
             if (userMemoryDic) {
                 searchMethod = SearchMemory;
-                this._memoryEntity = new DictionaryMemoryEntity(); 
+                this._memoryEntity = new DictionaryMemoryEntity(completeLoad); 
             } else {
                 searchMethod = SearchDatabase;
             }
@@ -102,25 +103,6 @@ namespace SimpleTranslationLocal.Data.Repo {
 
         internal List<DictionaryData> SearchMemory(string word, MatchType matchType) {
             return this._memoryEntity.Search(word, matchType);
-            //result = this._entity.Search(word, matchType);
-
-            //DictionaryData dictionaryData = null;
-            //    int wordCount = 1;
-
-            //    while (recset.Read()) {
-            //        if (Constants.MaxNumberOfListWord < wordCount) {
-            //            return result;
-            //        }
-            //        wordCount++;
-            //        dictionaryData = new DictionaryData();
-            //        dictionaryData.SourceId = recset.GetInt(DictionaryEntity.Cols.SourceId);
-            //        dictionaryData.Word = recset.GetString(DictionaryEntity.Cols.Word);
-            //        dictionaryData.Data = recset.GetString(DictionaryEntity.Cols.Data);
-            //        result.Add(dictionaryData);
-            //    }
-
-            //    return result;
-            //}
         }
         #endregion
     }

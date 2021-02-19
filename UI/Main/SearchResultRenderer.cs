@@ -35,10 +35,10 @@ namespace SimpleTranslationLocal.UI.Main {
         #endregion
 
         #region Constructor
-        internal SearchResultRenderer(WebBrowser browser, Action completeSearch, bool useMemoryDic) {
+        internal SearchResultRenderer(WebBrowser browser, Action completeSearch, bool useMemoryDic, Action completeLoad = null) {
             this._browser = browser;
             this._completeSearch = completeSearch;
-            this._service = new SearchService(useMemoryDic);
+            this._service = new SearchService(useMemoryDic, completeLoad);
             using (var file = new FileOperator(Constants.TemplateHtmlFile)) {
                 this._templateHtml = file.ReadAll();
             }

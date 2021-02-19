@@ -61,7 +61,12 @@ namespace SimpleTranslationLocal.UI.Main {
             // add event
             this.Loaded += (sender, e) => {
                 // create SearchResultRenderer after BrowserControl is loaded
-                this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch, AppSettingsRepo.GetInstance().UseMemoryDicitonary);
+                var userMemoryDictionary = AppSettingsRepo.GetInstance().UseMemoryDicitonary;
+                if (userMemoryDictionary) {
+                    this.IsEnabled = false;
+                    this.cBrowser.NavigateToString("<html><body><h4 style='text-align:center;'>now loading...</h4></body></html>");
+                }
+                this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch, userMemoryDictionary, MemoryLoadComplete);
 
                 // set title
                 FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -212,7 +217,7 @@ namespace SimpleTranslationLocal.UI.Main {
                 this.cBrowser.NavigateToString("<html><body></body></html>");
             } else {
                 this.IsEnabled = false;
-                this.cBrowser.NavigateToString("<html><body><h4>now searching...</h4></body></html>");
+                this.cBrowser.NavigateToString("<html><body><h4 style='text-align:center;'>now searching...</h4></body></html>");
                 this.DoEvents();
                 this._renderer.Search(this.cKeyword.Text);
             }
@@ -321,6 +326,17 @@ namespace SimpleTranslationLocal.UI.Main {
         private object ExitFrames(object obj) {
             ((DispatcherFrame)obj).Continue = false;
             return null;
+        }
+
+        /// <summary>
+        /// load dictionary to memory is complete.
+        /// </summary>
+        private void MemoryLoadComplete() {
+            this.Dispatcher.Invoke((Action)(() => {
+                this.IsEnabled = true;
+                this.cBrowser.NavigateToString("<html><body></body></html>");
+                this.cKeyword.Focus();
+            }));
         }
         #endregion
     }
