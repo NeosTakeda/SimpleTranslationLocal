@@ -45,6 +45,7 @@ app.settingsファイルの UseMemoryDicitonary を手動で true にするこ�
 
 
 # ショートカットキー
-Ctrl + Shift + Alt + L : 検索ウィンドウを表示 or アクティブに設定
-Esc : 検索ウィンドウを最小化
+Ctrl + Shift + Alt + L : 検索ウィンドウを表示 or アクティブに設定  
+Ctrl + Shift + T : ウィンドウの最前面表示切り替え  
+Esc : 検索ウィンドウを最小化  
 Enter : 検索処理を実行

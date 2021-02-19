@@ -54,7 +54,7 @@ namespace SimpleTranslationLocal.UI.Main {
 
                 // set title
                 FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                this._windowTitle = $"{versionInfo.ProductName}({versionInfo.ProductVersion})";
+                this._windowTitle = $"{versionInfo.ProductName}({versionInfo.FileVersion})";
                 this.Title = this._windowTitle;
             };
             this.Closing += (sender, e) => {
@@ -96,6 +96,14 @@ namespace SimpleTranslationLocal.UI.Main {
                 case Key.Enter:
                     e.Handled = true;
                     this.Search();
+                    break;
+
+                case Key.T:
+                    if (Util.IsModifierPressed(ModifierKeys.Shift) && Util.IsModifierPressed(ModifierKeys.Control)) {
+                        e.Handled = true;
+                        this.Topmost = !this.Topmost;
+                        this.Title = this._windowTitle + (this.Topmost ? " ☀" : "");
+                    }
                     break;
             }
         }
