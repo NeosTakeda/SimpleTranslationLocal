@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:SimpleTranslationLocal"
         mc:Ignorable="d"
         xmlns:u="clr-namespace:OsnCsLib.WPFComponent;assembly=OsnCsLib.WPFComponent"
-        Title="簡易辞書ツール" Height="450" Width="500" WindowState="Minimized" MinHeight="300" MinWidth="400" >
+        Title="簡易辞書ツール" Height="450" Width="500" WindowState="Minimized" MinHeight="300" MinWidth="400" PreviewKeyDown="ResidentWindow_PreviewKeyDown" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -73,7 +73,9 @@ namespace SimpleTranslationLocal.UI.Main {
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
-                base.SetWindowsState(true);
+                if (this.ShowInTaskbar) {
+                    base.SetWindowsState(true);
+                }
             };
             this.Activated += (sender, e) => {
                 this.cKeyword.Focus();
@@ -99,17 +101,12 @@ namespace SimpleTranslationLocal.UI.Main {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Keyword_PreviewKeyDown(object sender, KeyEventArgs e) {
-            switch(e.Key) {
+        private void ResidentWindow_PreviewKeyDown(object sender, KeyEventArgs e) {
+            switch (e.Key) {
 
                 case Key.Escape:
                     e.Handled = true;
                     base.SetWindowsState(true);
-                    break;
-
-                case Key.Enter:
-                    e.Handled = true;
-                    this.Search();
                     break;
 
                 case Key.T:
@@ -135,6 +132,20 @@ namespace SimpleTranslationLocal.UI.Main {
                             this.StartClipboardObserve();
                         }
                     }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// key down
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Keyword_PreviewKeyDown(object sender, KeyEventArgs e) {
+            switch(e.Key) {
+                case Key.Enter:
+                    e.Handled = true;
+                    this.Search();
                     break;
             }
         }
