@@ -3,6 +3,7 @@ using OsnCsLib.WPFComponent;
 using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo;
 using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace SimpleTranslationLocal.UI.Main {
@@ -14,6 +15,7 @@ namespace SimpleTranslationLocal.UI.Main {
         #region Declaration
         private bool _isActivated = false;
         private SearchResultRenderer _renderer;
+        private string _windowTitle;
         #endregion
 
         #region Constructor
@@ -49,6 +51,11 @@ namespace SimpleTranslationLocal.UI.Main {
             this.Loaded += (sender, e) => {
                 // create SearchResultRenderer after BrowserControl is loaded
                 this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch, AppSettingsRepo.GetInstance().UseMemoryDicitonary);
+
+                // set title
+                FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                this._windowTitle = $"{versionInfo.ProductName}({versionInfo.ProductVersion})";
+                this.Title = this._windowTitle;
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
