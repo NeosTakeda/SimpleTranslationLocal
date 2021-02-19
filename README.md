@@ -1,5 +1,5 @@
 # SimpleTranslationLocal
-自分用の辞書ツール
+自分用の辞書ツール  
 ![ss](https://user-images.githubusercontent.com/31182578/108478936-749ed200-72d8-11eb-86b9-91e34093fb3e.png)
 
 # 開発のきっかけ
