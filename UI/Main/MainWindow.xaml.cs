@@ -196,10 +196,13 @@ namespace SimpleTranslationLocal.UI.Main {
         private void Search() {
             System.Diagnostics.Debug.WriteLine("◆◆◆ STR" + DateTime.Now.ToString("hh:mm:ss fff"));
             this.Cursor = Cursors.Wait;
+            this.DoEvents();
             if (0 == this.cKeyword.Text.Length) {
                 this.cBrowser.NavigateToString("<html><body></body></html>");
             } else {
                 this.IsEnabled = false;
+                this.cBrowser.NavigateToString("<html><body><h4>now searching...</h4></body></html>");
+                this.DoEvents();
                 this._renderer.Search(this.cKeyword.Text);
             }
         }
@@ -211,6 +214,8 @@ namespace SimpleTranslationLocal.UI.Main {
             System.Diagnostics.Debug.WriteLine("◆◆◆ END" + DateTime.Now.ToString("hh:mm:ss fff"));
             this.IsEnabled = true;
             this.Cursor = Cursors.None;
+            this.cKeyword.Focus();
+            this.cKeyword.SelectAll();
         }
 
         /// <summary>
@@ -258,16 +263,6 @@ namespace SimpleTranslationLocal.UI.Main {
             }
         }
 
-        private void DoEvents() {
-            DispatcherFrame frame = new DispatcherFrame();
-            var callback = new DispatcherOperationCallback(ExitFrames);
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, callback, frame);
-            Dispatcher.PushFrame(frame);
-        }
-        private object ExitFrames(object obj) {
-            ((DispatcherFrame)obj).Continue = false;
-            return null;
-        }
 
         /// <summary>
         /// show window title
@@ -301,6 +296,20 @@ namespace SimpleTranslationLocal.UI.Main {
         /// </summary>
         private void StopClipboardObserve() {
             this._copyObserver.Stop();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void DoEvents() {
+            DispatcherFrame frame = new DispatcherFrame();
+            var callback = new DispatcherOperationCallback(ExitFrames);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, callback, frame);
+            Dispatcher.PushFrame(frame);
+        }
+        private object ExitFrames(object obj) {
+            ((DispatcherFrame)obj).Continue = false;
+            return null;
         }
         #endregion
     }

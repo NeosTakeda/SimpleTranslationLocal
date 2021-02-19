@@ -70,7 +70,7 @@ h1 {
 <body>
 
 <main>
-<h1>no data found...</h1>
+<h4>no data found...</h4>
 </main>
 
 </body>
