@@ -45,7 +45,12 @@ app.settingsファイルの UseMemoryDicitonary を手動で true にするこ�
 
 
 # ショートカットキー
-Ctrl + Shift + Alt + L : 検索ウィンドウを表示 or アクティブに設定  
-Ctrl + Shift + T : ウィンドウの最前面表示切り替え  
+Shift + Ctrl + Alt + L : 検索ウィンドウを表示 or アクティブに設定  
+Shift + Ctrl + T : ウィンドウの最前面表示切り替え([T])  
 Esc : 検索ウィンドウを最小化  
-Enter : 検索処理を実行
+Enter : 検索処理を実行  
+Shift + Ctrl + O : 一度だけクリップボードを監視([O])  
+Shift + Ctrl + Alt + O : 常時クリップボードを監視([OO])  
+
+※クリップボード監視：監視を有効にした状態でテキストをコピーすると、コピーした文字列の検索を行います。
+

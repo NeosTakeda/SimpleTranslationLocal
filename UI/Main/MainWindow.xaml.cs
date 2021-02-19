@@ -2,9 +2,12 @@
 using OsnCsLib.WPFComponent;
 using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo;
+using SimpleTranslationLocal.Func.Copy;
 using System;
 using System.Diagnostics;
+using System.Text;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace SimpleTranslationLocal.UI.Main {
     /// <summary>
@@ -16,6 +19,14 @@ namespace SimpleTranslationLocal.UI.Main {
         private bool _isActivated = false;
         private SearchResultRenderer _renderer;
         private string _windowTitle;
+
+        private enum CopyMode : short {
+            None = 0,
+            Once = 1,
+            Always = 2,
+        }
+        private CopyMode _copyMode = CopyMode.None;
+        private CopyObserver _copyObserver;
         #endregion
 
         #region Constructor
@@ -55,7 +66,10 @@ namespace SimpleTranslationLocal.UI.Main {
                 // set title
                 FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 this._windowTitle = $"{versionInfo.ProductName}({versionInfo.FileVersion})";
-                this.Title = this._windowTitle;
+                this.ShowWindowTitle();
+
+                // set up obserber
+                this._copyObserver = new CopyObserver(this, this.ClipboardChanged);
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
@@ -102,7 +116,24 @@ namespace SimpleTranslationLocal.UI.Main {
                     if (Util.IsModifierPressed(ModifierKeys.Shift) && Util.IsModifierPressed(ModifierKeys.Control)) {
                         e.Handled = true;
                         this.Topmost = !this.Topmost;
-                        this.Title = this._windowTitle + (this.Topmost ? " ☀" : "");
+                        this.ShowWindowTitle();
+                    }
+                    break;
+
+                case Key.O:
+                    if (Util.IsModifierPressed(ModifierKeys.Shift) && Util.IsModifierPressed(ModifierKeys.Control)) {
+                        e.Handled = true;
+                        if (Util.IsModifierPressed(ModifierKeys.Alt)) {
+                            this.ToggleCopyModeAlways();
+                        } else {
+                            this.ToggleCopyModeOnce();
+                        }
+                        this.ShowWindowTitle();
+                        if (this._copyMode == CopyMode.None) {
+                            this.StopClipboardObserve();
+                        } else {
+                            this.StartClipboardObserve();
+                        }
                     }
                     break;
             }
@@ -136,6 +167,7 @@ namespace SimpleTranslationLocal.UI.Main {
         /// context menu exit click
         /// </summary>
         private void OnContextMenuExitClick() {
+            this._copyObserver.Dispose();
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -150,6 +182,10 @@ namespace SimpleTranslationLocal.UI.Main {
                 setting.Height = this.Height;
                 setting.Width = this.Width;
                 setting.Save();
+
+                this._copyMode = CopyMode.None;
+                this._copyObserver.Stop();
+                this.ShowWindowTitle();
             }
         }
 
@@ -159,6 +195,7 @@ namespace SimpleTranslationLocal.UI.Main {
         /// <remarks>not mvmo...</remarks>
         private void Search() {
             System.Diagnostics.Debug.WriteLine("◆◆◆ STR" + DateTime.Now.ToString("hh:mm:ss fff"));
+            this.Cursor = Cursors.Wait;
             if (0 == this.cKeyword.Text.Length) {
                 this.cBrowser.NavigateToString("<html><body></body></html>");
             } else {
@@ -173,6 +210,97 @@ namespace SimpleTranslationLocal.UI.Main {
         private void CompleteSearch() {
             System.Diagnostics.Debug.WriteLine("◆◆◆ END" + DateTime.Now.ToString("hh:mm:ss fff"));
             this.IsEnabled = true;
+            this.Cursor = Cursors.None;
+        }
+
+        /// <summary>
+        /// toggle copy mode
+        /// </summary>
+        /// <returns>mode is on</returns>
+        private void ToggleCopyModeOnce() {
+            if (this._copyMode == CopyMode.Once) {
+                this._copyMode = CopyMode.None;
+            } else {
+                this._copyMode = CopyMode.Once;
+            }
+        }
+
+        /// <summary>
+        /// toggle copy mode
+        /// </summary>
+        /// <returns>mode is on</returns>
+        private void ToggleCopyModeAlways() {
+            if (this._copyMode == CopyMode.Always) {
+                this._copyMode = CopyMode.None;
+            } else {
+                this._copyMode = CopyMode.Always;
+            }
+        }
+
+        /// <summary>
+        /// clipboard change event
+        /// </summary>
+        /// <param name="text">copy text</param>
+        private void ClipboardChanged(string text) {
+            LogUtil.DebugLog("#### ClipboardChanged " + text);
+            if (this._copyMode == CopyMode.Once) {
+                this._copyMode = CopyMode.None;
+                this.StopClipboardObserve();
+                this.ShowWindowTitle();
+            }
+            if (0 < text.Length && this.cKeyword.Text != text) {
+                this.Activate();
+                this.cKeyword.Text = text.Trim();
+                this.cKeyword.Focus();
+                this.cKeyword.SelectAll();
+                DoEvents();
+                this.Search();
+            }
+        }
+
+        private void DoEvents() {
+            DispatcherFrame frame = new DispatcherFrame();
+            var callback = new DispatcherOperationCallback(ExitFrames);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, callback, frame);
+            Dispatcher.PushFrame(frame);
+        }
+        private object ExitFrames(object obj) {
+            ((DispatcherFrame)obj).Continue = false;
+            return null;
+        }
+
+        /// <summary>
+        /// show window title
+        /// </summary>
+        private void ShowWindowTitle() {
+            var title = new StringBuilder();
+            title.Append(this._windowTitle);
+            if (this.Topmost) {
+                title.Append("[T]");
+            }
+            switch(this._copyMode) {
+                case CopyMode.Once:
+                    title.Append("[O]");
+                    break;
+                case CopyMode.Always:
+                    title.Append("[OO]");
+                    break;
+            }
+            this.Title = title.ToString();
+        }
+
+        /// <summary>
+        /// start observer clipboard
+        /// </summary>
+        private void StartClipboardObserve() {
+            this._copyObserver.Start();
+        }
+
+        /// <summary>
+        /// stop observe clipboard
+        /// </summary>
+        private void StopClipboardObserve() {
+            this._copyObserver.Stop();
         }
         #endregion
     }

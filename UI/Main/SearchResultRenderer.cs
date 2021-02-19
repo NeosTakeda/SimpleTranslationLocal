@@ -9,7 +9,7 @@ using System.Windows.Controls;
 namespace SimpleTranslationLocal.UI.Main {
 
     #region Extension
-    public static class StringBuiderEx {
+    public static class StringBuilderEx {
         public static void AppendLine(this StringBuilder sb, string val) {
             if (Env.Current == Env.EnvType.Release) {
                 sb.Append(val);

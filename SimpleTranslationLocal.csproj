@@ -133,6 +133,7 @@
     <Compile Include="Data\Repo\WordsMockRepo.cs" />
     <Compile Include="Data\Repo\WordsRepo.cs" />
     <Compile Include="Data\Repo\SourcesMockRepo.cs" />
+    <Compile Include="Func\Copy\CopyObserver.cs" />
     <Compile Include="Func\Import\WebsterParser.cs" />
     <Compile Include="Func\Import\EijiroParser.cs" />
     <Compile Include="Func\Import\IDictionaryParser.cs" />
