@@ -255,6 +255,9 @@ namespace SimpleTranslationLocal.Func.Import {
             if (0 < src.Level) {
                 dest.Level = src.Level;
             }
+            if (0 < src.Change.Length) {
+                dest.Change = src.Change;
+            }
         }
         #endregion
     }

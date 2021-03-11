@@ -25,7 +25,7 @@ namespace SimpleTranslationLocal.AppCommon {
             Info999
         }
         private static Dictionary<InfoId, string> _infoMessages = new Dictionary<InfoId, string> {
-             { InfoId.Info001, "インポート処理が完了しました。" }
+             { InfoId.Info001, "インポート処理が完了しました\n(取り込んだ情報はアプリの再起動後に反映されます)。" }
             ,{ InfoId.Info999, "不明な情報です" }
         };
         #endregion
