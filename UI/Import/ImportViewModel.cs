@@ -231,8 +231,7 @@ namespace SimpleTranslationLocal.UI.Import {
 
             await Task.Run(() => {
                 var service = new ImportService(this);
-                service.Start(new Dictionary<Constants.DicType, string>(){ 
-                    { dicType, dicType == Constants.DicType.Eijiro ? this.EijiroFile : this.WebsterFile } });
+                service.Start( dicType, dicType == Constants.DicType.Eijiro ? this.EijiroFile : this.WebsterFile );
 
                 this.ProgressPanelVisibility = Visibility.Collapsed;
                 this._owner.Dispatcher.Invoke((Action)(() => {

@@ -109,6 +109,7 @@
     <Compile Include="AppCommon\LogUtil.cs" />
     <Compile Include="AppCommon\Messages.cs" />
     <Compile Include="AppCommon\RegExUtil.cs" />
+    <Compile Include="AppCommon\AppUtil.cs" />
     <Compile Include="Data\Repo\AdditonsMockRepo.cs" />
     <Compile Include="Data\Repo\DictionaryRepo.cs" />
     <Compile Include="Data\Repo\Entity\DataModel\AdditionData.cs" />

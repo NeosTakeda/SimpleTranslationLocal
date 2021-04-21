@@ -13,7 +13,8 @@ namespace SimpleTranslationLocal.UI.Main {
             if (Env.Current == Env.EnvType.Release) {
                 sb.Append(val);
             } else {
-                sb.Append(val).Append("\r\n");
+                sb.Append(val);
+//                sb.Append(val).Append("\r\n");
             }
         }
     }

@@ -1,8 +1,10 @@
-﻿using SimpleTranslationLocal.AppCommon;
+﻿using OsnCsLib.File;
+using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo.Entity;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using static SimpleTranslationLocal.AppCommon.Constants;
 
 namespace SimpleTranslationLocal.Data.Repo {
@@ -17,6 +19,8 @@ namespace SimpleTranslationLocal.Data.Repo {
         private readonly DictionaryMemoryEntity _memoryEntity;
         private delegate List<DictionaryData> SearchDelegate(string word, MatchType matchType);
         private readonly SearchDelegate searchMethod = null;
+        private string _mn = "";
+        private List<WordData> _wordData = new List<WordData>();
         #endregion
 
         #region Constructor
@@ -71,6 +75,41 @@ namespace SimpleTranslationLocal.Data.Repo {
         /// <param name="matchType">search matching type</param>
         /// <returns>result. if data does not find, return null</returns>
         internal List<DictionaryData> SearchDatabase(string word, MatchType matchType) {
+
+            var mn = AppUtil.convertToFileName(word);
+            if (mn != this._mn) {
+                this._mn = mn;
+                this._wordData.Clear();
+
+                var dirs = new string[] { Constants.EijiroData, Constants.WebsterData };
+                foreach (var dir in dirs) {
+                    var file = $@"{dirs}\{mn} ";
+
+                    using (var op = new FileOperator(dir, FileOperator.OpenMode.Read)) {
+                        if (!this._memoryData.ContainsKey(op.NameWithoutExtension)) {
+                            this._memoryData[op.NameWithoutExtension] = new List<DictionaryData>();
+                        }
+                        while (!op.Eof) {
+                            var line = op.ReadLine().Split('\t');
+                            var data = new DictionaryData {
+                                Word = line[0],
+                                WordSort = line[0].ToLower(),
+                                Data = line[1]
+                            };
+                            this._memoryData[op.NameWithoutExtension].Add(data);
+                        }
+                    }
+
+                }
+
+
+            }
+
+
+            asdf
+
+
+
             using (var database = new DictionaryDatabase(Constants.DatabaseFile)) {
                 database.Open();
                 var entity = new DictionaryEntity(database);
