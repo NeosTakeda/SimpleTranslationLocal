@@ -12,19 +12,21 @@ namespace SimpleTranslationLocal.Func.Import {
     /// <summary>
     /// import dictionary data
     /// </summary>
-    internal class ImportService : IImportService {
+    internal class ImportService {
 
         #region Declaration
+        private readonly IImportServiceCallback _callback;
         private DictionaryRepo _dictionaryRepo;
         #endregion
 
         #region Constructor
-        public ImportService(ImportServiceCallback callback) : base(callback) {
+        public ImportService(IImportServiceCallback callback) {
+            this._callback = callback;
         }
         #endregion
 
         #region Public Method
-        internal override void Start(Dictionary<DicType, string> targetList) {
+        internal void Start(Dictionary<DicType, string> targetList) {
             var processName = "";
             try {
                 IDictionaryParser parser;
@@ -69,7 +71,7 @@ namespace SimpleTranslationLocal.Func.Import {
                         processName = "Create Dic Data";
                         database.BeginTrans();
                         while ((data = parser.Read()) != null) {
-                            this.CreateDicData(id, data, database);
+                            this.CreateDicData(id, data);
                             this._callback.OnProceed(parser.CurrentLine);
                             if (0 < parser.CurrentLine && parser.CurrentLine % 100 == 0) {
                                 // this._callback.OnProceed(parser.CurrentLine); // reduce refresh screen
@@ -111,11 +113,12 @@ namespace SimpleTranslationLocal.Func.Import {
         /// <param name="file">source file</param>
         /// <param name="database">database</param>
         private void CreateSourceData(long id, string file, DictionaryDatabase database) {
-            var sourceData = new SourceData();
-            sourceData.Id = id;
-            sourceData.Name = Constants.DicTypeName[(DicType)id];
-            sourceData.Priority = (int)id;
-            sourceData.File = file;
+            var sourceData = new SourceData() {
+                Id = id,
+                Name = Constants.DicTypeName[(DicType)id],
+                Priority = (int)id,
+                File = file
+            };
 
             var sourceRepo = new SourcesRepo(database);
             sourceRepo.SetDataModel(sourceData);
@@ -127,12 +130,12 @@ namespace SimpleTranslationLocal.Func.Import {
         /// </summary>
         /// <param name="id">ソースID</param>
         /// <param name="data">作成するデータ</param>
-        /// <param name="database">データベースのインスタンス</param>
-        private void CreateDicData(int id, WordData data, DictionaryDatabase database) {
-            var dictionaryData = new DictionaryData();
-            dictionaryData.SourceId = id;
-            dictionaryData.Word = data.Word;
-            dictionaryData.Data = this.GetDisplayData(data);
+        private void CreateDicData(int id, WordData data) {
+            var dictionaryData = new DictionaryData() {
+                SourceId = id,
+                Word = data.Word,
+                Data = this.GetDisplayData(data)
+            };
             this._dictionaryRepo.SetDataModel(dictionaryData);
             this._dictionaryRepo.Insert();
         }

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Windows.Input;
 
 namespace SimpleTranslationLocal.UI.Main {
     class MainWindowViewModel : BindableBase {
 
         #region Declaration
-        public Action SaveAction { get; set; }
-        public Action SaveFailedAction { get; set; }
-        public Action CancelAction { get; set; }
-        public Action ShowDataAction { get; set; }
         #endregion
 
         #region Constructor
@@ -41,28 +36,14 @@ namespace SimpleTranslationLocal.UI.Main {
         }
 
         /// <summary>
-        /// command
+        /// cancel
         /// </summary>
-        private GeneralCommand _cancelCommand;
-        public GeneralCommand Cancel {
-            get {
-                return _cancelCommand ?? (_cancelCommand = new GeneralCommand(() => {
-                    this.CancelAction();
-                }));
-            }
-        }
+        public BaseCommand CancelCommand { set; get; }
 
         /// <summary>
-        /// command
+        /// show data
         /// </summary>
-        private GeneralCommand _showDataCommand;
-        public GeneralCommand ShowData {
-            get {
-                return _showDataCommand ?? (_showDataCommand = new GeneralCommand(() => {
-                    this.ShowDataAction();
-                }));
-            }
-        }
+        public BaseCommand ShowDataCommand { set; get; }
 
         /// <summary>
         /// Ok Button enabled
@@ -73,45 +54,5 @@ namespace SimpleTranslationLocal.UI.Main {
             }
         }
         #endregion
-    }
-
-
-    public class SaveCommand : ICommand {
-        private readonly Action _action;
-
-        public SaveCommand(Action action) {
-            _action = action;
-        }
-
-        public event EventHandler CanExecuteChanged;
-        public bool CanExecute(object parameter) {
-            if (null != CanExecuteChanged) {
-            }
-            return _action != null;
-        }
-
-        public void Execute(object parameter) {
-            _action?.Invoke();
-        }
-    }
-
-
-    public class GeneralCommand : ICommand {
-        private readonly Action _action;
-
-        public GeneralCommand(Action action) {
-            _action = action;
-        }
-
-        public event EventHandler CanExecuteChanged;
-        public bool CanExecute(object parameter) {
-            if (null != CanExecuteChanged) {
-            }
-            return _action != null;
-        }
-
-        public void Execute(object parameter) {//今回は引数を使わずActionを実行
-            _action?.Invoke();
-        }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using SimpleTranslationLocal.AppCommon;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -19,8 +15,8 @@ namespace SimpleTranslationLocal.Func.Copy {
 
         private const int WM_DRAWCLIPBOARD = 0x031D;
 
-        IntPtr _handle;
-        HwndSource _hwndSource = null;
+        readonly IntPtr _handle;
+        readonly HwndSource _hwndSource;
 
         private bool _disposed = false;
         private bool _isStart = false;

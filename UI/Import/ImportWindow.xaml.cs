@@ -20,18 +20,14 @@ namespace SimpleTranslationLocal.UI.Import {
     public partial class ImportWindow : Window {
 
         #region Declaration
-        private readonly IImportViewModel _model;
+        private readonly ImportViewModel _model;
         #endregion
 
         #region Constructor
         public ImportWindow() {
             InitializeComponent();
 
-            if (Env.Current == Env.EnvType.Stub) {
-                this._model = new ImportMockViewModel(this, this.OnOKClick);
-            } else {
-                this._model = new ImportViewModel(this, this.OnOKClick);
-            }
+            this._model = new ImportViewModel(this, this.OnOKClick);
             this.DataContext = this._model;
         }
         #endregion

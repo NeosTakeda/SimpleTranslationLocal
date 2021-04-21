@@ -9,10 +9,10 @@ namespace SimpleTranslationLocal.AppCommon {
     class RegExUtil {
 
         #region Declaration
-        private Regex _regEx;
+        private readonly Regex _regEx;
 
-        private List<string> GroupKeys = new List<string>() { "k1", "k2", "k3" };
-        private Dictionary<string, string> _groupValues = new Dictionary<string, string>();
+        private readonly List<string> GroupKeys = new List<string>() { "k1", "k2", "k3" };
+        private readonly Dictionary<string, string> _groupValues = new Dictionary<string, string>();
         #endregion
 
         #region Public Property
@@ -72,11 +72,11 @@ namespace SimpleTranslationLocal.AppCommon {
             //}
             var match = this._regEx.Match(data);
             this._groupValues.Clear();
-            this.Value = n2e(match.Value);
+            this.Value = Null2Empty(match.Value);
             this.Remain = this._regEx.Replace(data, "").Trim();
             if (match.Success) {
                 foreach (var key in GroupKeys) {
-                    this._groupValues.Add(key, n2e(match.Groups[key].Value));
+                    this._groupValues.Add(key, Null2Empty(match.Groups[key].Value));
                 }
                 return true;
             } else {
@@ -105,7 +105,7 @@ namespace SimpleTranslationLocal.AppCommon {
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        private string n2e(string val) {
+        private string Null2Empty(string val) {
             return IsEmpty(val) ? "" : val.Trim();
         }
         #endregion

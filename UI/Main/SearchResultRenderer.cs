@@ -1,6 +1,5 @@
 ﻿using OsnCsLib.File;
 using SimpleTranslationLocal.AppCommon;
-using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using SimpleTranslationLocal.Func.Search;
 using System;
 using System.Text;

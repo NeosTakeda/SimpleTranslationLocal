@@ -1,12 +1,11 @@
 ﻿using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo;
-using SimpleTranslationLocal.Data.Repo.Entity;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
 using System;
 using System.Collections.Generic;
 
 namespace SimpleTranslationLocal.Func.Search {
-    class SearchService : ISearchService {
+    class SearchService {
 
         #region Declaration
         private readonly DictionaryRepo _repo;
@@ -19,7 +18,7 @@ namespace SimpleTranslationLocal.Func.Search {
         #endregion
 
         #region Public Method
-        internal override List<DictionaryData> Search(string keyword) {
+        internal List<DictionaryData> Search(string keyword) {
 
             List<DictionaryData> result = null;
 

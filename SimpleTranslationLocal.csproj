@@ -137,23 +137,11 @@
     <Compile Include="Func\Import\WebsterParser.cs" />
     <Compile Include="Func\Import\EijiroParser.cs" />
     <Compile Include="Func\Import\IDictionaryParser.cs" />
-    <Compile Include="Func\Import\IImportService.cs" />
-    <Compile Include="Func\Import\ImportMockService.cs" />
     <Compile Include="Func\Import\ImportService.cs" />
-    <Compile Include="Func\Import\ImportServiceCallback.cs" />
-    <Compile Include="Func\Import\MockParser.cs" />
-    <Compile Include="Func\Search\ISearchService.cs" />
-    <Compile Include="Func\Search\SearchMockService.cs" />
+    <Compile Include="Func\Import\IImportServiceCallback.cs" />
     <Compile Include="Func\Search\SearchService.cs" />
     <Compile Include="UI\BaseCommand.cs" />
     <Compile Include="UI\BindableBase.cs" />
-    <Compile Include="UI\Import\Command\ImportWebsterCommand.cs" />
-    <Compile Include="UI\Import\Command\ImportEijiroCommand.cs" />
-    <Compile Include="UI\Import\Command\OKCommand.cs" />
-    <Compile Include="UI\Import\Command\SelectWebsterCommand.cs" />
-    <Compile Include="UI\Import\Command\SelectEijiroCommand.cs" />
-    <Compile Include="UI\Import\IImportViewModel.cs" />
-    <Compile Include="UI\Import\ImportMockViewModel.cs" />
     <Compile Include="UI\Import\ImportViewModel.cs" />
     <Compile Include="UI\Import\ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>

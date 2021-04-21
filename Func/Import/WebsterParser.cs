@@ -13,7 +13,7 @@ namespace SimpleTranslationLocal.Func.Import {
     internal class WebsterParser: IDictionaryParser {
 
         #region Declaration
-        private FileOperator _operator;
+        private readonly FileOperator _operator;
         #endregion
 
         #region Public Property
@@ -75,12 +75,13 @@ namespace SimpleTranslationLocal.Func.Import {
                 return null;
             }
 
-            var wordData = new WordData();
-            wordData.Meanings = new List<MeaningData>();
+            var wordData = new WordData() {
+                Meanings = new List<MeaningData>()
+                
+            };
             var meaningData = new MeaningData();
             wordData.Meanings.Add(meaningData);
 
-            var quote = "\"".ToCharArray();
             var pos = tmp.IndexOf(":");
             wordData.Word = TrimJsonData(tmp.Substring(0, pos-1));
             meaningData.Meaning = TrimJsonData(tmp.Substring(pos + 1));
