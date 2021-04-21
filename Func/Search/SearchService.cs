@@ -23,7 +23,7 @@ namespace SimpleTranslationLocal.Func.Search {
             List<DictionaryData> result = null;
 
             var matchTypes = new List<Constants.MatchType>
-                    { Constants.MatchType.Exact, Constants.MatchType.Prefix, Constants.MatchType.Broad};
+                    { Constants.MatchType.Exact, Constants.MatchType.Prefix};
             foreach (var matchType in matchTypes) {
                 result = this._repo.Search(keyword, matchType);
                 if (null != result && 0 < result.Count) {
