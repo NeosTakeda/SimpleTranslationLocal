@@ -57,19 +57,6 @@ namespace SimpleTranslationLocal.AppCommon {
         /// <param name="data"></param>
         /// <returns></returns>
         public bool Match(string data) {
-            //var matches = this._regEx.Matches(data);
-            //this._groupValues.Clear();
-            //this.Remain = this._regEx.Replace(data, "").Trim();
-            //if (0 < matches.Count) {
-            //    foreach(Match match in matches) {
-            //        foreach(var key in GroupKeys) {
-            //            this._groupValues.Add(key, n2e(match.Groups[key].Value));
-            //        }
-            //    }
-            //    return true;
-            //} else {
-            //    return false;
-            //}
             var match = this._regEx.Match(data);
             this._groupValues.Clear();
             this.Value = Null2Empty(match.Value);

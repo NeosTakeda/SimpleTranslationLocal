@@ -12,8 +12,8 @@ namespace SimpleTranslationLocal.Func.Search {
         #endregion
 
         #region Constructor 
-        public SearchService(bool useMemoryDic, Action completeLoad) {
-            this._repo = new DictionaryRepo(useMemoryDic, completeLoad);
+        public SearchService() {
+            this._repo = new DictionaryRepo();
         }
         #endregion
 

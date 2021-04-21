@@ -10,11 +10,12 @@ namespace SimpleTranslationLocal.UI.Main {
     #region Extension
     public static class StringBuilderEx {
         public static void AppendLine(this StringBuilder sb, string val) {
-            if (Env.Current == Env.EnvType.Release) {
-                sb.Append(val);
-            } else {
-                sb.Append(val).Append("\r\n");
-            }
+            //if (Env.Current == Env.EnvType.Release) {
+            //    sb.Append(val);
+            //} else {
+            //    sb.Append(val).Append("\r\n");
+            //}
+            sb.Append(val);
         }
     }
     #endregion
@@ -34,10 +35,10 @@ namespace SimpleTranslationLocal.UI.Main {
         #endregion
 
         #region Constructor
-        internal SearchResultRenderer(WebBrowser browser, Action completeSearch, bool useMemoryDic, Action completeLoad = null) {
+        internal SearchResultRenderer(WebBrowser browser, Action completeSearch) {
             this._browser = browser;
             this._completeSearch = completeSearch;
-            this._service = new SearchService(useMemoryDic, completeLoad);
+            this._service = new SearchService();
             using (var file = new FileOperator(Constants.TemplateHtmlFile)) {
                 this._templateHtml = file.ReadAll();
             }
@@ -55,7 +56,7 @@ namespace SimpleTranslationLocal.UI.Main {
         internal void Search(string word) {
             var result = this._service.Search(word);
 
-            if (null == result) {
+            if (null == result || 0 == result.Count) {
                 this._browser.NavigateToString(this._nodataHtml);
                 this._completeSearch?.Invoke();
                 return;

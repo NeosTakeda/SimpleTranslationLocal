@@ -3,7 +3,6 @@ using SimpleTranslationLocal.AppCommon;
 using SimpleTranslationLocal.Data.Repo;
 using SimpleTranslationLocal.Func.Import;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -231,8 +230,7 @@ namespace SimpleTranslationLocal.UI.Import {
 
             await Task.Run(() => {
                 var service = new ImportService(this);
-                service.Start(new Dictionary<Constants.DicType, string>(){ 
-                    { dicType, dicType == Constants.DicType.Eijiro ? this.EijiroFile : this.WebsterFile } });
+                service.Start( dicType, dicType == Constants.DicType.Eijiro ? this.EijiroFile : this.WebsterFile );
 
                 this.ProgressPanelVisibility = Visibility.Collapsed;
                 this._owner.Dispatcher.Invoke((Action)(() => {

@@ -43,6 +43,8 @@ namespace SimpleTranslationLocal.Func.Import {
         }
 
         internal override WordData Read() {
+            System.Diagnostics.Debug.WriteLine("◆◆◆ Webster READ STR" + DateTime.Now.ToString("hh:mm:ss fff"));
+
             WordData data = null;
             string line;
             while (!this._operator.Eof) {
@@ -56,9 +58,10 @@ namespace SimpleTranslationLocal.Func.Import {
                     // first row or last row
                     continue;
                 }
-
                 return data;
             }
+
+            System.Diagnostics.Debug.WriteLine("◆◆◆ Webster READ END" + DateTime.Now.ToString("hh:mm:ss fff"));
             return data;
         }
         #endregion

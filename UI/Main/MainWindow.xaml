@@ -23,7 +23,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <u:CustomTextBox Name="cKeyword" Grid.Row="0" Grid.Column="0" ImeMode="Disabled" MaxLines="1"  PreviewKeyDown="Keyword_PreviewKeyDown"/>
+        <u:CustomTextBox Name="cKeyword" Grid.Row="0" Grid.Column="0" ImeMode="Disabled" MaxLines="1"  PreviewKeyDown="Keyword_PreviewKeyDown" TextChanged="Keyword_TextChanged"/>
         <WebBrowser x:Name="cBrowser" Grid.Row="1" />
     </Grid>
 </wpfcomponent:ResidentWindow>

@@ -13,7 +13,7 @@ namespace SimpleTranslationLocal.AppCommon {
             Err003,
             Err999
         }
-        private static Dictionary<ErrId, string> _errorMessages = new Dictionary<ErrId, string> {
+        private readonly static Dictionary<ErrId, string> _errorMessages = new Dictionary<ErrId, string> {
              { ErrId.Err001, "{0}が見つかりません。" }
             ,{ ErrId.Err002, "データベースの作成に失敗しました。\n{0}" }
             ,{ ErrId.Err003, "インポートに失敗しました。\n{0}\n{1}" }
@@ -24,8 +24,8 @@ namespace SimpleTranslationLocal.AppCommon {
             Info001,
             Info999
         }
-        private static Dictionary<InfoId, string> _infoMessages = new Dictionary<InfoId, string> {
-             { InfoId.Info001, "インポート処理が完了しました\n(取り込んだ情報はアプリの再起動後に反映されます)。" }
+        private readonly static Dictionary<InfoId, string> _infoMessages = new Dictionary<InfoId, string> {
+             { InfoId.Info001, "インポート処理が完了しました。" }
             ,{ InfoId.Info999, "不明な情報です" }
         };
         #endregion

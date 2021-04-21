@@ -13,6 +13,26 @@ namespace SimpleTranslationLocal.AppCommon {
         public static readonly string DatabaseFile = OsnCsLib.Common.Util.GetAppPath() + @"app.dic";
 
         /// <summary>
+        /// データ格納フォルダルート
+        /// </summary>
+        public static readonly string DataFolder = OsnCsLib.Common.Util.GetAppPath() + @"data\";
+
+        /// <summary>
+        /// 英辞郎データ格納フォルダ
+        /// </summary>
+        public static readonly string EijiroData = DataFolder + "1";
+
+        /// <summary>
+        /// Websterデータ格納フォルダ
+        /// </summary>
+        public static readonly string WebsterData = DataFolder + "2";
+
+        /// <summary>
+        /// データ格納フォルダ
+        /// </summary>
+        public static readonly string[]  DataDirs = new string[] { EijiroData, WebsterData };
+
+        /// <summary>
         /// テンプレートHTML
         /// </summary>
         public static readonly string TemplateHtmlFile = OsnCsLib.Common.Util.GetAppPath() + @"Res\ResultHtml.txt";
@@ -86,12 +106,6 @@ namespace SimpleTranslationLocal.AppCommon {
             /// 前方一致
             /// </summary>
             Prefix,
-
-            /// <summary>
-            /// 部分一致
-            /// </summary>
-            Broad
-
         }
     }
 }

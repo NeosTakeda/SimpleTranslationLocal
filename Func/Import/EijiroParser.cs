@@ -1,8 +1,8 @@
 ﻿using OsnCsLib.File;
 using SimpleTranslationLocal.AppCommon;
-using System.Collections.Generic;
-using System;
 using SimpleTranslationLocal.Data.Repo.Entity.DataModel;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace SimpleTranslationLocal.Func.Import {
@@ -21,7 +21,6 @@ namespace SimpleTranslationLocal.Func.Import {
         private readonly RegExUtil _reg1 = new RegExUtil(@"^■(?<k1>.+) {(?<k2>.+)}\s:\s|^■(?<k1>.+)\s:\s");
 
 
-
         private class WordInfo {
             public const string Pronunciation = "【発音】";
             public const string Pronunciation2 = "【発音！】";
@@ -29,6 +28,10 @@ namespace SimpleTranslationLocal.Func.Import {
             public const string Level = "【レベル】";
             public const string Syllable = "【分節】";
             public const string Change = "【変化】";
+            // 以降は取り込む予定はないので変数名は設定しない(下記の３つに人tするのは全部で４件のみ)
+            //public const string xxx = "【発音の地域差】";
+            //public const string xxx = "【同音】";
+            //public const string xxx = "【スペリングに注意】";
         }
         #endregion
 

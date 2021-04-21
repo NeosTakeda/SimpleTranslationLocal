@@ -6,6 +6,7 @@ using SimpleTranslationLocal.Func.Copy;
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Timers;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -19,6 +20,7 @@ namespace SimpleTranslationLocal.UI.Main {
         private bool _isActivated = false;
         private SearchResultRenderer _renderer;
         private string _windowTitle;
+        private Timer _timer = null;
 
         private enum CopyMode : short {
             None = 0,
@@ -66,7 +68,7 @@ namespace SimpleTranslationLocal.UI.Main {
                     this.IsEnabled = false;
                     this.cBrowser.NavigateToString("<html><body><h4 style='text-align:center;'>now loading...</h4></body></html>");
                 }
-                this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch, userMemoryDictionary, MemoryLoadComplete);
+                this._renderer = new SearchResultRenderer(this.cBrowser, this.CompleteSearch);
 
                 // set title
                 FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -75,6 +77,11 @@ namespace SimpleTranslationLocal.UI.Main {
 
                 // set up obserber
                 this._copyObserver = new CopyObserver(this, this.ClipboardChanged);
+
+                // set up timer
+                this._timer = new Timer(500);
+                this._timer.Elapsed += OnTimedEvent;
+                this._timer.Enabled = false;
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
@@ -154,6 +161,27 @@ namespace SimpleTranslationLocal.UI.Main {
                     break;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Keyword_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
+            this._timer.Stop();
+            this._timer.Enabled = true;
+            this._timer.Start();
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e) {
+            this._timer.Stop();
+            this._timer.Enabled = false;
+            this.Dispatcher.Invoke((Action)(() => {
+                if (0 < this.cKeyword.Text.Length) {
+                    this.Search();
+                }
+            }));
+        }
         #endregion
 
         #region Protected Method
@@ -231,7 +259,7 @@ namespace SimpleTranslationLocal.UI.Main {
             this.IsEnabled = true;
             this.Cursor = Cursors.None;
             this.cKeyword.Focus();
-            this.cKeyword.SelectAll();
+            // this.cKeyword.SelectAll();
         }
 
         /// <summary>
@@ -327,17 +355,7 @@ namespace SimpleTranslationLocal.UI.Main {
             ((DispatcherFrame)obj).Continue = false;
             return null;
         }
-
-        /// <summary>
-        /// load dictionary to memory is complete.
-        /// </summary>
-        private void MemoryLoadComplete() {
-            this.Dispatcher.Invoke((Action)(() => {
-                this.IsEnabled = true;
-                this.cBrowser.NavigateToString("<html><body></body></html>");
-                this.cKeyword.Focus();
-            }));
-        }
         #endregion
+
     }
 }
