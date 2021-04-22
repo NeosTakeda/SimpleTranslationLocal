@@ -21,6 +21,7 @@ namespace SimpleTranslationLocal.UI.Main {
         private SearchResultRenderer _renderer;
         private string _windowTitle;
         private Timer _timer = null;
+        private string _searchWord = "";
 
         private enum CopyMode : short {
             None = 0,
@@ -81,7 +82,6 @@ namespace SimpleTranslationLocal.UI.Main {
                 // set up timer
                 this._timer = new Timer(500);
                 this._timer.Elapsed += OnTimedEvent;
-                this._timer.Enabled = false;
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
@@ -157,7 +157,9 @@ namespace SimpleTranslationLocal.UI.Main {
             switch(e.Key) {
                 case Key.Enter:
                     e.Handled = true;
-                    this.Search();
+                    if (this.IsEnabled) {
+                        this.Search();
+                    }
                     break;
             }
         }
@@ -168,9 +170,11 @@ namespace SimpleTranslationLocal.UI.Main {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Keyword_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
-            this._timer.Stop();
-            this._timer.Enabled = true;
-            this._timer.Start();
+            if (this.IsEnabled) {
+                this._timer.Stop();
+                this._timer.Enabled = true;
+                this._timer.Start();
+            }
         }
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e) {
@@ -238,6 +242,10 @@ namespace SimpleTranslationLocal.UI.Main {
         /// </summary>
         /// <remarks>not mvmo...</remarks>
         private void Search() {
+            if (this._searchWord == this.cKeyword.Text) {
+                return;
+            }
+            this._searchWord = this.cKeyword.Text;
             System.Diagnostics.Debug.WriteLine("◆◆◆ STR" + DateTime.Now.ToString("hh:mm:ss fff"));
             this.Cursor = Cursors.Wait;
             this.DoEvents();
