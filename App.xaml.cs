@@ -1,9 +1,6 @@
 ﻿using SimpleTranslationLocal.AppCommon;
-using SimpleTranslationLocal.Data.Repo;
-using SimpleTranslationLocal.Data.Repo.Entity;
-using System;
-using System.Windows;
 using System.IO;
+using System.Windows;
 
 namespace SimpleTranslationLocal {
 

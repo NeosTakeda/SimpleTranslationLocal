@@ -80,7 +80,7 @@ namespace SimpleTranslationLocal.UI.Main {
                 this._copyObserver = new CopyObserver(this, this.ClipboardChanged);
 
                 // set up timer
-                this._timer = new Timer(500);
+                this._timer = new Timer(3000);
                 this._timer.Elapsed += OnTimedEvent;
             };
             this.Closing += (sender, e) => {
