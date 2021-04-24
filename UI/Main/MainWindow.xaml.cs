@@ -267,7 +267,7 @@ namespace SimpleTranslationLocal.UI.Main {
             this.IsEnabled = true;
             this.Cursor = Cursors.None;
             this.cKeyword.Focus();
-            // this.cKeyword.SelectAll();
+            this.cKeyword.SelectAll();
         }
 
         /// <summary>
