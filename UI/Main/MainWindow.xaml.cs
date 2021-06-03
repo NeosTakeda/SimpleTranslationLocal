@@ -171,9 +171,9 @@ namespace SimpleTranslationLocal.UI.Main {
         /// <param name="e"></param>
         private void Keyword_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
             if (this.IsEnabled) {
-                this._timer.Stop();
-                this._timer.Enabled = true;
-                this._timer.Start();
+                //this._timer.Stop();
+                //this._timer.Enabled = true;
+                //this._timer.Start();
             }
         }
 
