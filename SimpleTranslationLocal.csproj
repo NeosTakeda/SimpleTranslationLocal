@@ -65,6 +65,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.MSHTML">
+      <HintPath>Libs\Interop.MSHTML.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="OsnCsLib.Common">
       <HintPath>Libs\OsnCsLib.Common.dll</HintPath>
     </Reference>

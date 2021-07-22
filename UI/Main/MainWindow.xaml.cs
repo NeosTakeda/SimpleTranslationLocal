@@ -145,6 +145,15 @@ namespace SimpleTranslationLocal.UI.Main {
                         }
                     }
                     break;
+                case Key.Down:
+                    e.Handled = true;
+                    this.ScrollTo(true);
+                    break;
+
+                case Key.Up:
+                    e.Handled = true;
+                    this.ScrollTo(false);
+                    break;
             }
         }
 
@@ -362,6 +371,24 @@ namespace SimpleTranslationLocal.UI.Main {
         private object ExitFrames(object obj) {
             ((DispatcherFrame)obj).Continue = false;
             return null;
+        }
+
+        /// <summary>
+        /// scroll window
+        /// </summary>
+        /// <param name="ToDown"></param>
+        private void ScrollTo(bool ToDown) {
+            var document = this.cBrowser.Document as MSHTML.HTMLDocument;
+            if (null == document) {
+                return;
+            }
+
+            var window = document.parentWindow;
+            if (null == window) {
+                return;
+            }
+            var offSet = (ToDown ? 1 : -1) * 40;
+            window.scrollBy(0, offSet);
         }
         #endregion
 
