@@ -30,7 +30,7 @@ namespace SimpleTranslationLocal.AppCommon {
         /// <summary>
         /// データ格納フォルダ
         /// </summary>
-        public static readonly string[]  DataDirs = new string[] { EijiroData, WebsterData };
+        public static readonly string[]  DataDirs = new string[] { WebsterData, EijiroData, };
 
         /// <summary>
         /// テンプレートHTML
