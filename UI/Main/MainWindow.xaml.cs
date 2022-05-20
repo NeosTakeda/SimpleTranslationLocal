@@ -53,7 +53,6 @@ namespace SimpleTranslationLocal.UI.Main {
         protected override void SetUp() {
             // setup hotkey and notifiation icon
             base.SetUpHotKey(ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt, Key.L);
-            base.SetupNofityIcon("SimpleTranslationLocal", new System.Drawing.Icon("app.ico"));
 
             // create a context menu
             base.AddContextMenu("Show", (sender, e) => this.OnContextMenuShowClick());
@@ -82,6 +81,9 @@ namespace SimpleTranslationLocal.UI.Main {
                 // set up timer
                 this._timer = new Timer(3000);
                 this._timer.Elapsed += OnTimedEvent;
+
+                // タスクトレイのアイコンが正しく表示されないようなので対症療法としてLoadでも設定
+                base.SetupNofityIcon("SimpleTranslationLocal", new System.Drawing.Icon("app.ico"));
             };
             this.Closing += (sender, e) => {
                 e.Cancel = true;
@@ -99,6 +101,8 @@ namespace SimpleTranslationLocal.UI.Main {
             var model = new MainWindowViewModel();
             this.DataContext = model;
         }
+
+
 
         protected override void OnHotkeyPressed() {
             base.OnHotkeyPressed();
