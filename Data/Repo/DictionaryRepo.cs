@@ -99,7 +99,8 @@ namespace SimpleTranslationLocal.Data.Repo {
             foreach (var dir in Constants.DataDirs) {
                 if (this._wordList[dir].ContainsKey(fileName)) {
                     foreach (var data in this._wordList[dir][fileName]) {
-                        if (data.WordSort == word) {
+                        //if (data.WordSort == word) {
+                        if (data.WordSort.ToLower() == word.ToLower()) {
                             result.Add(data);
                             break;
                         }
@@ -124,7 +125,8 @@ namespace SimpleTranslationLocal.Data.Repo {
                 count = 0;
                 if (this._wordList[dir].ContainsKey(fileName)) {
                     foreach (var data in this._wordList[dir][_searchWord]) {
-                        if (data.WordSort.StartsWith(word)) {
+                        //                        if (data.WordSort.StartsWith(word)) {
+                        if (data.WordSort.ToLower().StartsWith(word.ToLower())) {
                             result.Add(data);
                             found = true;
                             count++;
